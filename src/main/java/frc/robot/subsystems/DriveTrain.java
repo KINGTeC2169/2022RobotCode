@@ -3,39 +3,36 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.ActuatorMap;
 
-public class DriveTrain {
+public class DriveTrain extends SubsystemBase {
     TalonSRX rMaster = new TalonSRX(ActuatorMap.rMaster);
     TalonSRX lMaster = new TalonSRX(ActuatorMap.lMaster);
 
-    TalonSRX rSlaveOne = new TalonSRX(ActuatorMap.rSlaveOne);
-    TalonSRX rSlaveTwo = new TalonSRX(ActuatorMap.rSlaveTwo);
-    TalonSRX lSlaveOne = new TalonSRX(ActuatorMap.lSlaveOne);
-    TalonSRX lSlaveTwo = new TalonSRX(ActuatorMap.lSlaveTwo);
+    TalonSRX rSlave = new TalonSRX(ActuatorMap.rMaster);
+    TalonSRX lSlave = new TalonSRX(ActuatorMap.lMaster); 
 
     //Drive for the right gearbox
-    public void rDrive(int power) {
+    public void rDrive(double power) {
         //set slaves to follow
-        rSlaveOne.follow(rMaster);
-        rSlaveTwo.follow(rMaster);
+        rSlave.follow(rMaster);
+
 
         //set slaves to be inverted
-        rSlaveOne.setInverted(true);
-        rSlaveTwo.setInverted(true);
+        rSlave.setInverted(true);
 
         rMaster.set(ControlMode.PercentOutput, power);
     }
 
     //Drive for the left gearbox
-    public void lDrive(int power) {
+    public void lDrive(double power) {
         //set slaves to follow
-        lSlaveOne.follow(lMaster);
-        lSlaveTwo.follow(lMaster);
+        lSlave.follow(lMaster);
+
 
         //set slaves to be inverted
-        lSlaveOne.setInverted(true);
-        lSlaveTwo.setInverted(true);
+        lMaster.setInverted(true);
 
         lMaster.set(ControlMode.PercentOutput, power);
     }
