@@ -10,8 +10,8 @@ public class DriveTrain extends SubsystemBase {
     TalonSRX rMaster = new TalonSRX(ActuatorMap.rMaster);
     TalonSRX lMaster = new TalonSRX(ActuatorMap.lMaster);
 
-    TalonSRX rSlave = new TalonSRX(ActuatorMap.rMaster);
-    TalonSRX lSlave = new TalonSRX(ActuatorMap.lMaster); 
+    TalonSRX rSlave = new TalonSRX(ActuatorMap.rSlave);
+    TalonSRX lSlave = new TalonSRX(ActuatorMap.lSlave); 
 
     //Drive for the right gearbox
     public void rDrive(double power) {
