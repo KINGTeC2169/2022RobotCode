@@ -9,9 +9,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.ColorSensorTestCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.LLDistanceCommand;
+import frc.robot.commands.NavXTestCommand;
 import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.LimeLight;
+import frc.robot.subsystems.NavX;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -22,13 +24,16 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final DriveTrain m_driveTrainSubsystem = new DriveTrain();
 
-  private final DriveCommand m_teleopCommand = new DriveCommand(m_driveTrainSubsystem);
+  private final DriveCommand m_teleopCommand = new DriveCommand(new DriveTrain());
   private SendableChooser<Command> chooser = new SendableChooser<>();
+
   public RobotContainer() {
-    chooser.addOption("LimeLight_Distance", new LLDistanceCommand(new LimeLight()));
+    //Add chooser options here
     chooser.setDefaultOption("ColorSensor Test", new ColorSensorTestCommand(new ColorSensor()));
+    chooser.addOption("NavX test", new NavXTestCommand(new NavX()));
+    chooser.addOption("LimeLight_Distance", new LLDistanceCommand(new LimeLight()));
+   
     SmartDashboard.putData(chooser);
   }
 
@@ -38,10 +43,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    
-    // An ExampleCommand will run in autonomous
     return chooser.getSelected();
-    //return new ColorSensorTestCommand(new ColorSensor());
   }
   public Command getTeleopCommand() {
     return m_teleopCommand;
