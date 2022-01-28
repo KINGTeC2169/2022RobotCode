@@ -2,8 +2,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.LLDistanceCommand;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.LimeLight;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -17,21 +20,9 @@ public class RobotContainer {
   private final DriveTrain m_driveTrainSubsystem = new DriveTrain();
 
   private final DriveCommand m_teleopCommand = new DriveCommand(m_driveTrainSubsystem);
-
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  private SendableChooser<Command> chooser;
   public RobotContainer() {
-    // Configure the button bindings
-    configureButtonBindings();
-  }
-
-  /**
-   * Use this method to define your button->command mappings. Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
-   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
-  private void configureButtonBindings() {
-
+    //chooser.addOption("LimeLight_Distance", new LLDistanceCommand(new LimeLight()));
   }
 
   /**
@@ -40,8 +31,10 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    
     // An ExampleCommand will run in autonomous
-    return m_teleopCommand;
+    //return chooser.getSelected();
+    return new LLDistanceCommand(new LimeLight());
   }
   public Command getTeleopCommand() {
     return m_teleopCommand;
