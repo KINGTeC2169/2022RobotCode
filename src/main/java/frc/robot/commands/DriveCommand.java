@@ -7,18 +7,31 @@ import frc.robot.utils.Controls;
 public class DriveCommand extends CommandBase {
     
     private DriveTrain driveTrain;
+
+    private double leftY;
+    private double rightX;
+    private double rightTwist;
+    private double leftPower;
+    private double rightPower;
+
     public DriveCommand(DriveTrain subsystem) {
         driveTrain = subsystem;
         addRequirements(subsystem);
     }
 
     @Override
-    public void initialize() {}
+    public void initialize() {
+        leftY = Controls.getLeftStickY();
+        rightX = Controls.getRightStickX();
+        rightTwist = Controls.getRightStickTwist();
+
+        
+    }
 
     @Override
     public void execute() {
-        driveTrain.lDrive(Controls.getLeftY());
-        driveTrain.rDrive(Controls.getRightY());
+    
+
     }
 
 
