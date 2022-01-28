@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import java.sql.DriverAction;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.utils.Controls;
@@ -25,7 +27,16 @@ public class DriveCommand extends CommandBase {
         rightX = Controls.getRightStickX();
         rightTwist = Controls.getRightStickTwist();
 
-        
+        if(rightTwist > 0) {
+            leftPower += rightTwist;
+            rightPower += -rightTwist;
+        }
+
+        leftPower += leftY;
+        rightPower += rightX;
+
+        driveTrain.lDrive(leftPower);
+        driveTrain.rDrive(rightPower);
     }
 
     @Override
