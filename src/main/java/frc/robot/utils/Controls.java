@@ -41,27 +41,27 @@ public class Controls {
         return rightJoy.getX();
     }
 
-    public static double getLeftTwist() {
+    public static double getLeftStickTwist() {
         return leftJoy.getTwist();
     }
 
-    public static double getRightTwist() {
+    public static double getRightStickTwist() {
         return rightJoy.getTwist();
     }
 
-    public static boolean getLeftTop() {
+    public static boolean getLeftStickTop() {
         return leftJoy.getRawButton(0);
     }
 
-    public static boolean getLeftBottom() {
+    public static boolean getLeftStickBottom() {
         return leftJoy.getRawButton(1);
     }
 
-    public static boolean getRightTop() {
+    public static boolean getRightStickTop() {
         return rightJoy.getRawButton(0);
     }
 
-    public static boolean getRightBottom() {
+    public static boolean getRightStickBottom() {
         return rightJoy.getRawButton(1);
     }
 }
