@@ -45,9 +45,13 @@ public class DriveCommand extends CommandBase {
 
         if(rightX > 0) {
             rightPower -= rightX;
+            if(rightPower <= 0)
+                rightPower = 0;
         }
         else if(rightX < 0) {
             leftPower += rightX;
+            if(leftPower <= 0)
+                leftPower = 0;
         }
         //System.out.println(leftPower);
 
