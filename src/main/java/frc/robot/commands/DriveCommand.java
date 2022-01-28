@@ -43,6 +43,12 @@ public class DriveCommand extends CommandBase {
         leftPower += leftY;
         rightPower += leftY;
 
+        if(rightX > 0) {
+            rightPower -= rightX;
+        }
+        else if(rightX < 0) {
+            leftPower += rightX;
+        }
         //System.out.println(leftPower);
 
         driveTrain.lDrive(leftPower);
