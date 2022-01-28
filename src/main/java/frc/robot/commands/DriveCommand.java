@@ -13,8 +13,7 @@ public class DriveCommand extends CommandBase {
     private double leftY;
     private double rightX;
     private double rightTwist;
-    private double leftPower;
-    private double rightPower;
+   
 
     public DriveCommand(DriveTrain subsystem) {
         driveTrain = subsystem;
@@ -23,25 +22,31 @@ public class DriveCommand extends CommandBase {
 
     @Override
     public void initialize() {
+       
+
+    }
+
+    @Override
+    public void execute() {
+        double leftPower = 0;
+        double rightPower = 0;
+    
         leftY = Controls.getLeftStickY();
         rightX = Controls.getRightStickX();
         rightTwist = Controls.getRightStickTwist();
 
-        if(rightTwist > 0) {
+        if(Math.abs(rightTwist) > 0) {
             leftPower += rightTwist;
             rightPower += -rightTwist;
         }
 
         leftPower += leftY;
-        rightPower += rightX;
+        rightPower += leftY;
+
+        //System.out.println(leftPower);
 
         driveTrain.lDrive(leftPower);
         driveTrain.rDrive(rightPower);
-    }
-
-    @Override
-    public void execute() {
-    
 
     }
 
