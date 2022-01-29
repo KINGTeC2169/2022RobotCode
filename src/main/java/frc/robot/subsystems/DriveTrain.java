@@ -20,7 +20,7 @@ public class DriveTrain extends SubsystemBase {
 
 
         //set slaves to be inverted
-        rSlave.setInverted(true);
+        rMaster.setInverted(true);
 
         rMaster.set(ControlMode.PercentOutput, power);
     }
@@ -32,7 +32,7 @@ public class DriveTrain extends SubsystemBase {
 
 
         //set slaves to be inverted
-        lSlave.setInverted(true);
+        lMaster.setInverted(true);
 
         lMaster.set(ControlMode.PercentOutput, power);
     }

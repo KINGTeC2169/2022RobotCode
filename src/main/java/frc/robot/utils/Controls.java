@@ -26,7 +26,7 @@ public class Controls {
     }
 
     public static double getLeftStickY() {
-        return leftJoy.getY();
+        return -leftJoy.getY();
     }
 
     public static double getLeftStickX() {
