@@ -4,7 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.ActuatorMap;
+import frc.robot.utils.ActuatorMap;
 
 public class DriveTrain extends SubsystemBase {
     TalonSRX rMaster = new TalonSRX(ActuatorMap.rMaster);

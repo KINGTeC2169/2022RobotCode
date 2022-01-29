@@ -2,7 +2,6 @@ package frc.robot.utils;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.ActuatorMap;
 
 public class Controls {
     private static XboxController controller = new XboxController(ActuatorMap.controller);
