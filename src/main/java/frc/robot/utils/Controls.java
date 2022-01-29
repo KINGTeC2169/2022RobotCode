@@ -24,6 +24,9 @@ public class Controls {
         return controller.getRightY();
     }
 
+    public static boolean getControllerA() {
+        return controller.getAButton();
+    }
     public static double getLeftStickY() {
         return -leftJoy.getY();
     }
@@ -49,18 +52,18 @@ public class Controls {
     }
 
     public static boolean getLeftStickTop() {
-        return leftJoy.getRawButton(0);
-    }
-
-    public static boolean getLeftStickBottom() {
         return leftJoy.getRawButton(1);
     }
 
+    public static boolean getLeftStickBottom() {
+        return leftJoy.getRawButton(2);
+    }
+
     public static boolean getRightStickTop() {
-        return rightJoy.getRawButton(0);
+        return rightJoy.getRawButton(1);
     }
 
     public static boolean getRightStickBottom() {
-        return rightJoy.getRawButton(1);
+        return rightJoy.getRawButton(2);
     }
 }

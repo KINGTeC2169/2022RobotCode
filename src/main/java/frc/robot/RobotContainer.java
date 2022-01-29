@@ -33,6 +33,7 @@ public class RobotContainer {
     chooser.setDefaultOption("ColorSensor Test", new ColorSensorTestCommand(new ColorSensor()));
     chooser.addOption("NavX test", new NavXTestCommand(new NavX()));
     chooser.addOption("LimeLight_Distance", new LLDistanceCommand(new LimeLight()));
+  
    
     SmartDashboard.putData(chooser);
   }
@@ -46,6 +47,6 @@ public class RobotContainer {
     return chooser.getSelected();
   }
   public Command getTeleopCommand() {
-    return m_teleopCommand;
+    return chooser.getSelected();
   }
 }
