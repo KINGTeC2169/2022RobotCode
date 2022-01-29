@@ -1,7 +1,5 @@
 package frc.robot.commands;
 
-import com.revrobotics.ColorSensorV3;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ColorSensor;
 
