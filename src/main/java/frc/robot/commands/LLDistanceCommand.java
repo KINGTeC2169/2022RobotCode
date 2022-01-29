@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.LimeLight;
+import frc.robot.utils.Controls;
 
 public class LLDistanceCommand extends CommandBase {
     private LimeLight limeLight;
@@ -15,6 +16,11 @@ public class LLDistanceCommand extends CommandBase {
 
     @Override
     public void execute() {
+        if(Controls.getRightStickTop()) {
+        limeLight.setPipeline(1);
+        } else {
+            limeLight.setPipeline(0);
+        }
         System.out.println((65) / Math.tan(((45+limeLight.getYPercent()) * Math.PI)/180));
     }
 }
