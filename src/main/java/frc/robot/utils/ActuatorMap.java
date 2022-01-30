@@ -8,4 +8,5 @@ public class ActuatorMap {
     public static final int rMaster = 2;
     public static final int lSlave = 1;
     public static final int rSlave = 3;
+    public static final int shooter = 6;
 }
