@@ -1,5 +1,7 @@
 package frc.robot;
 
+import java.util.ArrayDeque;
+
 import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.GenericHID;
@@ -10,6 +12,7 @@ import frc.robot.commands.ColorSensorTestCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.LLDistanceCommand;
 import frc.robot.commands.NavXTestCommand;
+import frc.robot.subsystems.Arduino;
 import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.LimeLight;
@@ -25,13 +28,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
-  private final DriveCommand m_teleopCommand = new DriveCommand(new DriveTrain());
+  private final DriveCommand m_teleopCommand = new DriveCommand(new DriveTrain(), new Arduino());
   private SendableChooser<Command> chooser = new SendableChooser<>();
 
   public RobotContainer() {
     //Add chooser options here
-    chooser.setDefaultOption("ColorSensor Test", new ColorSensorTestCommand(new ColorSensor()));
-    chooser.addOption("NavX test", new NavXTestCommand(new NavX()));
+    chooser.setDefaultOption("NavX test", new NavXTestCommand(new NavX()));
+    chooser.addOption("ColorSensor Test", new ColorSensorTestCommand(new ColorSensor()));
     chooser.addOption("LimeLight_Distance", new LLDistanceCommand(new LimeLight()));
   
    
@@ -47,6 +50,6 @@ public class RobotContainer {
     return chooser.getSelected();
   }
   public Command getTeleopCommand() {
-    return chooser.getSelected();
+    return m_teleopCommand;
   }
 }

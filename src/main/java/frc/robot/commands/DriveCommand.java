@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Arduino;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.utils.Constants;
 import frc.robot.utils.Controls;
@@ -9,6 +10,7 @@ import frc.robot.utils.MathDoer;
 public class DriveCommand extends CommandBase {
     
     private DriveTrain driveTrain;
+    private Arduino arduino;
 
     private double leftY;
     private double rightX;
@@ -16,9 +18,11 @@ public class DriveCommand extends CommandBase {
     private double quickStopAcummolatss;
    
 
-    public DriveCommand(DriveTrain subsystem) {
+    public DriveCommand(DriveTrain subsystem, Arduino subsystem2) {
         driveTrain = subsystem;
         addRequirements(subsystem);
+        arduino = subsystem2;
+        addRequirements(subsystem2);
     }
 
     @Override
@@ -90,6 +94,12 @@ public class DriveCommand extends CommandBase {
             rightPower = -1.0;
         }
         
+
+
+        if(Controls.getControllerA())
+            arduino.changeLed(true);
+        else   
+            arduino.changeLed(false);
 
         //applies the powers to the motors
         driveTrain.lDrive(leftPower);
