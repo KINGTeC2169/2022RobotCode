@@ -44,7 +44,7 @@ public class DriveCommand extends CommandBase {
         //0.1 because of joystick TWIST deadzone are you happy now Jake
         if(Math.abs(rightTwist) > 0.1) {
 
-            //checks if your spinning in place
+            //checks if you're spinning in place
             if(Math.abs(leftY) < .2) {
                 //dont worry about it. I have no idea
                 quickStopAcummolatss = .9 * quickStopAcummolatss + .2 * MathDoer.limit(rightTwist, 1);
