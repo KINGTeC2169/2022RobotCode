@@ -24,6 +24,13 @@ public class LimeLight extends SubsystemBase{
     public double getBackYPercent() {
         return limeLightBack.getEntry("ty").getDouble(0);
     }
+
+    public double getRightDistance() {
+        return (65) / Math.tan(((45+getRightYPercent()) * Math.PI)/180);
+    }
+    public double getLeftDistance() {
+        return (65) / Math.tan(((45+getLeftYPercent()) * Math.PI)/180);
+    }
     
     public void setFrontPipeline(int pipelineID) {
         limeLightFront.getEntry("pipeline").setNumber(pipelineID);

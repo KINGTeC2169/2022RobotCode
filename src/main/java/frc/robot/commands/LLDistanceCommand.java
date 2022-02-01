@@ -22,6 +22,6 @@ public class LLDistanceCommand extends CommandBase {
         } else {
             limeLight.setFrontPipeline(0);
         }
-        System.out.println((65) / Math.tan(((45+limeLight.getFrontYPercent()) * Math.PI)/180));
+        System.out.println();
     }
 }
