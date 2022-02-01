@@ -13,10 +13,14 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.LLDistanceCommand;
 import frc.robot.commands.NavXTestCommand;
 import frc.robot.subsystems.Arduino;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LimeLight;
 import frc.robot.subsystems.NavX;
+import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -28,7 +32,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
-  private final DriveCommand m_teleopCommand = new DriveCommand(new DriveTrain(), new Arduino());
+  private final DriveCommand m_teleopCommand = new DriveCommand(new DriveTrain(), new Arduino(), new Shooter(), new Intake(), new Indexer(), new Climber());
   private SendableChooser<Command> chooser = new SendableChooser<>();
 
   public RobotContainer() {

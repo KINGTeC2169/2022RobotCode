@@ -27,6 +27,15 @@ public class Controls {
     public static boolean getControllerA() {
         return controller.getAButton();
     }
+
+    public static double getRightControllerTrigger() {
+        return controller.getRightTriggerAxis();
+    }
+
+    public static double getLeftControllerTrigger() {
+        return controller.getLeftTriggerAxis();
+    }
+
     public static double getLeftStickY() {
         return -leftJoy.getY();
     }

@@ -2,7 +2,11 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arduino;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 import frc.robot.utils.Constants;
 import frc.robot.utils.Controls;
 import frc.robot.utils.MathDoer;
@@ -11,22 +15,36 @@ public class DriveCommand extends CommandBase {
     
     private DriveTrain driveTrain;
     private Arduino arduino;
+    private Shooter shooter;
+    private Intake intake;
+    private Indexer indexer;
+    private Climber climber;
 
     private double leftY;
     private double rightX;
     private double rightTwist;
     private double quickStopAcummolatss;
    
-
-    public DriveCommand(DriveTrain subsystem, Arduino subsystem2) {
-        driveTrain = subsystem;
-        addRequirements(subsystem);
-        arduino = subsystem2;
-        addRequirements(subsystem2);
+    //Adds all subsystems to the driving command
+    public DriveCommand(DriveTrain driveTrain, Arduino arduino, Shooter shooter, Intake intake, Indexer indexer, Climber climber) {
+        this.driveTrain = driveTrain;
+        addRequirements(driveTrain);
+        this.arduino = arduino;
+        addRequirements(arduino);
+        this.shooter = shooter;
+        addRequirements(arduino);
+        this.intake = intake;
+        addRequirements(intake);
+        this.indexer = indexer;
+        addRequirements(indexer);
+        this.climber = climber;
+        addRequirements(climber);
     }
 
     @Override
     public void execute() {
+
+        //------------------------------------------------Driving controls - other parts of TeleOp are below------------------------------
         double leftPower = 0;
         double rightPower = 0;
         double turnPower = 0;
@@ -93,18 +111,28 @@ public class DriveCommand extends CommandBase {
             leftPower += overPower * (-1.0 - rightPower);
             rightPower = -1.0;
         }
-        
-
-
-        if(Controls.getControllerA())
-            arduino.changeLed(true);
-        else   
-            arduino.changeLed(false);
 
         //applies the powers to the motors
         driveTrain.lDrive(leftPower);
         driveTrain.rDrive(rightPower);
 
+        //--------------------------------Literally every other part of TeleOp-------------------------------------
+        
+        //Shooter
+        double rTrigger = Controls.getRightControllerTrigger();
+        double lTrigger = Controls.getLeftControllerTrigger();
+        //Currently justs shoots based on which trigger is pressed down more, can be changed later, idk what drivers will want for controls. This also 
+        //applies to the rest of the controls I made too i guess. Also Logan just disappeared and came back with popcorn, just thought you should know.
+        if(rTrigger > lTrigger)
+            shooter.shoot(rTrigger);
+        else if(lTrigger > rTrigger)
+            shooter.shoot(lTrigger);
+        
+        //Intake-- stick top buttons still don't work, but that will be what we use once we get it working
+        intake.suck(Controls.getRightStickTop());
+
+        //Indexer-- literally no idea how they want to control indexing
+        indexer.suckUp(Controls.getControllerA());
     }
 
 
