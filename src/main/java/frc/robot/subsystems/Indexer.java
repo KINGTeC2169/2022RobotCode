@@ -12,24 +12,16 @@ import frc.robot.utils.Constants;
 
 public class Indexer extends SubsystemBase {
     TalonSRX indexer = new TalonSRX(ActuatorMap.indexer);
-    DoubleSolenoid intakePiston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 1, 2);
-    private static boolean isUp;
+    DoubleSolenoid indexerPiston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 1, 2);
 
     public void suckUp(boolean isSucking) {
         if(isSucking)
             indexer.set(ControlMode.PercentOutput, Constants.indexSpeed);
     }
-    //I don't anything about pneumatics still :)
 
-    public void moveIntake() {
-        if(isUp) {
-            intakePiston.set(Value.kForward);
-            isUp = false;
-        }
-        else {
-            intakePiston.set(Value.kReverse);
-            isUp = true;
-        }
+    public void shoveBall() {
+        indexerPiston.set(Value.kForward);
     }
-    //I now know a *little* about pneumatics- as a treat
+    
+
 }
