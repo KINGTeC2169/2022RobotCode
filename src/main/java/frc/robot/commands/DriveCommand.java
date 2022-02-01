@@ -44,7 +44,7 @@ public class DriveCommand extends CommandBase {
     @Override
     public void execute() {
 
-        //------------------------------------------------Driving controls - other parts of TeleOp are below------------------------------
+        //------------------------------------------------Driving controls - other parts of TeleOp are farther below------------------------------
         double leftPower = 0;
         double rightPower = 0;
         double turnPower = 0;
@@ -64,7 +64,7 @@ public class DriveCommand extends CommandBase {
 
             //checks if you're spinning in place
             if(Math.abs(leftY) < .2) {
-                //dont worry about it. I have no idea
+                //dont worry about it. I have no idea (weird math that Cheesy Poofs use that we stole)
                 quickStopAcummolatss = .9 * quickStopAcummolatss + .2 * MathDoer.limit(rightTwist, 1);
             }
 
@@ -93,7 +93,7 @@ public class DriveCommand extends CommandBase {
             }
        }
 
-       //makes the motors turn
+       //Adds to the power that the motors need to run at
         rightPower -= turnPower;
         leftPower += turnPower;
 
@@ -118,11 +118,10 @@ public class DriveCommand extends CommandBase {
 
         //--------------------------------Literally every other part of TeleOp-------------------------------------
         
-        //Shooter
+        //Shooter- it shoots.
         double rTrigger = Controls.getRightControllerTrigger();
         double lTrigger = Controls.getLeftControllerTrigger();
-        //Currently justs shoots based on which trigger is pressed down more, can be changed later, idk what drivers will want for controls. This also 
-        //applies to the rest of the controls I made too i guess. Also Logan just disappeared and came back with popcorn, just thought you should know.
+        //Idk how shooter will be controlled, right now it is based on which trigger is pressed down more.
         if(rTrigger > lTrigger)
             shooter.shoot(rTrigger);
         else if(lTrigger > rTrigger)
