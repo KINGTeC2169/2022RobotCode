@@ -122,8 +122,10 @@ public class DriveCommand extends CommandBase {
         double rTrigger = Controls.getRightControllerTrigger();
         double lTrigger = Controls.getLeftControllerTrigger();
         //Idk how shooter will be controlled, right now it is based on which trigger is pressed down more.
-        if(rTrigger > lTrigger)
+        if(rTrigger > lTrigger) {
             shooter.shoot(rTrigger);
+            arduino.changeLed(false);
+        }
         else if(lTrigger > rTrigger)
             shooter.shoot(lTrigger);
         
