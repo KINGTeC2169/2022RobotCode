@@ -11,4 +11,9 @@ public class NavX extends SubsystemBase {
         return navx.getAngle();
     }
     
+    public double getSpeed() {
+        return Math.sqrt(Math.pow(navx.getVelocityX(), 2) + Math.pow(navx.getVelocityY(), 2) + Math.pow(navx.getVelocityZ(), 2));
+    }
+
+
 }
