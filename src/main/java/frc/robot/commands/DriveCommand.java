@@ -135,6 +135,8 @@ public class DriveCommand extends CommandBase {
 
         //Indexer-- literally no idea how they want to control indexing
         indexer.suckUp(Controls.getControllerA());
+
+        
     }
 
 
