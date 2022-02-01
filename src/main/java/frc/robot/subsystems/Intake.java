@@ -13,7 +13,7 @@ import frc.robot.utils.Constants;
 public class Intake extends SubsystemBase {
     TalonSRX intake = new TalonSRX(ActuatorMap.intake);
     DoubleSolenoid intakePiston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 1, 2);
-    private static boolean isUp;
+    private static boolean isExtended = false;
     
     public void suck(boolean isSucking) {
         if(isSucking)
@@ -22,13 +22,13 @@ public class Intake extends SubsystemBase {
     }
 
     public void moveIntake() {
-        if(isUp) {
+        if(isExtended) {
             intakePiston.set(Value.kForward);
-            isUp = false;
+            isExtended = false;
         }
         else {
             intakePiston.set(Value.kReverse);
-            isUp = true;
+            isExtended = true;
         }
     }
 
