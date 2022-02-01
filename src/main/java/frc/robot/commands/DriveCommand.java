@@ -135,6 +135,16 @@ public class DriveCommand extends CommandBase {
 
         //Indexer-- literally no idea how they want to control indexing
         indexer.suckUp(Controls.getControllerA());
+
+        //Climber -- Press X and Y for controlling distance of arm and B to change arm angle
+        if(Controls.getControllerX()) {
+            climber.extendArm();
+        } else if(Controls.getControllerY()) {
+            climber.retractArm();
+        }
+        if(Controls.getControllerB()) {
+            climber.movePiston();
+        }
     }
 
 

@@ -28,6 +28,18 @@ public class Controls {
         return controller.getAButton();
     }
 
+    public static boolean getControllerB() {
+        return controller.getBButton();
+    }
+
+    public static boolean getControllerX() {
+        return controller.getXButton();
+    }
+
+    public static boolean getControllerY() {
+        return controller.getYButton();
+    }
+
     public static double getRightControllerTrigger() {
         return controller.getRightTriggerAxis();
     }
