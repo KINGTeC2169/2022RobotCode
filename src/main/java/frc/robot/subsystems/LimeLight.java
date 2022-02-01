@@ -9,16 +9,28 @@ public class LimeLight extends SubsystemBase{
     private static NetworkTable limeLightBack = NetworkTableInstance.getDefault().getTable("limelight-back");
     private static NetworkTable limeLightFront = NetworkTableInstance.getDefault().getTable("limelight-front");
 
-    public double getXPercent() {
+    public double getFrontXPercent() {
         return limeLightFront.getEntry("tx").getDouble(0);
     }
 
-    public double getYPercent() {
+    public double getFrontYPercent() {
         return limeLightFront.getEntry("ty").getDouble(0);
     }
+
+    public double getBackXPercent() {
+        return limeLightBack.getEntry("tx").getDouble(0);
+    }
+
+    public double getBackYPercent() {
+        return limeLightBack.getEntry("ty").getDouble(0);
+    }
     
-    public void setPipeline(int pipelineID) {
+    public void setFrontPipeline(int pipelineID) {
         limeLightFront.getEntry("pipeline").setNumber(pipelineID);
+    }
+
+    public void setBackPipeline(int pipelineID) {
+        limeLightBack.getEntry("pipeline").setNumber(pipelineID);
     }
     
 }

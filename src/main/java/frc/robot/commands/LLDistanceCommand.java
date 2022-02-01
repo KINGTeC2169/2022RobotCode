@@ -18,10 +18,10 @@ public class LLDistanceCommand extends CommandBase {
     public void execute() {
         System.out.println(Controls.getLeftStickX());
         if(Controls.getControllerA()) {
-            limeLight.setPipeline(1);
+            limeLight.setFrontPipeline(1);
         } else {
-            limeLight.setPipeline(0);
+            limeLight.setFrontPipeline(0);
         }
-        System.out.println((65) / Math.tan(((45+limeLight.getYPercent()) * Math.PI)/180));
+        System.out.println((65) / Math.tan(((45+limeLight.getFrontYPercent()) * Math.PI)/180));
     }
 }
