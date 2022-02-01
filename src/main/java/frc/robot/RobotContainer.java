@@ -1,11 +1,5 @@
 package frc.robot;
 
-import java.util.ArrayDeque;
-
-import com.revrobotics.ColorSensorV3;
-
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.ColorSensorTestCommand;
