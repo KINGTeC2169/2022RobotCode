@@ -28,7 +28,6 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   private final DriveCommand m_teleopCommand = new DriveCommand(new DriveTrain(), new Arduino(), new Shooter(), new Intake(), new Indexer(), new Climber());
-  private final TestCommand testCommand = new TestCommand();
   private SendableChooser<Command> chooser = new SendableChooser<>();
 
   public RobotContainer() {
@@ -51,8 +50,5 @@ public class RobotContainer {
   }
   public Command getTeleopCommand() {
     return m_teleopCommand;
-  }
-  public Command getTestCommand() {
-    return testCommand;
   }
 }
