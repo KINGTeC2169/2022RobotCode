@@ -121,6 +121,20 @@ public class DriveCommand extends CommandBase {
             rightPower = -1.0;
         }
 
+        //Auto aim locking mechanic
+        if(Controls.getLeftStickBottom()) {
+            if(Math.abs(limeLight.getRightXPercent()) > 0) {
+                rightPower -= limeLight.getRightXPercent() / 2;
+                leftPower += limeLight.getRightXPercent() / 2;
+            }
+            else if(Math.abs(limeLight.getLeftXPercent()) > 0) {
+                rightPower += limeLight.getLeftXPercent() / 2;
+                leftPower -= limeLight.getLeftXPercent() / 2;
+            }
+        }
+              
+
+
         //applies the powers to the motors
         driveTrain.lDrive(leftPower);
         driveTrain.rDrive(rightPower);
@@ -132,6 +146,7 @@ public class DriveCommand extends CommandBase {
         double lTrigger = Controls.getLeftControllerTrigger();
 
         //Shoots based on which trigger is pressed, one set of LEDs is set up
+        //TODO: adjust shooter speed based on limelight distance
         if(rTrigger > lTrigger) {
             shooter.shoot(rTrigger);
             arduino.changeLed(false);
