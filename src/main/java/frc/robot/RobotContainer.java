@@ -6,6 +6,7 @@ import frc.robot.commands.ColorSensorTestCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.LLDistanceCommand;
 import frc.robot.commands.NavXTestCommand;
+import frc.robot.commands.TestCommand;
 import frc.robot.subsystems.Arduino;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.ColorSensor;
