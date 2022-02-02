@@ -6,7 +6,6 @@ import frc.robot.commands.ColorSensorTestCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.LLDistanceCommand;
 import frc.robot.commands.NavXTestCommand;
-import frc.robot.commands.TestCommand;
 import frc.robot.subsystems.Arduino;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.ColorSensor;
@@ -28,7 +27,6 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   private final DriveCommand m_teleopCommand = new DriveCommand(new DriveTrain(), new Arduino(), new Shooter(), new Intake(), new Indexer(), new Climber());
-  private final TestCommand testCommand = new TestCommand();
   private SendableChooser<Command> chooser = new SendableChooser<>();
 
   public RobotContainer() {
@@ -51,8 +49,5 @@ public class RobotContainer {
   }
   public Command getTeleopCommand() {
     return m_teleopCommand;
-  }
-  public Command getTestCommand() {
-    return testCommand;
   }
 }
