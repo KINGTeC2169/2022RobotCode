@@ -43,6 +43,7 @@ public class DriveCommand extends CommandBase {
 
     @Override
     public void execute() {
+        //this is just a little bit of drive code. as a treat
 
         //------------------------------------------------Driving controls - other parts of TeleOp are farther below------------------------------
         double leftPower = 0;
@@ -132,17 +133,22 @@ public class DriveCommand extends CommandBase {
         
         //Intake-- stick top buttons still don't work, but that will be what we use once we get it working
         intake.suck(Controls.getRightStickTop());
+        if(Controls.getRightStickBottom())
+            intake.moveIntake();
 
         //Indexer-- literally no idea how they want to control indexing
         indexer.suckUp(Controls.getControllerA());
+        
+        if(Controls.getLeftControllerBumper())
+            indexer.shoveBall();
 
         //Climber -- Press X and Y for controlling distance of arm and B to change arm angle
-        if(Controls.getControllerX()) {
+        if(Controls.getControllerY()) {
             climber.extendArm();
-        } else if(Controls.getControllerY()) {
+        } else if(Controls.getControllerA()) {
             climber.retractArm();
         }
-        if(Controls.getControllerB()) {
+        if(Controls.getRightControllerBumper()) {
             climber.movePiston();
         }
     }

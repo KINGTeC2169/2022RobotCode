@@ -48,6 +48,14 @@ public class Controls {
         return controller.getLeftTriggerAxis();
     }
 
+    public static boolean getLeftControllerBumper() {
+        return controller.getLeftBumper();
+    }
+
+    public static boolean getRightControllerBumper() {
+        return controller.getRightBumper();
+    }
+
     public static double getLeftStickY() {
         return -leftJoy.getY();
     }
