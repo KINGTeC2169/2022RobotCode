@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.ColorSensorTestCommand;
 import frc.robot.commands.DriveCommand;
-import frc.robot.commands.LLDistanceCommand;
 import frc.robot.commands.NavXTestCommand;
 import frc.robot.subsystems.Arduino;
 import frc.robot.subsystems.Climber;
@@ -33,7 +32,6 @@ public class RobotContainer {
     //Add chooser options here
     chooser.setDefaultOption("NavX test", new NavXTestCommand(new NavX()));
     chooser.addOption("ColorSensor Test", new ColorSensorTestCommand(new ColorSensor()));
-    chooser.addOption("LimeLight_Distance", new LLDistanceCommand(new LimeLight()));
   
    
     SmartDashboard.putData(chooser);
