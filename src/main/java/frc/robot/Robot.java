@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class Robot extends TimedRobot {
   private Command driveTrain;
   private RobotContainer m_robotContainer;
+  private Command testCommand;
   
 
   /**
@@ -92,7 +93,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {
-    Command testCommand = m_robotContainer.getTestCommand();
+    testCommand = m_robotContainer.getTestCommand();
     testCommand.schedule();
   }
 }
