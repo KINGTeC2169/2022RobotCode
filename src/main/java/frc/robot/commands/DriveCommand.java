@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import javax.lang.model.util.ElementScanner6;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arduino;
 import frc.robot.subsystems.Climber;
@@ -28,6 +30,7 @@ public class DriveCommand extends CommandBase {
     private double rightX;
     private double rightTwist;
     private double quickStopAcummolatss;
+    private double shooterLimit;
    
     //Adds all subsystems to the driving command
     public DriveCommand(DriveTrain driveTrain, Arduino arduino, Shooter shooter, Intake intake, Indexer indexer, Climber climber, LimeLight limeLight, NavX navX) {
@@ -149,11 +152,17 @@ public class DriveCommand extends CommandBase {
         //Shoots based on which trigger is pressed, one set of LEDs is set up
         //TODO: adjust shooter speed based on limelight distance
         if(rTrigger > lTrigger) {
-            shooter.shoot(rTrigger);
+            if(rTrigger < shooterLimit)
+                shooter.shoot(rTrigger);
+            else
+                shooter.shoot(shooterLimit);
             arduino.changeLed(false);
         }
         else if(lTrigger > rTrigger)
-            shooter.shoot(lTrigger);
+            if(lTrigger < shooterLimit)
+                shooter.shoot(lTrigger);
+            else
+                shooter.shoot(shooterLimit);
             arduino.changeLed(true);
         
         //Intake- controls sucking in balls and moving intake up and down
