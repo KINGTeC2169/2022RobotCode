@@ -131,7 +131,7 @@ public class DriveCommand extends CommandBase {
             shooter.shoot(lTrigger);
             arduino.changeLed(true);
         
-        //Intake-- stick top buttons still don't work, but that will be what we use once we get it working
+        //Intake
         intake.suck(Controls.getRightStickTop());
         if(Controls.getRightStickBottom())
             intake.moveIntake();
