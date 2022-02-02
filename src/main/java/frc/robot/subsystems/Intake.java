@@ -14,11 +14,11 @@ public class Intake extends SubsystemBase {
     TalonSRX intake = new TalonSRX(ActuatorMap.intake);
     DoubleSolenoid intakePiston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 1, 2);
     private static boolean isExtended = false;
+    //TODO: Make sure all pneumatics start how they should. DO NOT TEST PNEUNMATICS UNTIL THIS IS CHECKED.
     
     public void suck(boolean isSucking) {
         if(isSucking)
-            intake.set(ControlMode.PercentOutput, Constants.intakeSpeed);    
-        //I don't know how fast intake should be, but it will only ever need one speed. Either it is sucking or it isn't.    
+            intake.set(ControlMode.PercentOutput, Constants.intakeSpeed);     
     }
 
     public void moveIntake() {
@@ -31,8 +31,4 @@ public class Intake extends SubsystemBase {
             isExtended = true;
         }
     }
-
-    //We will also need something for pneumatics that control intake up and down, idk how to do that
-
-    //I now know a *little* about pneumatics- as a treat
 }

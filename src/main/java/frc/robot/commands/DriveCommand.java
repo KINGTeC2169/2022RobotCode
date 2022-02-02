@@ -6,6 +6,8 @@ import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.LimeLight;
+import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Shooter;
 import frc.robot.utils.Constants;
 import frc.robot.utils.Controls;
@@ -19,6 +21,8 @@ public class DriveCommand extends CommandBase {
     private Intake intake;
     private Indexer indexer;
     private Climber climber;
+    private LimeLight limeLight;
+    private NavX navX;
 
     private double leftY;
     private double rightX;
@@ -26,7 +30,7 @@ public class DriveCommand extends CommandBase {
     private double quickStopAcummolatss;
    
     //Adds all subsystems to the driving command
-    public DriveCommand(DriveTrain driveTrain, Arduino arduino, Shooter shooter, Intake intake, Indexer indexer, Climber climber) {
+    public DriveCommand(DriveTrain driveTrain, Arduino arduino, Shooter shooter, Intake intake, Indexer indexer, Climber climber, LimeLight limeLight, NavX navX) {
         this.driveTrain = driveTrain;
         addRequirements(driveTrain);
         this.arduino = arduino;
@@ -39,6 +43,10 @@ public class DriveCommand extends CommandBase {
         addRequirements(indexer);
         this.climber = climber;
         addRequirements(climber);
+        this.limeLight = limeLight;
+        addRequirements(limeLight);
+        this.navX = navX;
+        addRequirements(navX);
     }
 
     @Override
@@ -122,7 +130,8 @@ public class DriveCommand extends CommandBase {
         //Shooter- it shoots.
         double rTrigger = Controls.getRightControllerTrigger();
         double lTrigger = Controls.getLeftControllerTrigger();
-        //Idk how shooter will be controlled, right now it is based on which trigger is pressed down more.
+
+        //Shoots based on which trigger is pressed, one set of LEDs is set up
         if(rTrigger > lTrigger) {
             shooter.shoot(rTrigger);
             arduino.changeLed(false);
@@ -131,18 +140,18 @@ public class DriveCommand extends CommandBase {
             shooter.shoot(lTrigger);
             arduino.changeLed(true);
         
-        //Intake
+        //Intake- controls sucking in balls and moving intake up and down
         intake.suck(Controls.getRightStickTop());
         if(Controls.getRightStickBottom())
             intake.moveIntake();
 
         //Indexer-- literally no idea how they want to control indexing
         indexer.suckUp(Controls.getControllerA());
-        
+        //Moves cylinder for indexing/shooting
         if(Controls.getLeftControllerBumper())
             indexer.shoveBall();
 
-        //Climber -- Press X and Y for controlling distance of arm and B to change arm angle
+        //Climber -- Y = arm goes up, A = arm goes down, RightBumper = move cylinder
         if(Controls.getControllerY()) {
             climber.extendArm();
         } else if(Controls.getControllerA()) {
@@ -151,6 +160,11 @@ public class DriveCommand extends CommandBase {
         if(Controls.getRightControllerBumper()) {
             climber.movePiston();
         }
+
+        //Prints speed and limelight distance, this is something that will eventually only be shown in shuffleboard, I just want to test it.
+        System.out.println("Speed: " + navX.getSpeed() + "\tLLDistance: " + limeLight.getRightDistance());
+
+
     }
 
 

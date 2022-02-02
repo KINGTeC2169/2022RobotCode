@@ -8,6 +8,7 @@ public class Controls {
     private static Joystick leftJoy = new Joystick(ActuatorMap.lJoyStick);
     private static Joystick rightJoy = new Joystick(ActuatorMap.rJoyStick);
 
+    //Controller inputs
     public static double getLeftControllerX() {
         return controller.getLeftX();
     }
@@ -56,6 +57,7 @@ public class Controls {
         return controller.getRightBumper();
     }
 
+    //Joystick inputs
     public static double getLeftStickY() {
         return -leftJoy.getY();
     }
