@@ -122,14 +122,15 @@ public class DriveCommand extends CommandBase {
         }
 
         //Auto aim locking mechanic
+        //TODO: Test and change values in order to adjust sensitivity
         if(Controls.getLeftStickBottom()) {
             if(Math.abs(limeLight.getRightXPercent()) > 0) {
-                rightPower -= limeLight.getRightXPercent() / 2;
-                leftPower += limeLight.getRightXPercent() / 2;
+                rightPower -= limeLight.getRightXPercent() / 90;
+                leftPower += limeLight.getRightXPercent() / 90;
             }
             else if(Math.abs(limeLight.getLeftXPercent()) > 0) {
-                rightPower += limeLight.getLeftXPercent() / 2;
-                leftPower -= limeLight.getLeftXPercent() / 2;
+                rightPower += limeLight.getLeftXPercent() / 90;
+                leftPower -= limeLight.getLeftXPercent() / 90;
             }
         }
               

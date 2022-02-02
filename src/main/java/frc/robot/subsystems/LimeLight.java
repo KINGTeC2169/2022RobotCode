@@ -26,10 +26,10 @@ public class LimeLight extends SubsystemBase{
     }
 
     public double getRightDistance() {
-        return (63.593059725) / Math.tan(((45 + getRightYPercent()) * Math.PI)/180);
+        return (63.593059725) / Math.tan(((37 + getRightYPercent()) * Math.PI)/180);
     }
     public double getLeftDistance() {
-        return (63.593059725) / Math.tan(((45 + getLeftYPercent()) * Math.PI)/180);
+        return (63.593059725) / Math.tan(((37 + getLeftYPercent()) * Math.PI)/180);
     }
     
     public void setRightPipeline(int pipelineID) {
