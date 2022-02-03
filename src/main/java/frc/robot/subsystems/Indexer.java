@@ -12,7 +12,7 @@ import frc.robot.utils.Constants;
 
 public class Indexer extends SubsystemBase {
     TalonSRX indexer = new TalonSRX(ActuatorMap.indexer);
-    DoubleSolenoid indexerPiston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 1, 2);
+    DoubleSolenoid indexerPiston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 2, 3);
     //TODO: Change forward and reverse channels for all pneumatics
     
     public void suckUp(boolean isSucking) {
