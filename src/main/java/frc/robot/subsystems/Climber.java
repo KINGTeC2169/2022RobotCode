@@ -12,7 +12,7 @@ import frc.robot.utils.ActuatorMap;
 public class Climber extends SubsystemBase {
     TalonFX climber = new TalonFX(ActuatorMap.climber);
     DoubleSolenoid climberAdjuster = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 4, 5);
-    DoubleSolenoid climberAdjuster2 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 6, 7);
+    DoubleSolenoid climberAdjusterTwo = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 6, 7);
     private static boolean isExtended = true;
 
     public void extendArm() {
@@ -26,12 +26,12 @@ public class Climber extends SubsystemBase {
     public void movePiston() {
         if(isExtended) {
             climberAdjuster.set(Value.kReverse);
-            climberAdjuster2.set(Value.kReverse);
+            climberAdjusterTwo.set(Value.kReverse);
             isExtended = false;
         }
         else {
             climberAdjuster.set(Value.kForward);
-            climberAdjuster2.set(Value.kForward);
+            climberAdjusterTwo.set(Value.kForward);
             isExtended = true;
         }
     }
