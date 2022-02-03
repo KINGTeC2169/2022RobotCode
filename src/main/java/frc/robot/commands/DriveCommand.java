@@ -123,20 +123,18 @@ public class DriveCommand extends CommandBase {
         }
 
         //Auto aim locking mechanic
-        //TODO: Test and change values in order to adjust sensitivity
         if(Controls.getLeftStickBottom()) {
             if(limeLight.getRightXPercent() > 0 || limeLight.getLeftXPercent() > 0) {
-                rightPower += limeLight.getRightXPercent() / 27;
-                leftPower -= limeLight.getRightXPercent() / 27;
+                rightPower += limeLight.getRightXPercent() / 75;
+                leftPower -= limeLight.getRightXPercent() / 75;
             }
             else if(limeLight.getLeftXPercent() < 0 || limeLight.getRightXPercent() < 0) {
-                rightPower -= limeLight.getLeftXPercent() / 27;
-                leftPower += limeLight.getLeftXPercent() / 27;
+                rightPower -= limeLight.getLeftXPercent() / 75;
+                leftPower += limeLight.getLeftXPercent() / 75;
             }
         }
               
-
-
+        
         //applies the powers to the motors
         driveTrain.lDrive(leftPower);
         driveTrain.rDrive(rightPower);
