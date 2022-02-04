@@ -190,11 +190,15 @@ public class DriveCommand extends CommandBase {
             if(indexerTimeSave == 0.0) 
                 indexerTimeSave = timer.get();
             //5.0 is amount of time indexer runs
-            if(timer.get() - indexerTimeSave < 5.0)
+            if(timer.get() - indexerTimeSave < 2600) {
                 indexer.suckUp();
-            //Added this to theoretically reset timer after indexer runs
-            if(timer.get() - indexerTimeSave >= 5.0)
+            } else {
+                //Added this to reset timer after indexer runs
                 indexerTimeSave = 0.0;
+                ballManager.cycleBall();
+            }
+            
+                
         }
         //TODO: this list i guess
         //Current issues i havent bothered to fix rn: indexerTimeSave doesn't get reset to 0, time is
