@@ -192,6 +192,9 @@ public class DriveCommand extends CommandBase {
             //5.0 is amount of time indexer runs
             if(timer.get() - indexerTimeSave < 5.0)
                 indexer.suckUp();
+            //Added this to theoretically reset timer after indexer runs
+            if(timer.get() - indexerTimeSave >= 5.0)
+                indexerTimeSave = 0.0;
         }
         //TODO: this list i guess
         //Current issues i havent bothered to fix rn: indexerTimeSave doesn't get reset to 0, time is
@@ -201,12 +204,12 @@ public class DriveCommand extends CommandBase {
         //I made this and then realised it doesn't work but i dont have time to fix it rn, so yeah
         if(ballManager.getFirstPositionBall() && ballManager.getSecondPositionBall()) {
             if(Controls.getLeftControllerBumper()) {
-                if(indexerTimeSave == 0.0) 
+                
+            }
+            if(indexerTimeSave == 0.0) 
                     indexerTimeSave = timer.get();
                 if(timer.get() - indexerTimeSave < 5.0)
                     indexer.suckUp();
-
-            }
         }
 
 
