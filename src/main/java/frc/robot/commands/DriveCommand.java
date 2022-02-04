@@ -153,7 +153,14 @@ public class DriveCommand extends CommandBase {
         driveTrain.lDrive(leftPower);
         driveTrain.rDrive(rightPower);
 
-        //--------------------------------Literally every other part of TeleOp-------------------------------------------------
+        /*--------------------------------Literally every other part of TeleOp------------------------------------------------
+        ----------------------------------------------------------------------------------------------------------------------
+        ----------------------------------------------------------------------------------------------------------------------
+        ----------------------------------------------------------------------------------------------------------------------
+        ----------------------------------------------------------------------------------------------------------------------
+        ------------------------------------------Just wanted to break it up a little more- *just a little*-------------------
+        ----------------------------------------------------------------------------------------------------------------------
+        ----------------------------------------------------------------------------------------------------------------------*/
         
         //Shooter- it shoots.
         double rTrigger = Controls.getRightControllerTrigger();
@@ -186,10 +193,24 @@ public class DriveCommand extends CommandBase {
             if(timer.get() - indexerTimeSave < 5.0)
                 indexer.suckUp();
         }
+        //TODO: this list i guess
+        //Current issues i havent bothered to fix rn: indexerTimeSave doesn't get reset to 0, time is
+        //in milliseconds i think, we have it set to 5, i dont think 5 milliseconds is enough..., we dont
+        //call cycle ball, so ballManager won't update
+
+        //I made this and then realised it doesn't work but i dont have time to fix it rn, so yeah
+        if(ballManager.getFirstPositionBall() && ballManager.getSecondPositionBall()) {
+            if(Controls.getLeftControllerBumper()) {
+                if(indexerTimeSave == 0.0) 
+                    indexerTimeSave = timer.get();
+                if(timer.get() - indexerTimeSave < 5.0)
+                    indexer.suckUp();
+
+            }
+        }
 
 
-
-        //BeamBreak
+        //BeamBreak- adds a ball to ballManager when it sees a new one
         if(beamBreak.isBall() && !sameBall) {
             ballManager.newBall();
             sameBall = true;
@@ -200,12 +221,13 @@ public class DriveCommand extends CommandBase {
     
 
         //Intake- controls sucking in balls and moving intake up and down
-        if(ballManager.getNumberOfBalls() <= 2) {
+        if(ballManager.getNumberOfBalls() < 2 && Controls.getRightStickTop()) {
             intake.suck(Controls.getRightStickTop());
             isIntaking = true;
         } else {
             isIntaking = false;
         }
+        //controls intake cylinder
         if(Controls.getRightStickBottom())
             intake.moveIntake();
         
