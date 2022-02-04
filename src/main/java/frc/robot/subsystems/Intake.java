@@ -16,9 +16,11 @@ public class Intake extends SubsystemBase {
     private static boolean isExtended = false;
     //TODO: Make sure all pneumatics start how they should. DO NOT TEST PNEUNMATICS UNTIL THIS IS CHECKED.
     
-    public void suck(boolean isSucking) {
-        if(isSucking)
-            intake.set(ControlMode.PercentOutput, Constants.intakeSpeed);     
+    public void suck(boolean isSuckingMeOff) {
+        if(isSuckingMeOff) 
+            intake.set(ControlMode.PercentOutput, Constants.intakeSpeed);   
+        else
+            intake.set(ControlMode.PercentOutput, 0);
     }
 
     public void moveIntake() {

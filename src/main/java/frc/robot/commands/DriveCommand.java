@@ -39,7 +39,8 @@ public class DriveCommand extends CommandBase {
     private double shooterLimit;
     private boolean isIntaking;
     private boolean sameBall;
-    private boolean isManualMode;
+    private boolean isManualLimeLight;
+    private boolean isManualBalls;
    
     //Adds all subsystems to the driving command
     public DriveCommand(DriveTrain driveTrain, Arduino arduino, Shooter shooter, Intake intake, Indexer indexer, Climber climber, LimeLight limeLight, NavX navX, BallManager ballManager, BeamBreak beamBreak) {
@@ -138,15 +139,17 @@ public class DriveCommand extends CommandBase {
             rightPower = -1.0;
         }
 
-        //Auto aim locking mechanic
-        if(Controls.getLeftStickBottom()) {
-            if(limeLight.getRightXPercent() > 0 || limeLight.getLeftXPercent() > 0) {
-                rightPower += limeLight.getRightXPercent() / 75;
-                leftPower -= limeLight.getRightXPercent() / 75;
-            }
-            else if(limeLight.getLeftXPercent() < 0 || limeLight.getRightXPercent() < 0) {
-                rightPower -= limeLight.getLeftXPercent() / 75;
-                leftPower += limeLight.getLeftXPercent() / 75;
+        if(!isManualLimeLight) {
+            //Auto aim locking mechanic
+            if(Controls.getLeftStickBottom()) {
+                if(limeLight.getRightXPercent() > 0 || limeLight.getLeftXPercent() > 0) {
+                    rightPower += limeLight.getRightXPercent() / 75;
+                    leftPower -= limeLight.getRightXPercent() / 75;
+                }
+                else if(limeLight.getLeftXPercent() < 0 || limeLight.getRightXPercent() < 0) {
+                    rightPower -= limeLight.getLeftXPercent() / 75;
+                    leftPower += limeLight.getLeftXPercent() / 75;
+                }
             }
         }
               
@@ -163,6 +166,19 @@ public class DriveCommand extends CommandBase {
         ------------------------------------------Just wanted to break it up a little more- *just a little*-------------------
         ----------------------------------------------------------------------------------------------------------------------
         ----------------------------------------------------------------------------------------------------------------------*/
+
+
+        //Manual Mode Manager - basically turns manual modes on and off
+        if(Controls.getLeftControllerStick()) {
+            isManualBalls = true;
+        }
+        if(Controls.getRightControllerStick()) {
+            if(isManualLimeLight) {
+                isManualLimeLight = false;
+            } else {
+                isManualLimeLight = true;
+            }
+        }
         
         //Shooter- it shoots.
         double rTrigger = Controls.getRightControllerTrigger();
@@ -184,24 +200,44 @@ public class DriveCommand extends CommandBase {
                 shooter.shoot(shooterLimit);
             arduino.changeLed(true);
         
-        //Indexer-- literally no idea how they want to control indexing
-        if(isIntaking && ballManager.getNumberOfBalls() == 0 || (ballManager.getSecondPositionBall() && !ballManager.getFirstPositionBall())) {
-            indexer.suckUp();
-        }
-        if(ballManager.getFirstPositionBall() && !ballManager.getSecondPositionBall()) {
-            if(indexerTimeSave == 0.0) 
-                indexerTimeSave = timer.get();
-            //5.0 is amount of time indexer runs
-            if(timer.get() - indexerTimeSave < 2600) {
-                indexer.suckUp();
+        if(!isManualBalls) {
+            //Indexer-- literally no idea how they want to control indexing
+            if(isIntaking && ballManager.getNumberOfBalls() == 0 || (ballManager.getSecondPositionBall() && !ballManager.getFirstPositionBall())) {
+                indexer.suckUp(true);
             } else {
-                //Added this to reset timer after indexer runs
-                indexerTimeSave = 0.0;
-                ballManager.cycleBall();
+                indexer.suckUp(false);
             }
-            
-                
+            if(ballManager.getFirstPositionBall() && !ballManager.getSecondPositionBall()) {
+                if(indexerTimeSave == 0.0) 
+                    indexerTimeSave = timer.get();
+                //5.0 is amount of time indexer runs
+                if(timer.get() - indexerTimeSave < 2600) {
+                    indexer.suckUp(true);
+                } else {
+                    //Added this to reset timer after indexer runs
+                    indexer.suckUp(false);
+                    indexerTimeSave = 0.0;
+                    ballManager.cycleBall();
+                }  
+            }
+
+
+            //Intake- controls sucking in balls and moving intake up and down
+            if(ballManager.getNumberOfBalls() < 2) {
+                intake.suck(Controls.getRightStickTop());
+                isIntaking = Controls.getRightStickTop();
+            } else {
+                intake.suck(false);
+                isIntaking = false;
+            }
+
+        } else {
+            //TODO: placeholder controls
+            indexer.suckUp(Controls.getRightControllerBumper());
+            intake.suck(Controls.getRightStickTop());
         }
+
+
 
         //BeamBreak- adds a ball to ballManager when it sees a new one
         if(beamBreak.isBall() && !sameBall) {
@@ -213,13 +249,7 @@ public class DriveCommand extends CommandBase {
         }
     
 
-        //Intake- controls sucking in balls and moving intake up and down
-        if(ballManager.getNumberOfBalls() < 2 && Controls.getRightStickTop()) {
-            intake.suck(Controls.getRightStickTop());
-            isIntaking = true;
-        } else {
-            isIntaking = false;
-        }
+        
         //controls intake cylinder
         if(Controls.getRightStickBottom())
             intake.moveIntake();
@@ -238,7 +268,8 @@ public class DriveCommand extends CommandBase {
             }
         }
 
-        //Climber -- Y = arm goes up, A = arm goes down, RightBumper = move cylinder
+        //Climber -- Y = arm goes up, A = arm goes down, RightBumper = move cylinder 
+        //TODO: FIX THIS IT WILL COMMIT WAR CRIMES;
         if(Controls.getControllerY()) {
             climber.extendArm();
         } else if(Controls.getControllerA()) {
