@@ -205,17 +205,6 @@ public class DriveCommand extends CommandBase {
         //in milliseconds i think, we have it set to 5, i dont think 5 milliseconds is enough..., we dont
         //call cycle ball, so ballManager won't update
 
-        //I made this and then realised it doesn't work but i dont have time to fix it rn, so yeah
-        if(ballManager.getFirstPositionBall() && ballManager.getSecondPositionBall()) {
-            if(Controls.getLeftControllerBumper()) {
-                
-            }
-            if(indexerTimeSave == 0.0) 
-                    indexerTimeSave = timer.get();
-                if(timer.get() - indexerTimeSave < 5.0)
-                    indexer.suckUp();
-        }
-
 
         //BeamBreak- adds a ball to ballManager when it sees a new one
         if(beamBreak.isBall() && !sameBall) {
