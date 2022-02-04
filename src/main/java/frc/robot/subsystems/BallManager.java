@@ -7,20 +7,17 @@ public class BallManager extends SubsystemBase {
     private static boolean[] ballCount = new boolean[2];
 
     public void newBall() {
-        if(ballCount[1]) {
-            ballCount[0] = true;
-        } else {
-            ballCount[1] = true;
-        }
-
+        ballCount[0] = true;
     }
-
-    public void removeBall() {
+    public void cycleBall() {
         if(ballCount[0]) {
             ballCount[1] = true;
-        } else {
-            ballCount[1] = false;
-        }
+            ballCount[0] = false;
+        } 
+    }
+
+    public void shootBall() {
+        ballCount[1] = false;
     }
 
     public int getNumberOfBalls() {

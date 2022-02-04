@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arduino;
 import frc.robot.subsystems.BallManager;
@@ -16,6 +17,8 @@ import frc.robot.utils.Controls;
 import frc.robot.utils.MathDoer;
 
 public class DriveCommand extends CommandBase {
+    private Timer timer;
+    private double indexerTimeSave;
     
     private DriveTrain driveTrain;
     private Arduino arduino;
@@ -33,9 +36,12 @@ public class DriveCommand extends CommandBase {
     private double rightTwist;
     private double quickStopAcummolatss;
     private double shooterLimit;
+    private boolean isIntaking;
+    private boolean sameBall;
    
     //Adds all subsystems to the driving command
     public DriveCommand(DriveTrain driveTrain, Arduino arduino, Shooter shooter, Intake intake, Indexer indexer, Climber climber, LimeLight limeLight, NavX navX, BallManager ballManager, BeamBreak beamBreak) {
+        timer.start();
         this.driveTrain = driveTrain;
         addRequirements(driveTrain);
         this.arduino = arduino;
@@ -170,11 +176,36 @@ public class DriveCommand extends CommandBase {
             arduino.changeLed(true);
         
         //Indexer-- literally no idea how they want to control indexing
-        
+        if(isIntaking && ballManager.getNumberOfBalls() == 0) {
+            indexer.suckUp();
+        }
+        if(ballManager.getFirstPositionBall() && !ballManager.getSecondPositionBall()) {
+            if(indexerTimeSave == 0.0) 
+                indexerTimeSave = timer.get();
+            //5.0 is amount of time indexer runs
+            if(timer.get() - indexerTimeSave < 5.0)
+                indexer.suckUp();
+        }
+
+
+
+        //BeamBreak
+        if(beamBreak.isBall() && !sameBall) {
+            ballManager.newBall();
+            sameBall = true;
+        } 
+        if(!beamBreak.isBall()) {
+            sameBall = false;
+        }
+    
 
         //Intake- controls sucking in balls and moving intake up and down
-        if(ballManager.getNumberOfBalls() <= 2)
+        if(ballManager.getNumberOfBalls() <= 2) {
             intake.suck(Controls.getRightStickTop());
+            isIntaking = true;
+        } else {
+            isIntaking = false;
+        }
         if(Controls.getRightStickBottom())
             intake.moveIntake();
         
