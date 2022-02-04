@@ -57,6 +57,14 @@ public class Controls {
         return controller.getRightBumper();
     }
 
+    public static boolean getLeftControllerStick() {
+        return controller.getLeftStickButton();
+    }
+
+    public static boolean getRightControllerSticks() {
+        return controller.getRightStickButtonPressed();
+    }
+
     //Joystick inputs
     public static double getLeftStickY() {
         return -leftJoy.getY();
