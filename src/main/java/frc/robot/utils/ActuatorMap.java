@@ -13,4 +13,5 @@ public class ActuatorMap {
     public static final int intake = 26;
     public static final int indexer = 26;
     public static final int climber = 26;
+    public static final int beamBreak = 26;
 }

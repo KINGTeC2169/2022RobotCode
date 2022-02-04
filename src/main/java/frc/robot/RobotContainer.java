@@ -7,6 +7,8 @@ import frc.robot.commands.ColorSensorTestCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.NavXTestCommand;
 import frc.robot.subsystems.Arduino;
+import frc.robot.subsystems.BallManager;
+import frc.robot.subsystems.BeamBreak;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.DriveTrain;
@@ -27,7 +29,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   //Makes TeleOp command with all subsystems needed for teleOp
-  private final DriveCommand m_teleopCommand = new DriveCommand(new DriveTrain(), new Arduino(), new Shooter(), new Intake(), new Indexer(), new Climber(), new LimeLight(), new NavX());
+  private final DriveCommand m_teleopCommand = new DriveCommand(new DriveTrain(), new Arduino(), new Shooter(), new Intake(), new Indexer(), new Climber(), new LimeLight(), new NavX(), new BallManager(), new BeamBreak());
   //Makes a sendableChooser that allows us to select different autonomous programs from smartdashboard
   private SendableChooser<Command> chooser = new SendableChooser<>();
 
@@ -49,6 +51,6 @@ public class RobotContainer {
     return chooser.getSelected();
   }
   public Command getTeleopCommand() {
-    return new BeamBreakSensorTestCommand();
+    return m_teleopCommand;
   }
 }

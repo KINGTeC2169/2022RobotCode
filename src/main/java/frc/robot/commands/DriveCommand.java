@@ -2,6 +2,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arduino;
+import frc.robot.subsystems.BallManager;
+import frc.robot.subsystems.BeamBreak;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Indexer;
@@ -23,6 +25,8 @@ public class DriveCommand extends CommandBase {
     private Climber climber;
     private LimeLight limeLight;
     private NavX navX;
+    private BallManager ballManager;
+    private BeamBreak beamBreak;
 
     private double leftY;
     private double rightX;
@@ -31,7 +35,7 @@ public class DriveCommand extends CommandBase {
     private double shooterLimit;
    
     //Adds all subsystems to the driving command
-    public DriveCommand(DriveTrain driveTrain, Arduino arduino, Shooter shooter, Intake intake, Indexer indexer, Climber climber, LimeLight limeLight, NavX navX) {
+    public DriveCommand(DriveTrain driveTrain, Arduino arduino, Shooter shooter, Intake intake, Indexer indexer, Climber climber, LimeLight limeLight, NavX navX, BallManager ballManager, BeamBreak beamBreak) {
         this.driveTrain = driveTrain;
         addRequirements(driveTrain);
         this.arduino = arduino;
@@ -48,6 +52,10 @@ public class DriveCommand extends CommandBase {
         addRequirements(limeLight);
         this.navX = navX;
         addRequirements(navX);
+        this.ballManager = ballManager;
+        addRequirements(ballManager);
+        this.beamBreak = beamBreak;
+        addRequirements(beamBreak);
     }
 
     @Override
@@ -161,13 +169,16 @@ public class DriveCommand extends CommandBase {
                 shooter.shoot(shooterLimit);
             arduino.changeLed(true);
         
+        //Indexer-- literally no idea how they want to control indexing
+        
+
         //Intake- controls sucking in balls and moving intake up and down
-        intake.suck(Controls.getRightStickTop());
+        if(ballManager.getNumberOfBalls() <= 2)
+            intake.suck(Controls.getRightStickTop());
         if(Controls.getRightStickBottom())
             intake.moveIntake();
-
-        //Indexer-- literally no idea how they want to control indexing
-        indexer.suckUp(Controls.getControllerA());
+        
+        
         //Moves cylinder for indexing/shooting
         if(Controls.getLeftControllerBumper())
             indexer.shoveBall();

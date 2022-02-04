@@ -15,9 +15,8 @@ public class Indexer extends SubsystemBase {
     DoubleSolenoid indexerPiston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 2, 3);
     //TODO: Change forward and reverse channels for all pneumatics
     
-    public void suckUp(boolean isSucking) {
-        if(isSucking)
-            indexer.set(ControlMode.PercentOutput, Constants.indexSpeed);
+    public void suckUp() {
+        indexer.set(ControlMode.PercentOutput, Constants.indexSpeed);
     }
 
     public void shoveBall() {
