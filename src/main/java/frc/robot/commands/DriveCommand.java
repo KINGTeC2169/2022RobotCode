@@ -19,6 +19,7 @@ import frc.robot.utils.MathDoer;
 public class DriveCommand extends CommandBase {
     private Timer timer;
     private double indexerTimeSave;
+    private double shooterTimeSave;
     
     private DriveTrain driveTrain;
     private Arduino arduino;
@@ -38,6 +39,7 @@ public class DriveCommand extends CommandBase {
     private double shooterLimit;
     private boolean isIntaking;
     private boolean sameBall;
+    private boolean isManualMode;
    
     //Adds all subsystems to the driving command
     public DriveCommand(DriveTrain driveTrain, Arduino arduino, Shooter shooter, Intake intake, Indexer indexer, Climber climber, LimeLight limeLight, NavX navX, BallManager ballManager, BeamBreak beamBreak) {
@@ -183,7 +185,7 @@ public class DriveCommand extends CommandBase {
             arduino.changeLed(true);
         
         //Indexer-- literally no idea how they want to control indexing
-        if(isIntaking && ballManager.getNumberOfBalls() == 0) {
+        if(isIntaking && ballManager.getNumberOfBalls() == 0 || (ballManager.getSecondPositionBall() && !ballManager.getFirstPositionBall())) {
             indexer.suckUp();
         }
         if(ballManager.getFirstPositionBall() && !ballManager.getSecondPositionBall()) {
@@ -200,11 +202,6 @@ public class DriveCommand extends CommandBase {
             
                 
         }
-        //TODO: this list i guess
-        //Current issues i havent bothered to fix rn: indexerTimeSave doesn't get reset to 0, time is
-        //in milliseconds i think, we have it set to 5, i dont think 5 milliseconds is enough..., we dont
-        //call cycle ball, so ballManager won't update
-
 
         //BeamBreak- adds a ball to ballManager when it sees a new one
         if(beamBreak.isBall() && !sameBall) {
@@ -229,8 +226,17 @@ public class DriveCommand extends CommandBase {
         
         
         //Moves cylinder for indexing/shooting
-        if(Controls.getLeftControllerBumper())
-            indexer.shoveBall();
+        if(Controls.getLeftControllerBumper()) {
+            if(shooterTimeSave == 0.0) {
+                shooterTimeSave = timer.get();
+            }
+            if(timer.get() - shooterTimeSave < 26) {
+                indexer.shoveBall();
+            } else {
+                shooterTimeSave = 0.0;
+                ballManager.shootBall();
+            }
+        }
 
         //Climber -- Y = arm goes up, A = arm goes down, RightBumper = move cylinder
         if(Controls.getControllerY()) {
