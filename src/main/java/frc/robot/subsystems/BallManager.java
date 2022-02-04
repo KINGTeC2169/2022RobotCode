@@ -4,46 +4,40 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class BallManager extends SubsystemBase {
 
-    private static String[] ballCount = {"emtpy", "empty"};
+    private static boolean[] ballCount = new boolean[2];
 
-    public void addBall(String ball) {
-        ballCount[1] = ballCount[0];
-        ballCount[0] = ball;
+    public void newBall() {
+        if(ballCount[1]) {
+            ballCount[0] = true;
+        } else {
+            ballCount[1] = true;
+        }
 
     }
 
     public void removeBall() {
-        if(ballCount[1].equals("empty")) {
-            ballCount[0] = "empty";
-        } else if(!ballCount[0].equals("empty")) {
-            ballCount[1] ="empty";
+        if(ballCount[0]) {
+            ballCount[1] = true;
+        } else {
+            ballCount[1] = false;
         }
     }
 
     public int getNumberOfBalls() {
         int counter = 0;
-        for(int i = 0; i < ballCount.length; i++) {
-            if(!ballCount[i].equals("empty")) {
+        for(boolean ball : ballCount) {
+            if(ball) {
                 counter++;
             }
         }
         return counter;
     }
 
-    public String getNextBallColor() {
-        if(!ballCount[1].equals("empty")) {
-            return ballCount[1];
-        } else if(!ballCount[0].equals("empty")) {
-            return ballCount[0];
-        }
-        return "empty";
-    }
-
-    public String getFirstBall() {
+    public boolean getFirstPositionBall() {
         return ballCount[0];
     }
 
-    public String getSecondBall() {
+    public boolean getSecondPositionBall() {
         return ballCount[1];
     }
 
