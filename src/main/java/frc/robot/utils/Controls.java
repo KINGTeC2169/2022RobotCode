@@ -37,6 +37,10 @@ public class Controls {
         return controller.getXButton();
     }
 
+    public static boolean getControllerXPressed() {
+        return controller.getXButtonPressed();
+    }
+
     public static boolean getControllerY() {
         return controller.getYButton();
     }
