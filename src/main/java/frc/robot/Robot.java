@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
-  private Command driveTrain;
+  private Command teleOp;
   private RobotContainer m_robotContainer;
   
 
@@ -77,10 +77,10 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    driveTrain = m_robotContainer.getTeleopCommand();
+    teleOp = m_robotContainer.getTeleopCommand();
 
-    if(driveTrain != null)
-      driveTrain.schedule();
+    if(teleOp != null)
+      teleOp.schedule();
   }
 
   @Override
