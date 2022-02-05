@@ -2,9 +2,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.ColorSensorTestCommand;
 import frc.robot.commands.DriveCommand;
-import frc.robot.commands.NavXTestCommand;
+import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Arduino;
 import frc.robot.subsystems.BallManager;
 import frc.robot.subsystems.BeamBreak;
@@ -28,17 +27,12 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   //Makes TeleOp command with all subsystems needed for teleOp
-  private final DriveCommand m_teleopCommand = new DriveCommand(new DriveTrain(), new Arduino(), new Shooter(), new Intake(), new Indexer(), new Climber(), new LimeLight(), new NavX(), new BallManager(), new BeamBreak());
-  //Makes a sendableChooser that allows us to select different autonomous programs from smartdashboard
-  private SendableChooser<Command> chooser = new SendableChooser<>();
+  private final DriveCommand m_teleopCommand = new DriveCommand(new DriveTrain(), new Arduino(), new Shooter(), new Intake(), new Indexer(), new Climber(), new LimeLight(), new NavX(), new BallManager(), new BeamBreak(), new ColorSensor());
+
 
   public RobotContainer() {
-    //Add chooser options here
-    chooser.setDefaultOption("NavX test", new NavXTestCommand(new NavX()));
-    chooser.addOption("ColorSensor Test", new ColorSensorTestCommand(new ColorSensor()));
   
-   
-    SmartDashboard.putData(chooser);
+  
   }
 
   /**
@@ -47,7 +41,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return chooser.getSelected();
+    return m_teleopCommand;
   }
   public Command getTeleopCommand() {
     return m_teleopCommand;

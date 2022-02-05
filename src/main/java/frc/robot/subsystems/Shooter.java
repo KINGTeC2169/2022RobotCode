@@ -10,11 +10,20 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 public class Shooter extends SubsystemBase {
     TalonFX shooter = new TalonFX(ActuatorMap.shooter);
 
+    public Shooter() {
+        //TODO: how fast for ramp up
+        shooter.configClosedloopRamp(26);
+    }
+
     public void shoot(double power) {
         shooter.set(ControlMode.PercentOutput, power);
     }
 
     public double getRPM() {
         return 600 * shooter.getSelectedSensorVelocity() / Constants.TalonFXCPR;
+    }
+
+    public void setRPM(double rpm) {
+        shooter.set(ControlMode.Velocity, (rpm * Constants.TalonFXCPR) / 600);
     }
 }

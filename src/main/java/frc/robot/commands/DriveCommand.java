@@ -1,11 +1,14 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arduino;
 import frc.robot.subsystems.BallManager;
 import frc.robot.subsystems.BeamBreak;
 import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
@@ -31,19 +34,22 @@ public class DriveCommand extends CommandBase {
     private NavX navX;
     private BallManager ballManager;
     private BeamBreak beamBreak;
+    private ColorSensor colorSensor;
+    private Alliance alliance;
 
     private double leftY;
     private double rightX;
     private double rightTwist;
     private double quickStopAcummolatss;
     private double shooterLimit;
+    private double shooterSpeed;
     private boolean isIntaking;
     private boolean sameBall;
     private boolean isManualLimeLight;
     private boolean isManualBalls;
    
     //Adds all subsystems to the driving command
-    public DriveCommand(DriveTrain driveTrain, Arduino arduino, Shooter shooter, Intake intake, Indexer indexer, Climber climber, LimeLight limeLight, NavX navX, BallManager ballManager, BeamBreak beamBreak) {
+    public DriveCommand(DriveTrain driveTrain, Arduino arduino, Shooter shooter, Intake intake, Indexer indexer, Climber climber, LimeLight limeLight, NavX navX, BallManager ballManager, BeamBreak beamBreak, ColorSensor colorSensor) {
         timer.start();
         this.driveTrain = driveTrain;
         addRequirements(driveTrain);
@@ -65,6 +71,9 @@ public class DriveCommand extends CommandBase {
         addRequirements(ballManager);
         this.beamBreak = beamBreak;
         addRequirements(beamBreak);
+        this.colorSensor = colorSensor;
+        addRequirements(colorSensor);
+        alliance = DriverStation.getAlliance();
     }
 
     @Override
@@ -184,21 +193,26 @@ public class DriveCommand extends CommandBase {
         double rTrigger = Controls.getRightControllerTrigger();
         double lTrigger = Controls.getLeftControllerTrigger();
 
+
         //Shoots based on which trigger is pressed, one set of LEDs is set up
-        //TODO: adjust shooter speed based on limelight distance
+
+        //TODO: FIX YOUR SPELLING and this will be an equation based on limelight distance
+        double disiaredROPM = 2600;
+
+
         if(rTrigger > lTrigger) {
-            if(rTrigger < shooterLimit)
+            if(colorSensor.isEnemyColor())
                 shooter.shoot(rTrigger);
             else
-                shooter.shoot(shooterLimit);
-            arduino.changeLed(false);
+                shooter.setRPM(disiaredROPM);
         }
-        else if(lTrigger > rTrigger)
-            if(lTrigger < shooterLimit)
-                shooter.shoot(lTrigger);
+        else if(lTrigger > rTrigger) {
+            if(colorSensor.isEnemyColor())
+                shooter.shoot(rTrigger);
             else
-                shooter.shoot(shooterLimit);
-            arduino.changeLed(true);
+                shooter.setRPM(-disiaredROPM);
+        }
+
         
         if(!isManualBalls) {
             //Indexer-- literally no idea how they want to control indexing
