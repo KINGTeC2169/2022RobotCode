@@ -1,8 +1,6 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arduino;
 import frc.robot.subsystems.BallManager;
@@ -35,18 +33,18 @@ public class DriveCommand extends CommandBase {
     private BallManager ballManager;
     private BeamBreak beamBreak;
     private ColorSensor colorSensor;
-    private Alliance alliance;
 
     private double leftY;
     private double rightX;
     private double rightTwist;
     private double quickStopAcummolatss;
-    private double shooterLimit;
-    private double shooterSpeed;
     private boolean isIntaking;
     private boolean sameBall;
     private boolean isManualLimeLight;
     private boolean isManualBalls;
+    private double desiredRPM;
+    private double leftDist;
+    private double rightDist;
    
     //Adds all subsystems to the driving command
     public DriveCommand(DriveTrain driveTrain, Arduino arduino, Shooter shooter, Intake intake, Indexer indexer, Climber climber, LimeLight limeLight, NavX navX, BallManager ballManager, BeamBreak beamBreak, ColorSensor colorSensor) {
@@ -73,7 +71,6 @@ public class DriveCommand extends CommandBase {
         addRequirements(beamBreak);
         this.colorSensor = colorSensor;
         addRequirements(colorSensor);
-        alliance = DriverStation.getAlliance();
     }
 
     @Override
@@ -196,21 +193,37 @@ public class DriveCommand extends CommandBase {
 
         //Shoots based on which trigger is pressed, one set of LEDs is set up
 
-        //TODO: FIX YOUR SPELLING and this will be an equation based on limelight distance
-        double disiaredROPM = 2600;
+        //TODO: this will be an equation based on limelight distance
+        desiredRPM = 2600;
+        leftDist = limeLight.getLeftDistance();
+        rightDist = limeLight.getRightDistance();
+        
+        //Talk more about these things 
+        //Option 1:     placeholder equation
+        desiredRPM = leftDist * 66 + rightDist * 66;
+
+        //Option 2:
+        if(leftDist != 0 && rightDist == 0) {
+            //placeholder equation
+            desiredRPM = leftDist * 66;
+        }
+        else if(rightDist != 0 && leftDist == 0) {
+            //placeholder equation
+            desiredRPM = rightDist *= 66;
+        }
 
 
         if(rTrigger > lTrigger) {
             if(colorSensor.isEnemyColor())
                 shooter.shoot(rTrigger);
             else
-                shooter.setRPM(disiaredROPM);
+                shooter.setRPM(desiredRPM);
         }
         else if(lTrigger > rTrigger) {
             if(colorSensor.isEnemyColor())
                 shooter.shoot(rTrigger);
             else
-                shooter.setRPM(-disiaredROPM);
+                shooter.setRPM(-desiredRPM);
         }
 
         
