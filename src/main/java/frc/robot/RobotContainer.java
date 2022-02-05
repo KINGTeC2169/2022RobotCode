@@ -33,7 +33,7 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return m_autoCommand;
+    return m_testCommand;
   }
   public Command getTeleopCommand() {
     return m_testCommand;
