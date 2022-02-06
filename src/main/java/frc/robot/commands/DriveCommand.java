@@ -194,14 +194,9 @@ public class DriveCommand extends CommandBase {
         //Shoots based on which trigger is pressed, one set of LEDs is set up
 
         //TODO: this will be an equation based on limelight distance
-        desiredRPM = 2600;
         leftDist = limeLight.getLeftDistance();
         rightDist = limeLight.getRightDistance();
         
-        //Talk more about these things 
-        //Option 1:     placeholder equation
-        desiredRPM = leftDist * 66 + rightDist * 66;
-
         //Option 2:
         if(leftDist != 0 && rightDist == 0) {
             //placeholder equation
@@ -210,6 +205,10 @@ public class DriveCommand extends CommandBase {
         else if(rightDist != 0 && leftDist == 0) {
             //placeholder equation
             desiredRPM = rightDist *= 66;
+        }
+        else {
+            //Error: limelight malfunction- shoot from edge of tarmac
+            desiredRPM = 2000;
         }
 
 
