@@ -10,7 +10,7 @@ public class TestingCommand extends CommandBase {
 
     private Testing testing;
     private Shooter shooter;
-    private Timer timer;
+    private Timer timer = new Timer();
     private double saveTime;
 
     public TestingCommand(Testing testing, Shooter shooter) {
