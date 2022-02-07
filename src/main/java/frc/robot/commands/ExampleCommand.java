@@ -16,5 +16,6 @@ public class ExampleCommand extends CommandBase {
     @Override
     public void execute() {
         System.out.println(navX.getAngle());
+        
     }
 }
