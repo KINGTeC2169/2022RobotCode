@@ -42,7 +42,7 @@ public class DriveTrain extends SubsystemBase {
     }
 
     public void driveFor(double inches, double speed) {
-        endPos = Constants.TalonSRXCPR / Constants.wheelCirc;
+        endPos = Constants.TalonSRXCPR / Constants.wheelCirc * inches;
         lMaster.setSelectedSensorPosition(0);
         for(double currentPos = 0.0; currentPos < endPos; currentPos = lMaster.getSelectedSensorPosition()) {
             rDrive(speed);
