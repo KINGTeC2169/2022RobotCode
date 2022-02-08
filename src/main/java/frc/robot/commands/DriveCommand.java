@@ -54,7 +54,7 @@ public class DriveCommand extends CommandBase {
         this.arduino = arduino;
         addRequirements(arduino);
         this.shooter = shooter;
-        addRequirements(arduino);
+        addRequirements(shooter);
         this.intake = intake;
         addRequirements(intake);
         this.indexer = indexer;
@@ -204,7 +204,7 @@ public class DriveCommand extends CommandBase {
         }
         else if(rightDist != 0 && leftDist == 0) {
             //placeholder equation
-            desiredRPM = rightDist *= 66;
+            desiredRPM = rightDist * 66;
         }
         else {
             //Error: limelight malfunction- shoot from edge of tarmac
