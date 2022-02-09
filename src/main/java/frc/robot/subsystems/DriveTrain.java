@@ -11,9 +11,9 @@ import frc.robot.utils.Constants;
 public class DriveTrain extends SubsystemBase {
     TalonSRX rMaster = new TalonSRX(ActuatorMap.rMaster);
     TalonSRX lMaster = new TalonSRX(ActuatorMap.lMaster);
-    //TODO: Find out which motor controllers are Victors
-    TalonSRX rSlave = new TalonSRX(ActuatorMap.rSlave);
-    TalonSRX lSlave = new TalonSRX(ActuatorMap.lSlave); 
+
+    VictorSPX rSlave = new VictorSPX(ActuatorMap.rSlave);
+    VictorSPX lSlave = new VictorSPX(ActuatorMap.lSlave); 
 
     private double endPos;
 
@@ -23,7 +23,7 @@ public class DriveTrain extends SubsystemBase {
         rSlave.follow(rMaster);
 
 
-        //set slaves to be inverted
+        //set right motors to be inverted
         rMaster.setInverted(true);
 
         rMaster.set(ControlMode.PercentOutput, power);
