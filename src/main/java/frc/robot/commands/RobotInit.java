@@ -22,6 +22,8 @@ public class RobotInit extends CommandBase {
 
     @Override
     public void execute() {
-        climber.
+        climber.movePistonForward();
+        indexer.down();
+        intake.up();
     }
 }

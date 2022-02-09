@@ -25,6 +25,9 @@ public class Indexer extends SubsystemBase {
         indexerPiston.set(true);
 
     }
+    public void down() {
+        indexerPiston.set(false);
+    }
     
 
 }

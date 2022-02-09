@@ -24,13 +24,9 @@ public class Intake extends SubsystemBase {
     }
 
     public void moveIntake() {
-        if(isExtended) {
-            intakePiston.set(Value.kForward);
-            isExtended = false;
-        }
-        else {
-            intakePiston.set(Value.kReverse);
-            isExtended = true;
-        }
+        intakePiston.toggle();
+    }
+    public void up() {
+        intakePiston.set(Value.kReverse);
     }
 }
