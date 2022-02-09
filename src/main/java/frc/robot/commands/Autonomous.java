@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -9,15 +10,18 @@ public class Autonomous extends CommandBase {
     
     private DriveTrain driveTrain;
     private Shooter shooter;
+    private NavX navx;
 
     private Timer timer = new Timer();
     private int counter;
 
-    public Autonomous(DriveTrain driveTrain, Shooter shooter) {
+    public Autonomous(DriveTrain driveTrain, Shooter shooter, NavX navx) {
         this.driveTrain = driveTrain;
         addRequirements(driveTrain);
         this.shooter = shooter;
         addRequirements(shooter);
+        this.navx = navx;
+        addRequirements(navx);
     }
 
     @Override
@@ -42,6 +46,9 @@ public class Autonomous extends CommandBase {
         if(counter == 2) {
             driveTrain.driveFor(24, 0.5);
             counter++;
+        }
+        if(counter == 3) {
+            
         }
 
     }
