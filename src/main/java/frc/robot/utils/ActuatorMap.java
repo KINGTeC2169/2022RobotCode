@@ -1,5 +1,6 @@
 package frc.robot.utils;
 
+
 public class ActuatorMap {
     public static final int lJoyStick = 1;
     public static final int rJoyStick = 2;
@@ -21,6 +22,12 @@ public class ActuatorMap {
     public static final int leftLed = 26;
     public static final int rightLed = 26;
 
-    //Pnematics Control Module (PCM) 
-    public static final int dog = 26;
+    //Pneumatics Control Module (PCM) 
+    public static final int intakePistonOne = 3;
+    public static final int intakePistonTwo = 6;
+    public static final int climberPistonOne = 2;
+    public static final int climberPistonTwo = 7;
+    public static final int winch = 0;
+    public static final int dog = 4;
+    public static final int feederPiston = 5;
 }
