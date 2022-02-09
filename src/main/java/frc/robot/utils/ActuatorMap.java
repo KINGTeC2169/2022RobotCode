@@ -20,4 +20,7 @@ public class ActuatorMap {
     public static final int beamBreak = 26;
     public static final int leftLed = 26;
     public static final int rightLed = 26;
+
+    //Pnematics Control Module (PCM) 
+    public static final int dog = 26;
 }

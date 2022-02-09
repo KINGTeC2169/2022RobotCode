@@ -164,6 +164,9 @@ public class DriveCommand extends CommandBase {
         driveTrain.lDrive(leftPower);
         driveTrain.rDrive(rightPower);
 
+        if(Controls.getLeftStickTopPressed())
+            driveTrain.shiftThatDog();
+
         /*--------------------------------Literally every other part of TeleOp------------------------------------------------
         ----------------------------------------------------------------------------------------------------------------------
         ----------------------------------------------------------------------------------------------------------------------

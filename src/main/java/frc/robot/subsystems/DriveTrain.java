@@ -4,6 +4,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.ActuatorMap;
 import frc.robot.utils.Constants;
@@ -14,6 +16,8 @@ public class DriveTrain extends SubsystemBase {
 
     VictorSPX rSlave = new VictorSPX(ActuatorMap.rSlave);
     VictorSPX lSlave = new VictorSPX(ActuatorMap.lSlave); 
+
+    Solenoid dog = new Solenoid(PneumaticsModuleType.CTREPCM, ActuatorMap.dog);
 
     private double endPos;
 
@@ -48,6 +52,10 @@ public class DriveTrain extends SubsystemBase {
             rDrive(speed);
             lDrive(speed);
         }    
+    }
+
+    public void shiftThatDog() {
+        dog.toggle();
     }
     
 }

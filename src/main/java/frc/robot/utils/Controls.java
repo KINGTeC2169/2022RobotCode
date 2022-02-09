@@ -98,6 +98,10 @@ public class Controls {
         return leftJoy.getRawButton(1);
     }
 
+    public static boolean getLeftStickTopPressed() {
+        return leftJoy.getRawButtonPressed(1);
+    }
+
     public static boolean getLeftStickBottom() {
         return leftJoy.getRawButton(2);
     }
@@ -109,4 +113,5 @@ public class Controls {
     public static boolean getRightStickBottom() {
         return rightJoy.getRawButton(2);
     }
+
 }
