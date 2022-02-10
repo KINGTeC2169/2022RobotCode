@@ -52,35 +52,34 @@ public class DriveTrain extends SubsystemBase {
         endPos = Constants.TalonSRXCPR / Constants.wheelCirc * inches;
         lMaster.setSelectedSensorPosition(0);
         if(lMaster.getSelectedSensorPosition() < endPos) {
+            driveToMyBallsisDone = false;
             rDrive(speed);
             lDrive(speed);
         }else {
             driveToMyBallsisDone = true;
+            rDrive(0);
+            lDrive(0);
         }
     }
 
     public void turn(double angle, double currentAngle) {
         if(currentAngle < angle) {
+            turnIsDone = false;
             rDrive(0.5);
             lDrive(-0.5);
         }
-        else
+        else {
             turnIsDone = true;
+            rDrive(0);
+            lDrive(0);
+        }
     }
     public boolean driveToMyBallsisDone() {
-        if(driveToMyBallsisDone) {
-            driveToMyBallsisDone = false;
-            return true;
-        }
-        return false;
+        return driveToMyBallsisDone;
     } 
 
     public boolean turnisDone() {
-        if(turnIsDone) {
-            turnIsDone = false;
-            return true;
-        }
-        return false;
+        return turnIsDone;
     } 
 
     public void shiftThatDog() {
