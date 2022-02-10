@@ -59,12 +59,14 @@ public class Autonomous extends CommandBase {
         //Turn:
         if(counter == 3) {
             driveTrain.turn(turnAngle, navx.getAngle());
-            counter++;
+            if(driveTrain.turnisDone())
+                counter++;
         }
 
         //Drive:
         if(counter == 4) {
             driveTrain.driveToMyBalls(36, 0.5);
+            if(driveTrain.driveToMyBallsisDone())
             counter++;
         }
 
