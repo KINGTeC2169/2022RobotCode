@@ -76,8 +76,8 @@ public class DriveTrain extends SubsystemBase {
     } 
 
     public boolean turnisDone() {
-        if(turnisDone) {
-            turnisDone = false;
+        if(turnIsDone) {
+            turnIsDone = false;
             return true;
         }
         return false;
