@@ -19,6 +19,9 @@ public class DriveTrain extends SubsystemBase {
 
     Solenoid dog = new Solenoid(PneumaticsModuleType.CTREPCM, ActuatorMap.dog);
 
+    boolean driveToMyBallsisDone;
+    boolean turnisDone;
+
     private double endPos;
 
     //Drive for the right gearbox
@@ -51,7 +54,9 @@ public class DriveTrain extends SubsystemBase {
         if(lMaster.getSelectedSensorPosition() < endPos) {
             rDrive(speed);
             lDrive(speed);
-        }   
+        }else {
+            driveToMyBallsisDone = true;
+        }
     }
 
     public void turn(double angle, double currentAngle) {
@@ -62,6 +67,21 @@ public class DriveTrain extends SubsystemBase {
         else
             turnIsDone = true;
     }
+    public boolean driveToMyBallsisDone() {
+        if(driveToMyBallsisDone) {
+            driveToMyBallsisDone = false;
+            return true;
+        }
+        return false;
+    } 
+
+    public boolean turnisDone() {
+        if(turnisDone) {
+            turnisDone = false;
+            return true;
+        }
+        return false;
+    } 
 
     public void shiftThatDog() {
         dog.toggle();
