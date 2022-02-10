@@ -30,8 +30,8 @@ public class Indexer extends SubsystemBase {
             saveTime = timer.get();
         } else {
             indexerPiston.set(false);
-            timer.reset();
             timer.stop();
+            timer.reset();
         }
 
 
