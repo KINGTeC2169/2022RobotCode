@@ -196,10 +196,10 @@ public class DriveCommand extends CommandBase {
 
         //Shoots based on which trigger is pressed, one set of LEDs is set up
 
-        //TODO: this will be an equation based on limelight distance
+        
         leftDist = limeLight.getLeftDistance();
         rightDist = limeLight.getRightDistance();
-        
+        //TODO: this will be an equation based on limelight distance
         //Option 2:
         if(leftDist != 0 && rightDist == 0) {
             //placeholder equation

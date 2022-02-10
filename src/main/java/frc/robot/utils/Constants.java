@@ -18,4 +18,7 @@ public final class Constants {
     //Falcon 500 stall Current = 257A
     public static final double climberLimit = 260000;
     public static final double climberCurrent = 2600000;
+
+    //Shooter
+    public static final double taliban = 26000;
 }

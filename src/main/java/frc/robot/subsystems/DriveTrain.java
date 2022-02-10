@@ -45,13 +45,13 @@ public class DriveTrain extends SubsystemBase {
         lMaster.set(ControlMode.PercentOutput, power);
     }
 
-    public void driveFor(double inches, double speed) {
+    public void driveToMyBalls(double inches, double speed) {
         endPos = Constants.TalonSRXCPR / Constants.wheelCirc * inches;
         lMaster.setSelectedSensorPosition(0);
-        for(double currentPos = 0.0; currentPos < endPos; currentPos = lMaster.getSelectedSensorPosition()) {
+        if(lMaster.getSelectedSensorPosition() < endPos) {
             rDrive(speed);
             lDrive(speed);
-        }    
+        }   
     }
 
     public void shiftThatDog() {

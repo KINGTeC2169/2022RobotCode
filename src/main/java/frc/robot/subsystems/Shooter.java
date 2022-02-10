@@ -12,7 +12,7 @@ public class Shooter extends SubsystemBase {
 
     public Shooter() {
         //TODO: how fast for ramp up
-        shooter.configClosedloopRamp(26);
+        shooter.configClosedloopRamp(5);
     }
 
     public void shoot(double power) {

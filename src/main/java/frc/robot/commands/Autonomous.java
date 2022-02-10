@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Shooter;
+import frc.robot.utils.Constants;
 import edu.wpi.first.wpilibj.Timer;
 
 public class Autonomous extends CommandBase {
@@ -33,22 +34,27 @@ public class Autonomous extends CommandBase {
 
         //Initialization (dont know if we need this or not, i just added it anyways)
         if(counter == 0) {
-
+            
             counter++;
         }
 
         //Shoot:
         if(counter == 1) {
+            //TODO: change to auto shoot distance and drone strike the taliban
+            shooter.setRPM(Constants.taliban);
+            counter++;
+        }
+
+        //Turn:
+        if(counter == 2) {
 
             counter++;
         }
+
         //Drive:
-        if(counter == 2) {
-            driveTrain.driveFor(24, 0.5);
-            counter++;
-        }
         if(counter == 3) {
-            
+            driveTrain.driveToMyBalls(36, 0.5);
+            counter++;
         }
 
     }
