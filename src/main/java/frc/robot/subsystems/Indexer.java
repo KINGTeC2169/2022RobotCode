@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.ActuatorMap;
 import frc.robot.utils.Constants;
@@ -12,6 +13,8 @@ import frc.robot.utils.Constants;
 public class Indexer extends SubsystemBase {
     TalonSRX indexer = new TalonSRX(ActuatorMap.indexer);
     Solenoid indexerPiston = new Solenoid(PneumaticsModuleType.CTREPCM , ActuatorMap.feederPiston);
+    Timer timer = new Timer();
+    double saveTime;
     
     public void suckUp(boolean stimulating) {
         if(stimulating)
@@ -21,7 +24,16 @@ public class Indexer extends SubsystemBase {
     }
 
     public void shoveBall() {
-        indexerPiston.set(true);
+        timer.start();
+        if(timer.get() - saveTime > Constants.shoveBallTime) {
+            indexerPiston.set(true);
+            saveTime = timer.get();
+        } else {
+            indexerPiston.set(false);
+            timer.reset();
+            timer.stop();
+        }
+
 
     }
     public void down() {
