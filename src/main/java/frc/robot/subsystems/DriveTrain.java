@@ -54,6 +54,15 @@ public class DriveTrain extends SubsystemBase {
         }   
     }
 
+    public void turn(double angle, double currentAngle) {
+        if(currentAngle < angle) {
+            rDrive(0.5);
+            lDrive(-0.5);
+        }
+        else
+            turnIsDone = true;
+    }
+
     public void shiftThatDog() {
         dog.toggle();
     }
