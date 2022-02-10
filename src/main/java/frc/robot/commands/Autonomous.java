@@ -47,13 +47,15 @@ public class Autonomous extends CommandBase {
         if(counter == 1) {
             //TODO: change to auto shoot distance and drone strike the taliban
             shooter.setRPM(Constants.taliban);
-            counter++;
+            if(shooter.hitRPM())
+                counter++;
         }
 
         //Feed ball:
 
         if(counter == 2) {
             indexer.shoveBall();
+            counter++;
         }
 
         //Turn:
