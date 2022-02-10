@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.ActuatorMap;
+import frc.robot.utils.Constants;
 
 public class Climber extends SubsystemBase {
     TalonFX climber = new TalonFX(ActuatorMap.climber);
@@ -30,9 +31,19 @@ public class Climber extends SubsystemBase {
         //Apparently we have to 'wiggle' the pistons somehow
         climberAdjuster.toggle();
         }
-
+    public double getCurrent() {
+        return climber.getSupplyCurrent();
+    }
     public void movePistonForward() {
         climberAdjuster.set(Value.kForward);
+    }
+
+    public boolean isTop() {
+        return climber.getSelectedSensorPosition() >= Constants.climberLimit;
+    }
+
+    public boolean isBottom() {
+        return getCurrent() > Constants.climberCurrent;
     }
 
     public void lock() {
@@ -40,5 +51,8 @@ public class Climber extends SubsystemBase {
     }
     public void unlock() {
         ratchet.set(false);
+    }
+    public void setZero() {
+        climber.setSelectedSensorPosition(0);
     }
 }

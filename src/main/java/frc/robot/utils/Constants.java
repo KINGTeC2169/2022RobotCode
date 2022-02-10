@@ -12,4 +12,8 @@ public final class Constants {
     //Speeds for constant motors
     public static final double intakeSpeed = 0.5;
     public static final double indexSpeed = 0.5;
+
+    //TODO: Climber Limit
+    public static final double climberLimit = 260000;
+    public static final double climberCurrent = 2600000;
 }

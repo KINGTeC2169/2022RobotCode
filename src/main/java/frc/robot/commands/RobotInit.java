@@ -25,5 +25,10 @@ public class RobotInit extends CommandBase {
         climber.movePistonForward();
         indexer.down();
         intake.up();
+        //TODO: 26 is a placeholder for current, make sure to change
+        for(double current = climber.getCurrent(); current < 260000; current = climber.getCurrent()) {
+            climber.retractArm();
+        }
+        climber.setZero();
     }
 }

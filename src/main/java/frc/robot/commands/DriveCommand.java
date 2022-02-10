@@ -298,11 +298,14 @@ public class DriveCommand extends CommandBase {
         }
 
         //Climber -- Y = arm goes up, A = arm goes down, RightBumper = move cylinder 
-        //TODO: FIX THIS IT WILL COMMIT WAR CRIMES;
         if(Controls.getControllerY()) {
-            climber.extendArm();
+            if(!climber.isTop())
+                climber.extendArm();
         } else if(Controls.getControllerA()) {
-            climber.retractArm();
+            if(!climber.isBottom())
+                climber.retractArm();
+            else    
+                climber.setZero();
         }
         if(Controls.getRightControllerBumper()) {
             climber.movePiston();
