@@ -20,7 +20,7 @@ public class DriveTrain extends SubsystemBase {
     Solenoid dog = new Solenoid(PneumaticsModuleType.CTREPCM, ActuatorMap.dog);
 
     boolean driveToMyBallsisDone;
-    boolean turnisDone;
+    boolean turnIsDone;
 
     private double endPos;
 
