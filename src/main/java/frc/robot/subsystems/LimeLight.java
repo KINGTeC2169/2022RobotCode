@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import javax.lang.model.util.ElementScanner6;
+
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -42,6 +44,19 @@ public class LimeLight extends SubsystemBase{
 
     public void setLeftPipeline(int pipelineID) {
         limeLightLeft.getEntry("pipeline").setNumber(pipelineID);
+    }
+
+    public double rpm() {
+        if(getLeftDistance() > 0 && getRightDistance() == 0) {
+            //return equation
+            return -1;
+        }
+        else if(getRightDistance() > 0 && getLeftDistance() == 0) {
+            //return equation
+            return -1;
+        }
+        else
+            return -1;
     }
     
 }
