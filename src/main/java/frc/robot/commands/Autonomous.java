@@ -39,7 +39,7 @@ public class Autonomous extends CommandBase {
 
         //Initialization (dont know if we need this or not, i just added it anyways)
         if(counter == 0) {
-            turnAngle = navx.getAngle();
+            turnAngle = navx.getAngle() + 90;
             counter++;
         }
 
