@@ -14,6 +14,8 @@ public final class Constants {
     public static final double indexSpeed = 0.5;
 
     //TODO: Climber Limit
+    //Falcon 500 free Current = 1.5A
+    //Falcon 500 stall Current = 257A
     public static final double climberLimit = 260000;
     public static final double climberCurrent = 2600000;
 }

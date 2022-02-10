@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
+import frc.robot.utils.Constants;
 
 
 public class RobotInit extends CommandBase {
@@ -26,7 +27,7 @@ public class RobotInit extends CommandBase {
         indexer.down();
         intake.up();
         //TODO: 26 is a placeholder for current, make sure to change
-        for(double current = climber.getCurrent(); current < 260000; current = climber.getCurrent()) {
+        for(double current = climber.getCurrent(); current < Constants.climberCurrent; current = climber.getCurrent()) {
             climber.retractArm();
         }
         climber.setZero();

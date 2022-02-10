@@ -13,7 +13,6 @@ import frc.robot.utils.Constants;
 public class Intake extends SubsystemBase {
     TalonSRX intake = new TalonSRX(ActuatorMap.intake);
     DoubleSolenoid intakePiston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, ActuatorMap.intakePistonOne, ActuatorMap.intakePistonTwo);
-    private static boolean isExtended = false;
     //TODO: Make sure all pneumatics start how they should. DO NOT TEST PNEUNMATICS UNTIL THIS IS CHECKED.
     
     public void suck(boolean isSuckingMeOff) {
