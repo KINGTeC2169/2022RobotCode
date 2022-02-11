@@ -18,7 +18,7 @@ import frc.robot.utils.Controls;
 import frc.robot.utils.MathDoer;
 //Hello
 public class DriveCommand extends CommandBase {
-    private Timer timer;
+    private Timer timer = new Timer();
     private double indexerTimeSave;
     private double shooterTimeSave;
     
