@@ -13,6 +13,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LimeLight;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Shuffleboard;
 import frc.robot.utils.Constants;
 import frc.robot.utils.Controls;
 import frc.robot.utils.MathDoer;
@@ -33,6 +34,7 @@ public class DriveCommand extends CommandBase {
     private BallManager ballManager;
     private BeamBreak beamBreak;
     private ColorSensor colorSensor;
+    private Shuffleboard shuffleboard;
 
     private double leftY;
     private double rightX;
@@ -47,7 +49,7 @@ public class DriveCommand extends CommandBase {
     private double rightDist;
    
     //Adds all subsystems to the driving command
-    public DriveCommand(DriveTrain driveTrain, Arduino arduino, Shooter shooter, Intake intake, Indexer indexer, Climber climber, LimeLight limeLight, NavX navX, BallManager ballManager, BeamBreak beamBreak, ColorSensor colorSensor) {
+    public DriveCommand(DriveTrain driveTrain, Arduino arduino, Shooter shooter, Intake intake, Indexer indexer, Climber climber, LimeLight limeLight, NavX navX, BallManager ballManager, BeamBreak beamBreak, ColorSensor colorSensor, Shuffleboard shuffleboard) {
         timer.start();
         this.driveTrain = driveTrain;
         addRequirements(driveTrain);
@@ -71,6 +73,8 @@ public class DriveCommand extends CommandBase {
         addRequirements(beamBreak);
         this.colorSensor = colorSensor;
         addRequirements(colorSensor);
+        this.shuffleboard = shuffleboard;
+        addRequirements(shuffleboard);
     }
 
     @Override
@@ -313,6 +317,9 @@ public class DriveCommand extends CommandBase {
 
         //Prints speed and limelight distance, this is something that will eventually only be shown in shuffleboard, I just want to test it.
         System.out.println("Speed: " + navX.getSpeed() + "\tLLDistance: " + limeLight.getRightDistance());
+
+        shuffleboard.boolInABox("POS: 1", ballManager.getFirstPositionBall());
+        shuffleboard.boolInABox("POS: 2", ballManager.getSecondPositionBall());
 
 
     }

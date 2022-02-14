@@ -16,6 +16,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LimeLight;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Shuffleboard;
 import frc.robot.subsystems.Testing;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -24,7 +25,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   //Makes TeleOp command with all subsystems needed for teleOp
-  private final DriveCommand m_teleopCommand = new DriveCommand(new DriveTrain(), new Arduino(), new Shooter(), new Intake(), new Indexer(), new Climber(), new LimeLight(), new NavX(), new BallManager(), new BeamBreak(), new ColorSensor());
+  private final DriveCommand m_teleopCommand = new DriveCommand(new DriveTrain(), new Arduino(), new Shooter(), new Intake(), new Indexer(), new Climber(), new LimeLight(), new NavX(), new BallManager(), new BeamBreak(), new ColorSensor(), new Shuffleboard());
   private final Autonomous m_autoCommand = new Autonomous(new DriveTrain(), new Shooter(), new NavX(), new Indexer());
   private final TestingCommand m_testCommand = new TestingCommand(new Testing(), new Shooter(), new NavX());
   private final RobotInit m_InitCommand = new RobotInit(new Climber(), new Indexer(), new Intake());
