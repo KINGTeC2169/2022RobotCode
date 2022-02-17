@@ -80,9 +80,28 @@ public class DriveCommand extends CommandBase {
 
     @Override
     public void execute() {
-        //this is just a little bit of drive code. as a treat
 
-        //------------------------------------------------Driving controls - other parts of TeleOp are farther below------------------------------
+
+        //Manual Mode Manager - basically turns manual modes on and off
+        if(Controls.getLeftControllerStick()) {
+            isManualBalls = true;
+        }
+        if(Controls.getRightControllerStick()) {
+            if(isManualLimeLight) {
+                isManualLimeLight = false;
+            } else {
+                isManualLimeLight = true;
+            }
+        }
+        
+        /*--------------------------------Driving------------------------------------------------
+        ----------------------------------------------------------------------------------------------------------------------
+        ----------------------------------------------------------------------------------------------------------------------
+        ----------------------------------------------------------------------------------------------------------------------
+        ----------------------------------------------------------------------------------------------------------------------
+        ------------------------------------------Just wanted to break it up a little more- *just a little*-------------------
+        ----------------------------------------------------------------------------------------------------------------------
+        ----------------------------------------------------------------------------------------------------------------------*/
         double leftPower = 0;
         double rightPower = 0;
         double turnPower = 0;
@@ -161,6 +180,22 @@ public class DriveCommand extends CommandBase {
             }
         }
 
+         //applies the powers to the motors
+         driveTrain.lDrive(leftPower);
+         driveTrain.rDrive(rightPower);
+ 
+         if(Controls.getLeftStickTopPressed())
+             driveTrain.shiftThatDog();
+
+        /*--------------------------------Shooting------------------------------------------------
+        ----------------------------------------------------------------------------------------------------------------------
+        ----------------------------------------------------------------------------------------------------------------------
+        ----------------------------------------------------------------------------------------------------------------------
+        ----------------------------------------------------------------------------------------------------------------------
+        ------------------------------------------Just wanted to break it up a little more- *just a little*-------------------
+        ----------------------------------------------------------------------------------------------------------------------
+        ----------------------------------------------------------------------------------------------------------------------*/
+
         //Shooter- it shoots.
         double rTrigger = Controls.getRightControllerTrigger();
         double lTrigger = Controls.getLeftControllerTrigger();
@@ -206,11 +241,11 @@ public class DriveCommand extends CommandBase {
 
 
             if(rTrigger > lTrigger) {
-                //shooter.shoot(-rTrigger);
-                shooter.setRPM(1000);
+                shooter.shoot(-rTrigger);
+                //shooter.setRPM(1000);
             } else if(rTrigger < lTrigger) {
-                //shooter.shoot(lTrigger);
-                shooter.setRPM(-1000);
+                shooter.shoot(lTrigger);
+                //shooter.setRPM(-1000);
             } else {
                 CompressorTank.enable();
             }
@@ -219,14 +254,8 @@ public class DriveCommand extends CommandBase {
         }
               
         
-        //applies the powers to the motors
-        driveTrain.lDrive(leftPower);
-        driveTrain.rDrive(rightPower);
 
-        if(Controls.getLeftStickTopPressed())
-            driveTrain.shiftThatDog();
-
-        /*--------------------------------Literally every other part of TeleOp------------------------------------------------
+/*--------------------------------Indexing------------------------------------------------
         ----------------------------------------------------------------------------------------------------------------------
         ----------------------------------------------------------------------------------------------------------------------
         ----------------------------------------------------------------------------------------------------------------------
@@ -234,25 +263,27 @@ public class DriveCommand extends CommandBase {
         ------------------------------------------Just wanted to break it up a little more- *just a little*-------------------
         ----------------------------------------------------------------------------------------------------------------------
         ----------------------------------------------------------------------------------------------------------------------*/
-
-
-        //Manual Mode Manager - basically turns manual modes on and off
-        if(Controls.getLeftControllerStick()) {
-            isManualBalls = true;
+        //BeamBreak- adds a ball to ballManager when it sees a new one
+        if(beamBreak.isBall() && !sameBall) {
+            ballManager.newBall();
+            sameBall = true;
+        } 
+        if(!beamBreak.isBall()) {
+            sameBall = false;
         }
-        if(Controls.getRightControllerStick()) {
-            if(isManualLimeLight) {
-                isManualLimeLight = false;
-            } else {
-                isManualLimeLight = true;
+        if(isManualBalls) {
+            //TODO: placeholder controls
+            indexer.suckUp(Controls.getRightControllerBumper());
+            
+            if(Controls.getLeftControllerBumperPressed() || indexer.isShoveBallRunning()) {
+                indexer.shoveBall();
             }
-        }
-        
-       
-        
-        if(!isManualBalls) {
-            //Indexer-- literally no idea how they want to control indexing
-            if(isIntaking && ballManager.getNumberOfBalls() == 0 || (ballManager.getSecondPositionBall() && !ballManager.getFirstPositionBall())) {
+
+
+        } else {
+
+             //Indexer-- literally no idea how they want to control indexing
+             if(isIntaking && ballManager.getNumberOfBalls() == 0 || (ballManager.getSecondPositionBall() && !ballManager.getFirstPositionBall())) {
                 indexer.suckUp(true);
             } else {
                 indexer.suckUp(false);
@@ -271,8 +302,41 @@ public class DriveCommand extends CommandBase {
                 }  
             }
 
+            //Moves cylinder for indexing/shooting
+            //TODO: Does not work
+            if(Controls.getLeftControllerBumper()) {
+                if(shooterTimeSave == 0.0) {
+                    shooterTimeSave = timer.get();
+                }
+                if(timer.get() - shooterTimeSave < 26) {
+                    indexer.shoveBall();
+                } else {
+                    shooterTimeSave = 0.0;
+                    ballManager.shootBall();
+                }
+            }
 
-            //Intake- controls sucking in balls and moving intake up and down
+        }
+    
+
+        
+
+
+        /*--------------------------------Intake------------------------------------------------
+        ----------------------------------------------------------------------------------------------------------------------
+        ----------------------------------------------------------------------------------------------------------------------
+        ----------------------------------------------------------------------------------------------------------------------
+        ----------------------------------------------------------------------------------------------------------------------
+        ------------------------------------------Just wanted to break it up a little more- *just a little*-------------------
+        ----------------------------------------------------------------------------------------------------------------------
+        ----------------------------------------------------------------------------------------------------------------------*/
+        if(Controls.getRightStickBottomPressed())
+            intake.moveIntake();
+        if(isManualBalls) {
+            intake.suck(Controls.getRightStickTop());
+
+        } else {
+
             if(ballManager.getNumberOfBalls() < 2) {
                 intake.suck(Controls.getRightStickTop());
                 isIntaking = Controls.getRightStickTop();
@@ -280,50 +344,21 @@ public class DriveCommand extends CommandBase {
                 intake.suck(false);
                 isIntaking = false;
             }
-
-            //Moves cylinder for indexing/shooting
-        if(Controls.getLeftControllerBumper()) {
-            if(shooterTimeSave == 0.0) {
-                shooterTimeSave = timer.get();
-            }
-            if(timer.get() - shooterTimeSave < 26) {
-                indexer.shoveBall();
-            } else {
-                shooterTimeSave = 0.0;
-                ballManager.shootBall();
-            }
         }
-
-        } else {
-            //TODO: placeholder controls
-            indexer.suckUp(Controls.getRightControllerBumper());
-            intake.suck(Controls.getRightStickTop());
-            if(Controls.getLeftControllerBumperPressed() || indexer.isShoveBallRunning()) {
-                indexer.shoveBall();
-
-            }
-        }
-
-
-
-        //BeamBreak- adds a ball to ballManager when it sees a new one
-        if(beamBreak.isBall() && !sameBall) {
-            ballManager.newBall();
-            sameBall = true;
-        } 
-        if(!beamBreak.isBall()) {
-            sameBall = false;
-        }
-    
-
         
-        //controls intake cylinder
-        if(Controls.getRightStickBottomPressed())
-            intake.moveIntake();
         
         
         
 
+
+/*--------------------------------Climber------------------------------------------------
+        ----------------------------------------------------------------------------------------------------------------------
+        ----------------------------------------------------------------------------------------------------------------------
+        ----------------------------------------------------------------------------------------------------------------------
+        ----------------------------------------------------------------------------------------------------------------------
+        ------------------------------------------Just wanted to break it up a little more- *just a little*-------------------
+        ----------------------------------------------------------------------------------------------------------------------
+        ----------------------------------------------------------------------------------------------------------------------*/
         //Climber -- Y = arm goes up, A = arm goes down, RightBumper = move cylinder 
         if(Controls.getControllerY()) {
             if(!climber.isTop())
@@ -338,7 +373,17 @@ public class DriveCommand extends CommandBase {
             climber.movePiston();
         }
 
-        //Prints speed and limelight distance, this is something that will eventually only be shown in shuffleboard, I just want to test it.
+
+
+/*--------------------------------ShuffleBoard------------------------------------------------
+        ----------------------------------------------------------------------------------------------------------------------
+        ----------------------------------------------------------------------------------------------------------------------
+        ----------------------------------------------------------------------------------------------------------------------
+        ----------------------------------------------------------------------------------------------------------------------
+        ------------------------------------------Just wanted to break it up a little more- *just a little*-------------------
+        ----------------------------------------------------------------------------------------------------------------------
+        ----------------------------------------------------------------------------------------------------------------------*/
+
 
         shuffleboard.boolInABox("POS: 1", ballManager.getFirstPositionBall());
         shuffleboard.boolInABox("POS: 2", ballManager.getSecondPositionBall());
