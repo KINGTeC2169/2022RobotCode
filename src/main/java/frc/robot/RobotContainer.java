@@ -22,41 +22,41 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 
 public class RobotContainer {
-  private DriveTrain driveTrain;
-    private Arduino arduino;
-    private Shooter shooter;
-    private Intake intake;
-    private Indexer indexer;
-    private Climber climber;
-    private LimeLight limeLight;
-    private NavX navX;
-    private BallManager ballManager;
-    private BeamBreak beamBreak;
-    private ColorSensor colorSensor;
-    private Shuffleboard shuffleboard;
-    private Testing testing;
+  private DriveTrain driveTrain = new DriveTrain();
+    private Arduino arduino = new Arduino();
+    private Shooter shooter = new Shooter();
+    private Intake intake = new Intake();
+    private Indexer indexer = new Indexer();
+    private Climber climber = new Climber();
+    private LimeLight limeLight = new LimeLight();
+    private NavX navX = new NavX();
+    private BallManager ballManager = new BallManager();
+    private BeamBreak beamBreak = new BeamBreak();
+    private ColorSensor colorSensor = new ColorSensor();
+    private Shuffleboard shuffleboard = new Shuffleboard();
+    //private Testing testing = new Testing();
   // The robot's subsystems and commands are defined here...
 
   //Makes TeleOp command with all subsystems needed for teleOp
   private final DriveCommand m_teleopCommand = new DriveCommand(driveTrain, arduino, shooter, intake, indexer, climber, limeLight, navX, ballManager, beamBreak, colorSensor, shuffleboard);
-  private final Autonomous m_autoCommand = new Autonomous(driveTrain, shooter, navX, indexer);
-  private final TestingCommand m_testCommand = new TestingCommand(testing, shooter, navX);
-  private final RobotInit m_InitCommand = new RobotInit(climber, indexer, intake);
+  //private final Autonomous m_autoCommand = new Autonomous(driveTrain, shooter, navX, indexer);
+  //private final TestingCommand m_testCommand = new TestingCommand(testing, shooter, navX);
+  //private final RobotInit m_InitCommand = new RobotInit(climber, indexer, intake);
 
   public RobotContainer() {
     
   }
 
-  public Command getAutonomousCommand() {
-    return m_autoCommand;
-  }
+  //public Command getAutonomousCommand() {
+    //return m_autoCommand;
+  //}
   public Command getTeleopCommand() {
     return m_teleopCommand;
   }
-  public Command getInitCommand() {
-    return m_InitCommand;
-  }
-  public Command getTestCommand() {
-    return m_testCommand;
-  }
+  //public Command getInitCommand() {
+    //return m_InitCommand;
+  //}
+  //public Command getTestCommand() {
+    //return m_testCommand;
+  //}
 }

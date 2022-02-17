@@ -7,6 +7,7 @@ import frc.robot.subsystems.BallManager;
 import frc.robot.subsystems.BeamBreak;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.ColorSensor;
+import frc.robot.subsystems.CompressorTank;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
@@ -205,9 +206,13 @@ public class DriveCommand extends CommandBase {
 
 
             if(rTrigger > lTrigger) {
-                shooter.shoot(-rTrigger);
+                //shooter.shoot(-rTrigger);
+                shooter.setRPM(1000);
+            } else if(rTrigger < lTrigger) {
+                //shooter.shoot(lTrigger);
+                shooter.setRPM(-1000);
             } else {
-                shooter.shoot(lTrigger);
+                CompressorTank.enable();
             }
             
 
@@ -344,6 +349,7 @@ public class DriveCommand extends CommandBase {
         shuffleboard.text("Distance", "" + limeLight.getRightDistance());
         shuffleboard.text("Shooter RPM", shooter.getRPM() + "");
         shuffleboard.boolInABox("BeamBreak", beamBreak.isBall());
+        shuffleboard.text("Shooter Percent Output", (lTrigger > rTrigger ? lTrigger : rTrigger) + "");
 
 
 
