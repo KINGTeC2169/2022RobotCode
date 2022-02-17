@@ -16,4 +16,8 @@ public class Shuffleboard extends SubsystemBase {
         field.setRobotPose(xMeters, yMeters, rotation);
         SmartDashboard.putData(field);
     }
+
+    public void text(String key, String value) {
+        SmartDashboard.putString(key, value);
+    }
 }

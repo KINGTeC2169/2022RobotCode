@@ -148,19 +148,69 @@ public class DriveCommand extends CommandBase {
             leftPower += overPower * (-1.0 - rightPower);
             rightPower = -1.0;
         }
-
-        if(!isManualLimeLight) {
-            //Auto aim locking mechanic
-            if(Controls.getLeftStickBottom()) {
-                if(limeLight.getRightXPercent() > 0 || limeLight.getLeftXPercent() > 0) {
-                    rightPower += limeLight.getRightXPercent() / 75;
-                    leftPower -= limeLight.getRightXPercent() / 75;
-                }
-                else if(limeLight.getLeftXPercent() < 0 || limeLight.getRightXPercent() < 0) {
-                    rightPower -= limeLight.getLeftXPercent() / 75;
-                    leftPower += limeLight.getLeftXPercent() / 75;
-                }
+        //Auto aim locking mechanic
+        if(Controls.getLeftStickBottom()) {
+            if(limeLight.getRightXPercent() > 0 || limeLight.getLeftXPercent() > 0) {
+                rightPower += limeLight.getRightXPercent() / 75;
+                leftPower -= limeLight.getRightXPercent() / 75;
             }
+            else if(limeLight.getLeftXPercent() < 0 || limeLight.getRightXPercent() < 0) {
+                rightPower -= limeLight.getLeftXPercent() / 75;
+                leftPower += limeLight.getLeftXPercent() / 75;
+            }
+        }
+
+        //Shooter- it shoots.
+        double rTrigger = Controls.getRightControllerTrigger();
+        double lTrigger = Controls.getLeftControllerTrigger();
+        if(!isManualLimeLight) {
+            
+
+
+            //Shoots based on which trigger is pressed, one set of LEDs is set up
+
+            
+            leftDist = limeLight.getLeftDistance();
+            rightDist = limeLight.getRightDistance();
+            //TODO: this will be an equation based on limelight distance
+            //Option 2:
+            if(leftDist != 0 && rightDist == 0) {
+                //placeholder equation
+                desiredRPM = leftDist * 66;
+            }
+            else if(rightDist != 0 && leftDist == 0) {
+                //placeholder equation
+                desiredRPM = rightDist * 66;
+            }
+            else {
+                //Error: limelight malfunction- shoot from edge of tarmac
+                desiredRPM = 2000;
+            }
+
+
+            if(rTrigger > lTrigger) {
+                if(colorSensor.isEnemyColor())
+                    shooter.shoot(rTrigger);
+                else
+                    shooter.setRPM(desiredRPM);
+            }
+            else if(lTrigger > rTrigger) {
+                if(colorSensor.isEnemyColor())
+                    shooter.shoot(rTrigger);
+                else
+                    shooter.setRPM(-desiredRPM);
+            }
+
+        } else {
+
+
+            if(rTrigger > lTrigger) {
+                shooter.shoot(-rTrigger);
+            } else {
+                shooter.shoot(lTrigger);
+            }
+            
+
         }
               
         
@@ -193,45 +243,7 @@ public class DriveCommand extends CommandBase {
             }
         }
         
-        //Shooter- it shoots.
-        double rTrigger = Controls.getRightControllerTrigger();
-        double lTrigger = Controls.getLeftControllerTrigger();
-
-
-        //Shoots based on which trigger is pressed, one set of LEDs is set up
-
-        
-        leftDist = limeLight.getLeftDistance();
-        rightDist = limeLight.getRightDistance();
-        //TODO: this will be an equation based on limelight distance
-        //Option 2:
-        if(leftDist != 0 && rightDist == 0) {
-            //placeholder equation
-            desiredRPM = leftDist * 66;
-        }
-        else if(rightDist != 0 && leftDist == 0) {
-            //placeholder equation
-            desiredRPM = rightDist * 66;
-        }
-        else {
-            //Error: limelight malfunction- shoot from edge of tarmac
-            desiredRPM = 2000;
-        }
-
-
-        if(rTrigger > lTrigger) {
-            if(colorSensor.isEnemyColor())
-                shooter.shoot(rTrigger);
-            else
-                shooter.setRPM(desiredRPM);
-        }
-        else if(lTrigger > rTrigger) {
-            if(colorSensor.isEnemyColor())
-                shooter.shoot(rTrigger);
-            else
-                shooter.setRPM(-desiredRPM);
-        }
-
+       
         
         if(!isManualBalls) {
             //Indexer-- literally no idea how they want to control indexing
@@ -264,10 +276,27 @@ public class DriveCommand extends CommandBase {
                 isIntaking = false;
             }
 
+            //Moves cylinder for indexing/shooting
+        if(Controls.getLeftControllerBumper()) {
+            if(shooterTimeSave == 0.0) {
+                shooterTimeSave = timer.get();
+            }
+            if(timer.get() - shooterTimeSave < 26) {
+                indexer.shoveBall();
+            } else {
+                shooterTimeSave = 0.0;
+                ballManager.shootBall();
+            }
+        }
+
         } else {
             //TODO: placeholder controls
             indexer.suckUp(Controls.getRightControllerBumper());
             intake.suck(Controls.getRightStickTop());
+            if(Controls.getLeftControllerBumperPressed() || indexer.isShoveBallRunning()) {
+                indexer.shoveBall();
+
+            }
         }
 
 
@@ -284,22 +313,11 @@ public class DriveCommand extends CommandBase {
 
         
         //controls intake cylinder
-        if(Controls.getRightStickBottom())
+        if(Controls.getRightStickBottomPressed())
             intake.moveIntake();
         
         
-        //Moves cylinder for indexing/shooting
-        if(Controls.getLeftControllerBumper()) {
-            if(shooterTimeSave == 0.0) {
-                shooterTimeSave = timer.get();
-            }
-            if(timer.get() - shooterTimeSave < 26) {
-                indexer.shoveBall();
-            } else {
-                shooterTimeSave = 0.0;
-                ballManager.shootBall();
-            }
-        }
+        
 
         //Climber -- Y = arm goes up, A = arm goes down, RightBumper = move cylinder 
         if(Controls.getControllerY()) {
@@ -311,15 +329,22 @@ public class DriveCommand extends CommandBase {
             else    
                 climber.setZero();
         }
-        if(Controls.getRightControllerBumper()) {
+        if(Controls.getRightControllerBumperPressed()) {
             climber.movePiston();
         }
 
         //Prints speed and limelight distance, this is something that will eventually only be shown in shuffleboard, I just want to test it.
-        System.out.println("Speed: " + navX.getSpeed() + "\tLLDistance: " + limeLight.getRightDistance());
 
         shuffleboard.boolInABox("POS: 1", ballManager.getFirstPositionBall());
         shuffleboard.boolInABox("POS: 2", ballManager.getSecondPositionBall());
+        shuffleboard.boolInABox("Manual Balls", isManualBalls);
+        shuffleboard.boolInABox("Manual LimeLight", isManualLimeLight);
+        shuffleboard.boolInABox("dog shifter is in high gear", driveTrain.dogStatus());
+        shuffleboard.text("Speed", "" + navX.getSpeed());
+        shuffleboard.text("Distance", "" + limeLight.getRightDistance());
+        shuffleboard.text("Shooter RPM", shooter.getRPM() + "");
+        shuffleboard.boolInABox("BeamBreak", beamBreak.isBall());
+
 
 
     }

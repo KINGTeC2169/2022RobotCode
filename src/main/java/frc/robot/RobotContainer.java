@@ -22,13 +22,26 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 
 public class RobotContainer {
+  private DriveTrain driveTrain;
+    private Arduino arduino;
+    private Shooter shooter;
+    private Intake intake;
+    private Indexer indexer;
+    private Climber climber;
+    private LimeLight limeLight;
+    private NavX navX;
+    private BallManager ballManager;
+    private BeamBreak beamBreak;
+    private ColorSensor colorSensor;
+    private Shuffleboard shuffleboard;
+    private Testing testing;
   // The robot's subsystems and commands are defined here...
 
   //Makes TeleOp command with all subsystems needed for teleOp
-  private final DriveCommand m_teleopCommand = new DriveCommand(new DriveTrain(), new Arduino(), new Shooter(), new Intake(), new Indexer(), new Climber(), new LimeLight(), new NavX(), new BallManager(), new BeamBreak(), new ColorSensor(), new Shuffleboard());
-  private final Autonomous m_autoCommand = new Autonomous(new DriveTrain(), new Shooter(), new NavX(), new Indexer());
-  private final TestingCommand m_testCommand = new TestingCommand(new Testing(), new Shooter(), new NavX());
-  private final RobotInit m_InitCommand = new RobotInit(new Climber(), new Indexer(), new Intake());
+  private final DriveCommand m_teleopCommand = new DriveCommand(driveTrain, arduino, shooter, intake, indexer, climber, limeLight, navX, ballManager, beamBreak, colorSensor, shuffleboard);
+  private final Autonomous m_autoCommand = new Autonomous(driveTrain, shooter, navX, indexer);
+  private final TestingCommand m_testCommand = new TestingCommand(testing, shooter, navX);
+  private final RobotInit m_InitCommand = new RobotInit(climber, indexer, intake);
 
   public RobotContainer() {
     
@@ -42,5 +55,8 @@ public class RobotContainer {
   }
   public Command getInitCommand() {
     return m_InitCommand;
+  }
+  public Command getTestCommand() {
+    return m_testCommand;
   }
 }

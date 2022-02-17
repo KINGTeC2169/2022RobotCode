@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -11,7 +12,7 @@ import frc.robot.utils.ActuatorMap;
 import frc.robot.utils.Constants;
 
 public class Intake extends SubsystemBase {
-    TalonSRX intake = new TalonSRX(ActuatorMap.intake);
+    VictorSPX intake = new VictorSPX(ActuatorMap.intake);
     DoubleSolenoid intakePiston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, ActuatorMap.intakePistonOne, ActuatorMap.intakePistonTwo);
     
     public void suck(boolean isSuckingMeOff) {

@@ -32,6 +32,7 @@ public class DriveTrain extends SubsystemBase {
 
         //set right motors to be inverted
         rMaster.setInverted(true);
+        rSlave.setInverted(true);
 
         rMaster.set(ControlMode.PercentOutput, power);
     }
@@ -43,7 +44,7 @@ public class DriveTrain extends SubsystemBase {
 
 
         //set slaves to be inverted
-        lMaster.setInverted(true);
+        //lSlave.setInverted(true);
 
         lMaster.set(ControlMode.PercentOutput, power);
     }
@@ -84,6 +85,10 @@ public class DriveTrain extends SubsystemBase {
 
     public void shiftThatDog() {
         dog.toggle();
+    }
+
+    public boolean dogStatus() {
+        return dog.get();
     }
     
 }

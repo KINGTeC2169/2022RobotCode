@@ -21,5 +21,5 @@ public final class Constants {
 
     //Shooter
     public static final double taliban = 26000;
-    public static final double shoveBallTime = 1000;
+    public static final double shoveBallTime = .5;
 }

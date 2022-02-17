@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -11,30 +11,44 @@ import frc.robot.utils.ActuatorMap;
 import frc.robot.utils.Constants;
 
 public class Indexer extends SubsystemBase {
-    TalonSRX indexer = new TalonSRX(ActuatorMap.indexer);
+    VictorSPX indexer = new VictorSPX(ActuatorMap.indexer);
     Solenoid indexerPiston = new Solenoid(PneumaticsModuleType.CTREPCM , ActuatorMap.feederPiston);
+    
     Timer timer = new Timer();
-    double saveTime;
+    boolean isShoveBallRunning = false;
     
     public void suckUp(boolean stimulating) {
         if(stimulating)
-            indexer.set(ControlMode.PercentOutput, Constants.indexSpeed);
+            indexer.set(ControlMode.PercentOutput, -Constants.indexSpeed);
         else
             indexer.set(ControlMode.PercentOutput, 0);
     }
     //TODO: Fix
     public void shoveBall() {
-        timer.start();
-        if(timer.get() - saveTime > Constants.shoveBallTime) {
+        if(timer.get() == 0) {
+            timer.start();
+        }
+        if(timer.get() < Constants.shoveBallTime) {
             indexerPiston.set(true);
-            saveTime = timer.get();
+            isShoveBallRunning = true;
+
         } else {
             indexerPiston.set(false);
+            isShoveBallRunning = false;
             timer.stop();
             timer.reset();
         }
 
 
+
+
+    }
+    public boolean isShoveBallRunning() {
+        return isShoveBallRunning;
+    }
+
+    public void up() {
+        indexerPiston.set(true);
     }
     public void down() {
         indexerPiston.set(false);

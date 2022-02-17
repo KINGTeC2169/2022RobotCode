@@ -56,9 +56,15 @@ public class Controls {
     public static boolean getLeftControllerBumper() {
         return controller.getLeftBumper();
     }
+    public static boolean getLeftControllerBumperPressed() {
+        return controller.getLeftBumperPressed();
+    }
 
     public static boolean getRightControllerBumper() {
         return controller.getRightBumper();
+    }
+    public static boolean getRightControllerBumperPressed() {
+        return controller.getRightBumperPressed();
     }
 
     public static boolean getLeftControllerStick() {
@@ -112,6 +118,10 @@ public class Controls {
 
     public static boolean getRightStickBottom() {
         return rightJoy.getRawButton(2);
+    }
+
+    public static boolean getRightStickBottomPressed() {
+        return rightJoy.getRawButtonPressed(2);
     }
 
 }
