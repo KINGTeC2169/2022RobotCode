@@ -8,7 +8,9 @@ import frc.robot.utils.ActuatorMap;
 import frc.robot.utils.Constants;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
 
 public class Shooter extends SubsystemBase {
     TalonFX shooter = new TalonFX(ActuatorMap.shooter);
@@ -18,6 +20,8 @@ public class Shooter extends SubsystemBase {
     public Shooter() {
         //TODO: how fast for ramp up
         shooter.configClosedloopRamp(5);
+        shooter.configOpenloopRamp(5);
+        shooter.configVelocityMeasurementPeriod(SensorVelocityMeasPeriod.Period_100Ms);
     }
 
     public void shoot(double power) {
@@ -30,6 +34,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public void setRPM(double rpm) {
+        
         shooter.set(ControlMode.Velocity, (rpm * Constants.TalonFXCPR) / 600.0);
         if(getRPM() >= rpm) {
             hitRPM = true;
