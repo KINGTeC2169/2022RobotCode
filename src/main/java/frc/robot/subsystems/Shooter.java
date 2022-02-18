@@ -52,7 +52,13 @@ public class Shooter extends SubsystemBase {
         double power = 0;
         double offBy = rpm - getRPM();
         power += (offBy / rpm) * 10;
-        shooter.set(ControlMode.PercentOutput, power);
+        if(rpm > 0) {
+            shooter.set(ControlMode.PercentOutput, power);
+        }
+        else if(rpm < 0) {
+            shooter.set(ControlMode.PercentOutput, -power);
+        }
+        
     }
 
     public boolean hitRPM() {
