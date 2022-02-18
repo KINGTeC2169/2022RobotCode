@@ -75,6 +75,10 @@ public class Controls {
         return controller.getRightStickButtonPressed();
     }
 
+    public static int getDPad() {
+        return controller.getPOV();
+    }
+
     //Joystick inputs
     public static double getLeftStickY() {
         return -leftJoy.getY();
