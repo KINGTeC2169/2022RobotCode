@@ -39,9 +39,9 @@ public class RobotContainer {
 
   //Makes TeleOp command with all subsystems needed for teleOp
   private final DriveCommand m_teleopCommand = new DriveCommand(driveTrain, arduino, shooter, intake, indexer, climber, limeLight, navX, ballManager, beamBreak, colorSensor, shuffleboard);
-  //private final Autonomous m_autoCommand = new Autonomous(driveTrain, shooter, navX, indexer);
+  private final Autonomous m_autoCommand = new Autonomous(driveTrain, shooter, navX, indexer);
   //private final TestingCommand m_testCommand = new TestingCommand(testing, shooter, navX);
-  //private final RobotInit m_InitCommand = new RobotInit(climber, indexer, intake);
+  private final RobotInit m_InitCommand = new RobotInit(climber, indexer, intake);
 
   public RobotContainer() {
     
@@ -53,10 +53,13 @@ public class RobotContainer {
   public Command getTeleopCommand() {
     return m_teleopCommand;
   }
-  //public Command getInitCommand() {
-    //return m_InitCommand;
-  //}
+  public Command getInitCommand() {
+    return m_InitCommand;
+  }
   //public Command getTestCommand() {
     //return m_testCommand;
   //}
+  public Command getAutoCommand() {
+      return m_autoCommand;
+  }
 }

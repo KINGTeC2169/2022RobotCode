@@ -23,10 +23,10 @@ public class Intake extends SubsystemBase {
     }
 
     public void down() {
-        intakePiston.set(Value.kForward);
+        intakePiston.set(Value.kReverse);
     }
     public void up() {
-        intakePiston.set(Value.kReverse);
+        intakePiston.set(Value.kForward);
     }
 
     public void off() {

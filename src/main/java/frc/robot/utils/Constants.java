@@ -10,8 +10,8 @@ public final class Constants {
     public static final double wheelCirc = 19.163715187;
     
     //Speeds for constant motors
-    public static final double intakeSpeed = 0.5;
-    public static final double indexSpeed = 0.5;
+    public static final double intakeSpeed = 1;
+    public static final double indexSpeed = 1;
 
     //TODO: Climber Limit
     //Falcon 500 free Current = 1.5A
