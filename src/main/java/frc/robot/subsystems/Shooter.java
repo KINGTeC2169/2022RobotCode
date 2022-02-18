@@ -48,6 +48,13 @@ public class Shooter extends SubsystemBase {
         }
     }
 
+    public void setCoolRPM(double rpm) {
+        double power = 0;
+        double offBy = rpm - getRPM();
+        power += (offBy / rpm) * 10;
+        shooter.set(ControlMode.PercentOutput, power);
+    }
+
     public boolean hitRPM() {
         return hitRPM;
 
