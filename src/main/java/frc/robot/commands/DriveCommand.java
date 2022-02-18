@@ -241,13 +241,14 @@ public class DriveCommand extends CommandBase {
 
 
             if(rTrigger > lTrigger) {
-                shooter.shoot(-rTrigger);
-                //shooter.setRPM(1000);
+                //shooter.shoot(-rTrigger);
+                shooter.setRPM(1000);
             } else if(rTrigger < lTrigger) {
-                shooter.shoot(lTrigger);
-                //shooter.setRPM(-1000);
+                //shooter.shoot(lTrigger);
+                shooter.setRPM(-1000);
             } else {
                 CompressorTank.enable();
+                shooter.stopShooter();
             }
             
 

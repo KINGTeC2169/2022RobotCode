@@ -15,11 +15,11 @@ import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
 public class Shooter extends SubsystemBase {
     TalonFX shooter = new TalonFX(ActuatorMap.shooter);
     boolean hitRPM;
+    double currentPower;
     
 
     public Shooter() {
         //TODO: how fast for ramp up
-        shooter.configClosedloopRamp(5);
         shooter.configOpenloopRamp(5);
         shooter.configVelocityMeasurementPeriod(SensorVelocityMeasPeriod.Period_100Ms);
     }
@@ -34,16 +34,26 @@ public class Shooter extends SubsystemBase {
     }
 
     public void setRPM(double rpm) {
-        
-        shooter.set(ControlMode.Velocity, (rpm * Constants.TalonFXCPR) / 600.0);
-        if(getRPM() >= rpm) {
+        boolean isASnake = false;
+        if(rpm < 0) {
+            rpm *= -1;
+            isASnake = true;
+        }
+        if(Math.abs(getRPM()) >= rpm) {
+            shooter.set(ControlMode.PercentOutput, 0);
             hitRPM = true;
         } else {
+            shooter.set(ControlMode.PercentOutput, isASnake ? -1 : 1);
             hitRPM = false;
         }
     }
+
     public boolean hitRPM() {
         return hitRPM;
 
+    }
+
+    public void stopShooter() {
+        shooter.set(ControlMode.PercentOutput, 0);
     }
 }
