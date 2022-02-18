@@ -205,18 +205,10 @@ public class DriveCommand extends CommandBase {
 
             //Shoots based on which trigger is pressed, one set of LEDs is set up
 
-            
-            leftDist = limeLight.getLeftDistance();
-            rightDist = limeLight.getRightDistance();
             //TODO: this will be an equation based on limelight distance
             //Option 2:
-            if(leftDist != 0 && rightDist == 0) {
-                //placeholder equation
-                desiredRPM = leftDist * 66;
-            }
-            else if(rightDist != 0 && leftDist == 0) {
-                //placeholder equation
-                desiredRPM = rightDist * 66;
+            if(limeLight.rpm() != 0) {
+                desiredRPM = limeLight.rpm();
             }
             else {
                 //Error: limelight malfunction- shoot from edge of tarmac
@@ -273,7 +265,6 @@ public class DriveCommand extends CommandBase {
             sameBall = false;
         }
         if(isManualBalls) {
-            //TODO: placeholder controls
             indexer.suckUp(Controls.getRightControllerBumper());
             
             if(Controls.getLeftControllerBumperPressed() || indexer.isShoveBallRunning()) {
@@ -283,7 +274,7 @@ public class DriveCommand extends CommandBase {
 
         } else {
 
-             //Indexer-- literally no idea how they want to control indexing
+             //Indexer
              if(isIntaking && ballManager.getNumberOfBalls() == 0 || (ballManager.getSecondPositionBall() && !ballManager.getFirstPositionBall())) {
                 indexer.suckUp(true);
             } else {
