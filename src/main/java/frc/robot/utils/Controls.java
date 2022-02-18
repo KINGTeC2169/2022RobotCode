@@ -112,6 +112,10 @@ public class Controls {
         return leftJoy.getRawButton(2);
     }
 
+    public static boolean getLeftStickBottomPressed() {
+        return leftJoy.getRawButtonPressed(2);
+    }
+
     public static boolean getRightStickTop() {
         return rightJoy.getRawButton(1);
     }

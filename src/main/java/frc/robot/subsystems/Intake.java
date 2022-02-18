@@ -22,10 +22,14 @@ public class Intake extends SubsystemBase {
             intake.set(ControlMode.PercentOutput, 0);
     }
 
-    public void moveIntake() {
-        intakePiston.toggle();
+    public void down() {
+        intakePiston.set(Value.kForward);
     }
     public void up() {
         intakePiston.set(Value.kReverse);
+    }
+
+    public void off() {
+        intakePiston.set(Value.kOff);
     }
 }

@@ -332,7 +332,12 @@ public class DriveCommand extends CommandBase {
         ----------------------------------------------------------------------------------------------------------------------
         ----------------------------------------------------------------------------------------------------------------------*/
         if(Controls.getRightStickBottomPressed())
-            intake.moveIntake();
+            intake.down();
+        else if(Controls.getLeftStickBottomPressed())
+            intake.up();
+        else {
+            intake.off();
+        }
         if(isManualBalls) {
             intake.suck(Controls.getRightStickTop());
 
