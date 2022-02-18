@@ -330,13 +330,13 @@ public class DriveCommand extends CommandBase {
         ------------------------------------------Just wanted to break it up a little more- *just a little*-------------------
         ----------------------------------------------------------------------------------------------------------------------
         ----------------------------------------------------------------------------------------------------------------------*/
-        //if(Controls.getRightStickTop())
-            //intake.up();
-        //else if(Controls.getRightStickBottom())
-            //intake.down();
-        //else {
-            //intake.off();
-        //}
+        if(Controls.getDPad() == 0)
+            intake.up();
+        else if(Controls.getDPad() == 180)
+            intake.down();
+        else {
+            intake.off();
+        }
         if(isManualBalls) {
             intake.suck(Controls.getRightStickTop());
             intake.reverseSuck(Controls.getRightStickBottom());
