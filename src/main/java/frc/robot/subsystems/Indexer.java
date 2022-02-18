@@ -23,6 +23,13 @@ public class Indexer extends SubsystemBase {
         else
             indexer.set(ControlMode.PercentOutput, 0);
     }
+
+    public void reverseSuckUp(boolean stimulating) {
+        if(stimulating)
+            indexer.set(ControlMode.PercentOutput, Constants.indexSpeed);
+        else
+            indexer.set(ControlMode.PercentOutput, 0);
+    }
     //TODO: Fix
     public void shoveBall() {
         if(timer.get() == 0) {

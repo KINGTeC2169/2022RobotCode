@@ -220,24 +220,27 @@ public class DriveCommand extends CommandBase {
                 if(colorSensor.isEnemyColor())
                     shooter.shoot(rTrigger);
                 else
-                    shooter.setRPM(desiredRPM);
+                    shooter.setCoolRPM(desiredRPM);
             }
             else if(lTrigger > rTrigger) {
                 if(colorSensor.isEnemyColor())
                     shooter.shoot(rTrigger);
-                else
-                    shooter.setRPM(-desiredRPM);
+                else {
+                    shooter.setCoolRPM(-desiredRPM);
+                }
+            } else {
+                CompressorTank.enable();
             }
 
         } else {
 
 
             if(rTrigger > lTrigger) {
-                //shooter.shoot(-rTrigger);
-                shooter.setCoolRPM(1000);
+                shooter.shoot(-rTrigger);
+                //shooter.setCoolRPM(1000);
             } else if(rTrigger < lTrigger) {
-                //shooter.shoot(lTrigger);
-                shooter.setCoolRPM(-1000);
+                shooter.shoot(lTrigger);
+                //shooter.setCoolRPM(-1000);
             } else {
                 CompressorTank.enable();
                 shooter.stopShooter();
@@ -270,6 +273,7 @@ public class DriveCommand extends CommandBase {
             if(Controls.getLeftControllerBumperPressed() || indexer.isShoveBallRunning()) {
                 indexer.shoveBall();
             }
+            indexer.reverseSuckUp(Controls.getRightStickBottom());
 
 
         } else {
@@ -322,15 +326,16 @@ public class DriveCommand extends CommandBase {
         ------------------------------------------Just wanted to break it up a little more- *just a little*-------------------
         ----------------------------------------------------------------------------------------------------------------------
         ----------------------------------------------------------------------------------------------------------------------*/
-        if(Controls.getRightStickBottomPressed())
-            intake.down();
-        else if(Controls.getLeftStickBottomPressed())
-            intake.up();
-        else {
-            intake.off();
-        }
+        //if(Controls.getRightStickTop())
+            //intake.up();
+        //else if(Controls.getRightStickBottom())
+            //intake.down();
+        //else {
+            //intake.off();
+        //}
         if(isManualBalls) {
             intake.suck(Controls.getRightStickTop());
+            intake.reverseSuck(Controls.getRightStickBottom());
 
         } else {
 

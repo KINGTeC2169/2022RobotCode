@@ -21,6 +21,12 @@ public class Intake extends SubsystemBase {
         else
             intake.set(ControlMode.PercentOutput, 0);
     }
+    public void reverseSuck(boolean isSuckingMeOff) {
+        if(isSuckingMeOff) 
+            intake.set(ControlMode.PercentOutput, -Constants.intakeSpeed);   
+        else
+            intake.set(ControlMode.PercentOutput, 0);
+    }
 
     public void down() {
         intakePiston.set(Value.kReverse);

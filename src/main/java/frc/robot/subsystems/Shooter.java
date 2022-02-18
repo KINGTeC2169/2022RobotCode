@@ -49,6 +49,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public void setCoolRPM(double rpm) {
+        CompressorTank.disable();
         double power = 0;
         double offBy = rpm - getRPM();
         power += (offBy / rpm) * 10;

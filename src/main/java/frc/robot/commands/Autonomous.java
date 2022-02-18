@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.CompressorTank;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.NavX;
@@ -46,7 +47,7 @@ public class Autonomous extends CommandBase {
         //Speed up flywheel
         if(counter == 1) {
             //TODO: change to auto shoot distance and drone strike the taliban
-            shooter.setRPM(Constants.taliban);
+            shooter.setCoolRPM(Constants.taliban);
             if(shooter.hitRPM())
                 counter++;
         }
@@ -60,6 +61,7 @@ public class Autonomous extends CommandBase {
 
         //Turn:
         if(counter == 3) {
+            CompressorTank.enable();
             driveTrain.turn(turnAngle, navx.getAngle());
             if(driveTrain.turnisDone())
                 counter++;
