@@ -16,9 +16,9 @@ public class Shooter extends SubsystemBase {
     TalonFX shooter = new TalonFX(ActuatorMap.shooter);
     boolean hitRPM;
     double currentPower;
-    int P = 5;
-    int I = 0;
-    int D = 0;
+    double P = 3;
+    double I = 3.42857;
+    double D = .65625;
     int integral, previous_error, setpoint = 0;
     
 
