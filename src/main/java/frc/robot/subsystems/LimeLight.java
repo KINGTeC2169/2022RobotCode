@@ -49,14 +49,14 @@ public class LimeLight extends SubsystemBase{
     public double rpm() {
         if(getLeftDistance() > 0 && getRightDistance() == 0) {
             //return equation
-            return -1;
+            return 1000;
         }
         else if(getRightDistance() > 0 && getLeftDistance() == 0) {
             //return equation
-            return -1;
+            return 1000;
         }
         else
-            return -1;
+            return 1000;
     }
     
 }
