@@ -16,6 +16,10 @@ public class Shooter extends SubsystemBase {
     TalonFX shooter = new TalonFX(ActuatorMap.shooter);
     boolean hitRPM;
     double currentPower;
+    int P = 5;
+    int I = 0;
+    int D = 0;
+    int integral, previous_error, setpoint = 0;
     
 
     public Shooter() {
@@ -60,6 +64,14 @@ public class Shooter extends SubsystemBase {
             shooter.set(ControlMode.PercentOutput, -power);
         }
         
+    }
+
+    public void setCoolerRPM(double rpm) {
+        CompressorTank.disable();
+        double error = rpm - getRPM(); // Error = Target - Actual
+        this.integral += (error*.02); // Integral is increased by the error*time (which is .02 seconds using normal IterativeRobot)
+        double derivative = (error - this.previous_error) / .02;
+        shooter.set(ControlMode.PercentOutput, P*error + I*this.integral + D*derivative);
     }
 
     public boolean hitRPM() {

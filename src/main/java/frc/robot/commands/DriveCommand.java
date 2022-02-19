@@ -229,13 +229,13 @@ public class DriveCommand extends CommandBase {
                 if(colorSensor.isEnemyColor())
                     shooter.shoot(rTrigger);
                 else
-                    shooter.setCoolRPM(desiredRPM);
+                    shooter.setCoolerRPM(desiredRPM);
             }
             else if(lTrigger > rTrigger) {
                 if(colorSensor.isEnemyColor())
                     shooter.shoot(rTrigger);
                 else {
-                    shooter.setCoolRPM(-desiredRPM);
+                    shooter.setCoolerRPM(-desiredRPM);
                 }
             } else {
                 CompressorTank.enable();
@@ -247,44 +247,44 @@ public class DriveCommand extends CommandBase {
             if(rTrigger > lTrigger) {
                 shooter.shoot(-rTrigger);
                 if(shooter.getRPM() < -720) {
-                    shooter.setCoolRPM(-700);
+                    shooter.setCoolerRPM(-700);
                 }
-                //shooter.setCoolRPM(-500);
+                //shooter.setCoolerRPM(-500);
             } else if(rTrigger < lTrigger) {
                 shooter.shoot(lTrigger);
                 if(shooter.getRPM() > 720) {
-                    shooter.setCoolRPM(700);
+                    shooter.setCoolerRPM(700);
                 }
-                //shooter.setCoolRPM(500);
+                //shooter.setCoolerRPM(500);
             } else {
                 CompressorTank.enable();
                 shooter.stopShooter();
             }
             
             if(Controls.getControllerY() && Controls.getDPad() == 90) {
-                shooter.setCoolRPM(-1000);
+                shooter.setCoolerRPM(-1000);
             }
 
             if(Controls.getControllerB() && Controls.getDPad() == 90) {
-                shooter.setCoolRPM(-750);
+                shooter.setCoolerRPM(-750);
             }
 
             if(Controls.getControllerA() && Controls.getDPad() == 90) {
-                shooter.setCoolRPM(-520);
+                shooter.setCoolerRPM(-520);
             }
 
 
 
             if(Controls.getControllerY() && Controls.getDPad() == 270) {
-                shooter.setCoolRPM(1000);
+                shooter.setCoolerRPM(1000);
             }
 
             if(Controls.getControllerB() && Controls.getDPad() == 270) {
-                shooter.setCoolRPM(750);
+                shooter.setCoolerRPM(750);
             }
 
             if(Controls.getControllerA() && Controls.getDPad() == 270) {
-                shooter.setCoolRPM(520);
+                shooter.setCoolerRPM(520);
             }
 
 

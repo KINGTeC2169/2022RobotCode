@@ -47,7 +47,7 @@ public class Autonomous extends CommandBase {
         //Speed up flywheel
         if(counter == 1) {
             //TODO: change to auto shoot distance and drone strike the taliban
-            shooter.setCoolRPM(Constants.taliban);
+            shooter.setCoolerRPM(Constants.taliban);
             if(shooter.hitRPM())
                 counter++;
         }
