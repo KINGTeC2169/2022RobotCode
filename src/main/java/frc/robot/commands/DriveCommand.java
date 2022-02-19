@@ -272,18 +272,22 @@ public class DriveCommand extends CommandBase {
             sameBall = false;
         }
         if(isManualBalls) {
-            indexer.suckUp(Controls.getRightControllerBumper());
+            if(Controls.getRightControllerBumper()) {
+                indexer.suckUp(Controls.getRightControllerBumper());
+            } else {
+                indexer.reverseSuckUp(Controls.getRightStickBottom());
+            }
             
             if(Controls.getLeftControllerBumperPressed() || indexer.isShoveBallRunning()) {
                 indexer.shoveBall();
             }
-            indexer.reverseSuckUp(Controls.getRightStickBottom());
+            
 
 
         } else {
 
              //Indexer
-             if(isIntaking && ballManager.getNumberOfBalls() == 0 || (ballManager.getSecondPositionBall() && !ballManager.getFirstPositionBall())) {
+             if(isIntaking && ballManager.getNumberOfBalls() == 0 || (ballManager.getSecondPositionBall() && !ballManager.getFirstPositionBall()) && isIntaking) {
                 indexer.suckUp(true);
             } else {
                 indexer.suckUp(false);
@@ -292,7 +296,7 @@ public class DriveCommand extends CommandBase {
                 if(indexerTimeSave == 0.0) 
                     indexerTimeSave = timer.get();
                 //5.0 is amount of time indexer runs
-                if(timer.get() - indexerTimeSave < 2600) {
+                if(timer.get() - indexerTimeSave < 1) {
                     indexer.suckUp(true);
                 } else {
                     //Added this to reset timer after indexer runs
@@ -304,16 +308,9 @@ public class DriveCommand extends CommandBase {
 
             //Moves cylinder for indexing/shooting
             //TODO: Does not work
-            if(Controls.getLeftControllerBumper()) {
-                if(shooterTimeSave == 0.0) {
-                    shooterTimeSave = timer.get();
-                }
-                if(timer.get() - shooterTimeSave < 26) {
+            if(Controls.getLeftControllerBumper() || indexer.isShoveBallRunning()) {
                     indexer.shoveBall();
-                } else {
-                    shooterTimeSave = 0.0;
                     ballManager.shootBall();
-                }
             }
 
         }
@@ -338,8 +335,11 @@ public class DriveCommand extends CommandBase {
             intake.off();
         }
         if(isManualBalls) {
+            if(!Controls.getRightStickBottom()) {
             intake.suck(Controls.getRightStickTop());
+            } else {
             intake.reverseSuck(Controls.getRightStickBottom());
+            }
 
         } else {
 
