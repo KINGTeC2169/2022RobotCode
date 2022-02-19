@@ -81,8 +81,12 @@ public class DriveCommand extends CommandBase {
     @Override
     public void execute() {
 
+        //Parental controls
+        isManualBalls = true;
+        isManualLimeLight = true;
 
         //Manual Mode Manager - basically turns manual modes on and off
+        /*
         if(Controls.getLeftControllerStick()) {
             isManualBalls = true;
         }
@@ -93,6 +97,7 @@ public class DriveCommand extends CommandBase {
                 isManualLimeLight = true;
             }
         }
+        */
         
         /*--------------------------------Driving------------------------------------------------
         ----------------------------------------------------------------------------------------------------------------------
@@ -240,16 +245,48 @@ public class DriveCommand extends CommandBase {
 
 
             if(rTrigger > lTrigger) {
-                //shooter.shoot(-rTrigger);
-                shooter.setCoolRPM(500);
+                shooter.shoot(-rTrigger);
+                if(shooter.getRPM() < -720) {
+                    shooter.setCoolRPM(-700);
+                }
+                //shooter.setCoolRPM(-500);
             } else if(rTrigger < lTrigger) {
-                //shooter.shoot(lTrigger);
-                shooter.setCoolRPM(-500);
+                shooter.shoot(lTrigger);
+                if(shooter.getRPM() > 720) {
+                    shooter.setCoolRPM(700);
+                }
+                //shooter.setCoolRPM(500);
             } else {
                 CompressorTank.enable();
                 shooter.stopShooter();
             }
             
+            if(Controls.getControllerY() && Controls.getDPad() == 90) {
+                shooter.setCoolRPM(-1000);
+            }
+
+            if(Controls.getControllerB() && Controls.getDPad() == 90) {
+                shooter.setCoolRPM(-750);
+            }
+
+            if(Controls.getControllerA() && Controls.getDPad() == 90) {
+                shooter.setCoolRPM(-520);
+            }
+
+
+
+            if(Controls.getControllerY() && Controls.getDPad() == 270) {
+                shooter.setCoolRPM(1000);
+            }
+
+            if(Controls.getControllerB() && Controls.getDPad() == 270) {
+                shooter.setCoolRPM(750);
+            }
+
+            if(Controls.getControllerA() && Controls.getDPad() == 270) {
+                shooter.setCoolRPM(520);
+            }
+
 
         }
               
@@ -366,6 +403,8 @@ public class DriveCommand extends CommandBase {
         ----------------------------------------------------------------------------------------------------------------------
         ----------------------------------------------------------------------------------------------------------------------*/
         //Climber -- Y = arm goes up, A = arm goes down, RightBumper = move cylinder 
+
+        /*
         if(Controls.getControllerY()) {
             if(!climber.isTop())
                 climber.extendArm();
@@ -378,7 +417,7 @@ public class DriveCommand extends CommandBase {
         if(Controls.getRightControllerBumperPressed()) {
             climber.movePiston();
         }
-
+        */
 
 
 /*--------------------------------ShuffleBoard------------------------------------------------
@@ -397,7 +436,8 @@ public class DriveCommand extends CommandBase {
         shuffleboard.boolInABox("Manual LimeLight", isManualLimeLight);
         shuffleboard.boolInABox("dog shifter is in high gear", driveTrain.dogStatus());
         shuffleboard.text("Speed", "" + navX.getSpeed());
-        shuffleboard.text("Distance", "" + limeLight.getRightDistance());
+        shuffleboard.text("Right Distance", "" + limeLight.getRightDistance());
+        shuffleboard.text("Left Distance", "" + limeLight.getLeftDistance());
         shuffleboard.text("Shooter RPM", shooter.getRPM() + "");
         shuffleboard.boolInABox("BeamBreak", beamBreak.isBall());
         shuffleboard.text("Shooter Percent Output", (lTrigger > rTrigger ? lTrigger : rTrigger) + "");
