@@ -20,4 +20,7 @@ public class Shuffleboard extends SubsystemBase {
     public void text(String key, String value) {
         SmartDashboard.putString(key, value);
     }
+    public void number(String key, double value) {
+        SmartDashboard.putNumber(key, value);
+    }
 }

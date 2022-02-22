@@ -262,33 +262,35 @@ public class DriveCommand extends CommandBase {
             }
             
             if(Controls.getControllerY() && Controls.getDPad() == 90) {
-                shooter.setCoolerRPM(-1000);
+                shooter.setCoolerRPM(-600);
             }
 
             if(Controls.getControllerB() && Controls.getDPad() == 90) {
-                shooter.setCoolerRPM(-750);
+                shooter.setCoolerRPM(-500);
             }
 
             if(Controls.getControllerA() && Controls.getDPad() == 90) {
-                shooter.setCoolerRPM(-520);
+                shooter.setCoolerRPM(-400);
             }
 
 
 
             if(Controls.getControllerY() && Controls.getDPad() == 270) {
-                shooter.setCoolerRPM(1000);
+                shooter.setCoolerRPM(600);
             }
 
             if(Controls.getControllerB() && Controls.getDPad() == 270) {
-                shooter.setCoolerRPM(750);
+                shooter.setCoolerRPM(500);
             }
 
             if(Controls.getControllerA() && Controls.getDPad() == 270) {
-                shooter.setCoolerRPM(520);
+                shooter.setCoolerRPM(400);
             }
-
+            if(Controls.getControllerX() && Controls.getDPad() == 270) {
+                shooter.shoot(1);
 
         }
+    }
               
         
 
@@ -438,13 +440,15 @@ public class DriveCommand extends CommandBase {
         shuffleboard.text("Speed", "" + navX.getSpeed());
         shuffleboard.text("Right Distance", "" + limeLight.getRightDistance());
         shuffleboard.text("Left Distance", "" + limeLight.getLeftDistance());
-        shuffleboard.text("Shooter RPM", shooter.getRPM() + "");
+        shuffleboard.number("Shooter RPM", shooter.getRPM());
         shuffleboard.boolInABox("BeamBreak", beamBreak.isBall());
         shuffleboard.text("Shooter Percent Output", (lTrigger > rTrigger ? lTrigger : rTrigger) + "");
+        shuffleboard.text("Shooter Current", shooter.getCurrent() + "");
 
 
 
     }
 
-
 }
+
+
