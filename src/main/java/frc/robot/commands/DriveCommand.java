@@ -246,15 +246,9 @@ public class DriveCommand extends CommandBase {
 
             if(rTrigger > lTrigger) {
                 shooter.shoot(-rTrigger);
-                if(shooter.getRPM() < -720) {
-                    shooter.setCoolerRPM(-700);
-                }
                 //shooter.setCoolerRPM(-500);
             } else if(rTrigger < lTrigger) {
                 shooter.shoot(lTrigger);
-                if(shooter.getRPM() > 720) {
-                    shooter.setCoolerRPM(700);
-                }
                 //shooter.setCoolerRPM(500);
             } else {
                 CompressorTank.enable();
@@ -262,11 +256,11 @@ public class DriveCommand extends CommandBase {
             }
             
             if(Controls.getControllerY() && Controls.getDPad() == 90) {
-                shooter.setCoolerRPM(-600);
+                shooter.setCoolerRPM(-1800);
             }
 
             if(Controls.getControllerB() && Controls.getDPad() == 90) {
-                shooter.setCoolerRPM(-500);
+                shooter.setCoolerRPM(-900);
             }
 
             if(Controls.getControllerA() && Controls.getDPad() == 90) {
@@ -275,18 +269,18 @@ public class DriveCommand extends CommandBase {
 
 
 
-            if(Controls.getControllerY() && Controls.getDPad() == 270) {
-                shooter.setCoolerRPM(600);
+            if(Controls.getControllerY()) {
+                shooter.setCoolerRPM(1800);
             }
 
-            if(Controls.getControllerB() && Controls.getDPad() == 270) {
-                shooter.setCoolerRPM(500);
+            if(Controls.getControllerB()) {
+                shooter.setCoolerRPM(900);
             }
 
-            if(Controls.getControllerA() && Controls.getDPad() == 270) {
+            if(Controls.getControllerA()) {
                 shooter.setCoolerRPM(400);
             }
-            if(Controls.getControllerX() && Controls.getDPad() == 270) {
+            if(Controls.getControllerX()) {
                 shooter.shoot(1);
 
         }
@@ -441,9 +435,11 @@ public class DriveCommand extends CommandBase {
         shuffleboard.text("Right Distance", "" + limeLight.getRightDistance());
         shuffleboard.text("Left Distance", "" + limeLight.getLeftDistance());
         shuffleboard.number("Shooter RPM", shooter.getRPM());
+        shuffleboard.number("Shooter RPM again", shooter.getRPM());
         shuffleboard.boolInABox("BeamBreak", beamBreak.isBall());
         shuffleboard.text("Shooter Percent Output", (lTrigger > rTrigger ? lTrigger : rTrigger) + "");
         shuffleboard.text("Shooter Current", shooter.getCurrent() + "");
+        shuffleboard.number("filpenmungus", beamBreak.isBall2());
 
 
 

@@ -19,6 +19,7 @@ public class Shooter extends SubsystemBase {
     TalonFX shooter = new TalonFX(ActuatorMap.shooter);
     boolean hitRPM;
     double currentPower;
+    double intstagrill;
     double previousPower = 0.0;
     double previousError = 0.0;
     
@@ -29,7 +30,6 @@ public class Shooter extends SubsystemBase {
         shooter.configClosedloopRamp(2.5);
         //shooter.configClosedLoopPeriod(P, 3);
         shooter.configVelocityMeasurementPeriod(SensorVelocityMeasPeriod.Period_100Ms);
-        //shooter.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true,5,0,0));
     }
 
     public void shoot(double power) {
@@ -73,8 +73,10 @@ public class Shooter extends SubsystemBase {
     public void setCoolerRPM(double rpm) {
         CompressorTank.disable();
         double error = rpm - getRPM(); // Error = Target - Actual
-        double power = previousPower + (error*.000022);
-        power += (error - previousError) / 2;
+        double power = previousPower + (error*5);
+        //power += (error - previousError) / 2000;
+        //intstagrill += (error * .02);
+        power += intstagrill;
         
        shooter.set(ControlMode.PercentOutput, power);
        previousPower = power;
