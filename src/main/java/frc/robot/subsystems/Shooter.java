@@ -38,7 +38,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public double getRPM() {
-        return (600 * shooter.getSelectedSensorVelocity() / Constants.TalonFXCPR) * (24.0/18.0);
+        return (600 * shooter.getSelectedSensorVelocity() / Constants.TalonFXCPR)  * (24.0/18.0);
     }
 
     public void setRPM(double rpm) {
@@ -73,9 +73,9 @@ public class Shooter extends SubsystemBase {
     public void setCoolerRPM(double rpm) {
         CompressorTank.disable();
         double error = rpm - getRPM(); // Error = Target - Actual
-        double power = previousPower + (error*5);
-        //power += (error - previousError) / 2000;
-        //intstagrill += (error * .02);
+        double power = previousPower + (error* (.000011 / 4));
+        //power += ((error - previousError) / .02);
+        //intstagrill += (error * .02) * 7.742;
         power += intstagrill;
         
        shooter.set(ControlMode.PercentOutput, power);
@@ -101,5 +101,8 @@ public class Shooter extends SubsystemBase {
     }
     public double getCurrent() {
         return shooter.getSupplyCurrent();
+    }
+    public double getVoltage() {
+        return shooter.getMotorOutputVoltage();
     }
 }

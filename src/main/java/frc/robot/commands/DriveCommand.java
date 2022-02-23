@@ -256,29 +256,29 @@ public class DriveCommand extends CommandBase {
             }
             
             if(Controls.getControllerY() && Controls.getDPad() == 90) {
-                shooter.setCoolerRPM(-1800);
+                shooter.setCoolerRPM(-1800 *4);
             }
 
             if(Controls.getControllerB() && Controls.getDPad() == 90) {
-                shooter.setCoolerRPM(-900);
+                shooter.setCoolerRPM(-900 * 4);
             }
 
             if(Controls.getControllerA() && Controls.getDPad() == 90) {
-                shooter.setCoolerRPM(-400);
+                shooter.setCoolerRPM(-400 * 4);
             }
 
 
 
             if(Controls.getControllerY()) {
-                shooter.setCoolerRPM(1800);
+                shooter.setCoolerRPM(1800 * 4);
             }
 
             if(Controls.getControllerB()) {
-                shooter.setCoolerRPM(900);
+                shooter.setCoolerRPM(900 * 4);
             }
 
             if(Controls.getControllerA()) {
-                shooter.setCoolerRPM(400);
+                shooter.setCoolerRPM(400 * 4);
             }
             if(Controls.getControllerX()) {
                 shooter.shoot(1);
@@ -440,6 +440,7 @@ public class DriveCommand extends CommandBase {
         shuffleboard.text("Shooter Percent Output", (lTrigger > rTrigger ? lTrigger : rTrigger) + "");
         shuffleboard.text("Shooter Current", shooter.getCurrent() + "");
         shuffleboard.number("filpenmungus", beamBreak.isBall2());
+        shuffleboard.number("Shooter Voltage", shooter.getVoltage());
 
 
 
