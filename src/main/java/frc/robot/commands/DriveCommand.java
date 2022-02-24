@@ -82,11 +82,11 @@ public class DriveCommand extends CommandBase {
     public void execute() {
 
         //Parental controls
-        isManualBalls = true;
-        isManualLimeLight = true;
+        //isManualBalls = true;
+        //isManualLimeLight = true;
 
         //Manual Mode Manager - basically turns manual modes on and off
-        /*
+        
         if(Controls.getLeftControllerStick()) {
             isManualBalls = true;
         }
@@ -97,7 +97,7 @@ public class DriveCommand extends CommandBase {
                 isManualLimeLight = true;
             }
         }
-        */
+        
         
         /*--------------------------------Driving------------------------------------------------
         ----------------------------------------------------------------------------------------------------------------------
@@ -233,11 +233,12 @@ public class DriveCommand extends CommandBase {
             }
             else if(lTrigger > rTrigger) {
                 if(colorSensor.isEnemyColor())
-                    shooter.shoot(rTrigger);
+                    shooter.shoot(-lTrigger);
                 else {
                     shooter.setCoolerRPM(-desiredRPM);
                 }
             } else {
+                shooter.stopShooter();
                 CompressorTank.enable();
             }
 
@@ -307,8 +308,10 @@ public class DriveCommand extends CommandBase {
         if(isManualBalls) {
             if(Controls.getRightControllerBumper()) {
                 indexer.suckUp(Controls.getRightControllerBumper());
+                arduino.changeLed(false);
             } else {
                 indexer.reverseSuckUp(Controls.getRightStickBottom());
+                arduino.changeLed(true);
             }
             
             if(Controls.getLeftControllerBumperPressed() || indexer.isShoveBallRunning()) {
@@ -329,7 +332,7 @@ public class DriveCommand extends CommandBase {
                 if(indexerTimeSave == 0.0) 
                     indexerTimeSave = timer.get();
                 //5.0 is amount of time indexer runs
-                if(timer.get() - indexerTimeSave < 1) {
+                if(timer.get() - indexerTimeSave < 2) {
                     indexer.suckUp(true);
                 } else {
                     //Added this to reset timer after indexer runs
@@ -439,7 +442,7 @@ public class DriveCommand extends CommandBase {
         shuffleboard.boolInABox("BeamBreak", beamBreak.isBall());
         shuffleboard.text("Shooter Percent Output", (lTrigger > rTrigger ? lTrigger : rTrigger) + "");
         shuffleboard.text("Shooter Current", shooter.getCurrent() + "");
-        shuffleboard.number("filpenmungus", beamBreak.isBall2());
+        //shuffleboard.number("filpenmungus", beamBreak.isBall2());
         shuffleboard.number("Shooter Voltage", shooter.getVoltage());
 
 

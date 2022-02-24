@@ -41,7 +41,7 @@ public class RobotContainer {
   private final DriveCommand m_teleopCommand = new DriveCommand(driveTrain, arduino, shooter, intake, indexer, climber, limeLight, navX, ballManager, beamBreak, colorSensor, shuffleboard);
   private final Autonomous m_autoCommand = new Autonomous(driveTrain, shooter, navX, indexer);
   //private final TestingCommand m_testCommand = new TestingCommand(testing, shooter, navX);
-  private final RobotInit m_InitCommand = new RobotInit(climber, indexer, intake);
+  private final RobotInit m_InitCommand = new RobotInit(climber, indexer, intake, ballManager);
 
   public RobotContainer() {
     

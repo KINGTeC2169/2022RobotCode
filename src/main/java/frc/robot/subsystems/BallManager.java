@@ -37,6 +37,10 @@ public class BallManager extends SubsystemBase {
     public boolean getSecondPositionBall() {
         return ballCount[1];
     }
+    public void reset() {
+        ballCount[0] = false;
+        ballCount[1] = false; 
+    }
 
 
 
