@@ -68,7 +68,7 @@ public class Controls {
     }
 
     public static boolean getLeftControllerStick() {
-        return controller.getLeftStickButton();
+        return controller.getLeftStickButtonPressed();
     }
 
     public static boolean getRightControllerStick() {

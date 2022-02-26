@@ -43,12 +43,12 @@ public class DriveCommand extends CommandBase {
     private double quickStopAcummolatss;
     private boolean isIntaking;
     private boolean sameBall;
-    private boolean isManualLimeLight;
-    private boolean isManualBalls;
+    private boolean isManualLimeLight = true;
+    private boolean isManualBalls = true;
     private double desiredRPM;
     private double leftDist;
     private double rightDist;
-   
+ 
     //Adds all subsystems to the driving command
     public DriveCommand(DriveTrain driveTrain, Arduino arduino, Shooter shooter, Intake intake, Indexer indexer, Climber climber, LimeLight limeLight, NavX navX, BallManager ballManager, BeamBreak beamBreak, ColorSensor colorSensor, Shuffleboard shuffleboard) {
         timer.start();
@@ -80,7 +80,7 @@ public class DriveCommand extends CommandBase {
 
     @Override
     public void execute() {
-
+        //CompressorTank.disable();
         //Parental controls
         //isManualBalls = true;
         //isManualLimeLight = true;
@@ -88,7 +88,12 @@ public class DriveCommand extends CommandBase {
         //Manual Mode Manager - basically turns manual modes on and off
         
         if(Controls.getLeftControllerStick()) {
-            isManualBalls = true;
+            if(isManualBalls) {
+                isManualBalls = false;
+                ballManager.reset();
+            } else {
+                isManualBalls = true;
+            }
         }
         if(Controls.getRightControllerStick()) {
             if(isManualLimeLight) {
@@ -257,29 +262,29 @@ public class DriveCommand extends CommandBase {
             }
             
             if(Controls.getControllerY() && Controls.getDPad() == 90) {
-                shooter.setCoolerRPM(-1800 *4);
+                shooter.setCoolerRPM(-7200);
             }
 
             if(Controls.getControllerB() && Controls.getDPad() == 90) {
-                shooter.setCoolerRPM(-900 * 4);
+                shooter.setCoolerRPM(-3600);
             }
 
             if(Controls.getControllerA() && Controls.getDPad() == 90) {
-                shooter.setCoolerRPM(-400 * 4);
+                shooter.setCoolerRPM(-1200);
             }
 
 
 
             if(Controls.getControllerY()) {
-                shooter.setCoolerRPM(1800 * 4);
+                shooter.setCoolerRPM(7200);
             }
 
             if(Controls.getControllerB()) {
-                shooter.setCoolerRPM(900 * 4);
+                shooter.setCoolerRPM(3600);
             }
 
             if(Controls.getControllerA()) {
-                shooter.setCoolerRPM(400 * 4);
+                shooter.setCoolerRPM(1200);
             }
             if(Controls.getControllerX()) {
                 shooter.shoot(1);

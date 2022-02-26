@@ -73,8 +73,8 @@ public class Shooter extends SubsystemBase {
     public void setCoolerRPM(double rpm) {
         CompressorTank.disable();
         double error = rpm - getRPM(); // Error = Target - Actual
-        double power = previousPower + (error* .00000125);
-        
+        //double power = previousPower + (error* .00000125);
+        double power = previousPower + (error* .0000014);
        shooter.set(ControlMode.PercentOutput, power);
        previousPower = power;
        previousError = error;
