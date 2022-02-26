@@ -14,7 +14,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LimeLight;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Shuffleboard;
+import frc.robot.subsystems.ShuffleboardManager;
 import frc.robot.utils.Constants;
 import frc.robot.utils.Controls;
 import frc.robot.utils.MathDoer;
@@ -35,7 +35,7 @@ public class DriveCommand extends CommandBase {
     private BallManager ballManager;
     private BeamBreak beamBreak;
     private ColorSensor colorSensor;
-    private Shuffleboard shuffleboard;
+    private ShuffleboardManager shuffleboard;
 
     private double leftY;
     private double rightX;
@@ -50,7 +50,7 @@ public class DriveCommand extends CommandBase {
     private double rightDist;
  
     //Adds all subsystems to the driving command
-    public DriveCommand(DriveTrain driveTrain, Arduino arduino, Shooter shooter, Intake intake, Indexer indexer, Climber climber, LimeLight limeLight, NavX navX, BallManager ballManager, BeamBreak beamBreak, ColorSensor colorSensor, Shuffleboard shuffleboard) {
+    public DriveCommand(DriveTrain driveTrain, Arduino arduino, Shooter shooter, Intake intake, Indexer indexer, Climber climber, LimeLight limeLight, NavX navX, BallManager ballManager, BeamBreak beamBreak, ColorSensor colorSensor, ShuffleboardManager shuffleboard) {
         timer.start();
         this.driveTrain = driveTrain;
         addRequirements(driveTrain);
@@ -280,7 +280,7 @@ public class DriveCommand extends CommandBase {
             }
 
             if(Controls.getControllerB()) {
-                shooter.setCoolerRPM(3600);
+                shooter.setCoolerRPM(shuffleboard.getSlider("Cool Wacky shooter rpm setter"));
             }
 
             if(Controls.getControllerA()) {

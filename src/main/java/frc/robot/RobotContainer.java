@@ -16,7 +16,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LimeLight;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Shuffleboard;
+import frc.robot.subsystems.ShuffleboardManager;
 import frc.robot.subsystems.Testing;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -33,7 +33,7 @@ public class RobotContainer {
     private BallManager ballManager = new BallManager();
     private BeamBreak beamBreak = new BeamBreak();
     private ColorSensor colorSensor = new ColorSensor();
-    private Shuffleboard shuffleboard = new Shuffleboard();
+    private ShuffleboardManager shuffleboard = new ShuffleboardManager();
     //private Testing testing = new Testing();
   // The robot's subsystems and commands are defined here...
 
@@ -41,7 +41,7 @@ public class RobotContainer {
   private final DriveCommand m_teleopCommand = new DriveCommand(driveTrain, arduino, shooter, intake, indexer, climber, limeLight, navX, ballManager, beamBreak, colorSensor, shuffleboard);
   private final Autonomous m_autoCommand = new Autonomous(driveTrain, shooter, navX, indexer);
   //private final TestingCommand m_testCommand = new TestingCommand(testing, shooter, navX);
-  private final RobotInit m_InitCommand = new RobotInit(climber, indexer, intake, ballManager);
+  private final RobotInit m_InitCommand = new RobotInit(climber, indexer, intake, ballManager, shuffleboard);
 
   public RobotContainer() {
     

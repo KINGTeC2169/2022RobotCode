@@ -7,6 +7,7 @@ import frc.robot.subsystems.BeamBreak;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.ShuffleboardManager;
 import frc.robot.utils.Constants;
 
 
@@ -15,10 +16,11 @@ public class RobotInit extends CommandBase {
     private Indexer indexer;
     private Intake intake;
     private BallManager ballManager;
+    private ShuffleboardManager shuffleboardManager;
     private boolean isDone = false;
     private Timer timer = new Timer();
 
-    public RobotInit(Climber climber, Indexer indexer, Intake intake, BallManager ballManager) {
+    public RobotInit(Climber climber, Indexer indexer, Intake intake, BallManager ballManager, ShuffleboardManager shuffleboardManager) {
         this.climber = climber;
         addRequirements(climber);
         this.indexer = indexer;
@@ -27,6 +29,8 @@ public class RobotInit extends CommandBase {
         addRequirements(intake);
         this.ballManager = ballManager;
         addRequirements(ballManager);
+        this.shuffleboardManager = shuffleboardManager;
+        addRequirements(shuffleboardManager);
     }
 
     @Override
