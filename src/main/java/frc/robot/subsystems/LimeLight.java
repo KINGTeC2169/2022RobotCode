@@ -8,6 +8,19 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LimeLight extends SubsystemBase{
 
+    public static double rimHeight = 219; // Height of upper HUB rim in inches
+    public static final double launchHeight = 26; // Height of ball when last contacting ramp
+    public static final double fgInInchesPerSec = 388.2204; // The acceleration due to gravity in in/sec
+    public static final double rampAngle = 67.5; // in degrees
+    public static final double flywheelRadius = .0508; // in meters
+    public static final double wheelMass = 1.22; // in kg
+    public static final double wheelRadius = .0508; // Wheel radius in meters
+    public static final double ballRadius = .16025; // in meters
+    public static final double ballMass = .269; // in kg
+    public static final double ballI = .00254; // Moment of inertia for a spherical shell (with cargo dimensions plugged in)
+
+    public static double distanceFromHubCenter = 107 + 117.5; // Distance in inches
+
     private static NetworkTable limeLightLeft = NetworkTableInstance.getDefault().getTable("limelight-back");
     private static NetworkTable limeLightRight = NetworkTableInstance.getDefault().getTable("limelight-front");
 
@@ -49,14 +62,40 @@ public class LimeLight extends SubsystemBase{
     public double rpm() {
         if(getLeftDistance() > 0 && getRightDistance() == 0) {
             //return equation
-            return 1000;
+            return getRPM(getLeftDistance());
         }
         else if(getRightDistance() > 0 && getLeftDistance() == 0) {
             //return equation
-            return 1000;
+            return getRPM(getRightDistance());
         }
         else
-            return 1000;
+            return 0;
+    }
+
+    // Returns the time the ball will be in the air for a predicted shot at distance from center of hub
+    private static double getShotDuration(double distance) {
+        // Numerator of time function (broken at the moment)
+        //double numerator = 2 * (2*Math.cot(Math.toRadians(rampAngle)) / distance - rimHeight + launchHeight);
+        // Returns the time, in seconds, that the ball will be in the air
+        //return Math.sqrt(numerator / fgInInchesPerSec);
+        return 1; // Temporary return value that works for shooting from tarmac line, need to figure out time calculation
+    }
+
+    // Returns the velocity of a shot that will travel DISTANCE horizontally with the pre-specified rampAngle
+    private static double getShotVelocity(double distance) {
+        return distanceFromHubCenter / (2 * getShotDuration(distance) * Math.cos(Math.toRadians(rampAngle)));
+    }
+
+    // Makes calls to functions above to return the predicted WHEEL RPM needed for predicted shot
+    private static double getRPM(double distance) {
+        // Outside part of formula for RPM
+        double outsidePart = (2 * getShotVelocity(distance) *2.54/100) / (wheelMass * wheelRadius);
+        // Inside part of formula for RPM
+        double insidePart = wheelMass + ballMass + (ballI / (ballRadius*ballRadius));
+        // Combine insidePart and outsidePart to get rad/sec of flywheel
+        double radPerSec = outsidePart * insidePart;
+        // Return RPM
+        return radPerSec / 2 / Math.PI * 60;
     }
     
 }

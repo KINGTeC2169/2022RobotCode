@@ -221,7 +221,7 @@ public class DriveCommand extends CommandBase {
             }
             else {
                 //Error: limelight malfunction- shoot from edge of tarmac
-                desiredRPM = 2000;
+                desiredRPM = 3600;
             }
 
 

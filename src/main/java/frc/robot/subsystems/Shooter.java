@@ -41,35 +41,6 @@ public class Shooter extends SubsystemBase {
         return (600 * shooter.getSelectedSensorVelocity() / Constants.TalonFXCPR)  * (24.0/18.0);
     }
 
-    public void setRPM(double rpm) {
-        boolean isASnake = false;
-        if(rpm < 0) {
-            rpm *= -1;
-            isASnake = true;
-        }
-        if(Math.abs(getRPM()) >= rpm) {
-            shooter.set(ControlMode.PercentOutput, 0);
-            hitRPM = true;
-        } else {
-            shooter.set(ControlMode.PercentOutput, isASnake ? -1 : 1);
-            hitRPM = false;
-        }
-    }
-
-    public void setCoolRPM(double rpm) {
-        CompressorTank.disable();
-        double power = 0;
-        double offBy = rpm - getRPM();
-        power += (offBy / rpm) * 10;
-        if(rpm > 0) {
-            shooter.set(ControlMode.PercentOutput, power);
-        }
-        else if(rpm < 0) {
-            shooter.set(ControlMode.PercentOutput, -power);
-        }
-        
-    }
-
     public void setCoolerRPM(double rpm) {
         CompressorTank.disable();
         double error = rpm - getRPM(); // Error = Target - Actual
