@@ -17,8 +17,17 @@ public class NavX extends SubsystemBase {
     }
     
     public double getSpeed() {
-        return Math.sqrt(Math.pow(navx.getVelocityX(), 2) + Math.pow(navx.getVelocityY(), 2) + Math.pow(navx.getVelocityZ(), 2));
+        return Math.sqrt(Math.pow(navx.getVelocityX(), 2) + Math.pow(navx.getVelocityY(), 2));
 
+    }
+    public double getXVelocity() {
+        return navx.getVelocityX();
+    }
+    public double getYVelocity() {
+        return navx.getVelocityY();
+    }
+    public double getZVelocity() {
+        return navx.getVelocityZ();
     }
 
     public float getDisplacmentX() {

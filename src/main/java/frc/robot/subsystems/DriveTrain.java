@@ -23,6 +23,12 @@ public class DriveTrain extends SubsystemBase {
     boolean turnIsDone;
 
     private double endPos;
+    public DriveTrain() {
+        rMaster.configOpenloopRamp(0);
+        lMaster.configOpenloopRamp(0);
+        rSlave.configOpenloopRamp(0);
+        lSlave.configOpenloopRamp(0);
+    }
 
     //Drive for the right gearbox
     public void rDrive(double power) {

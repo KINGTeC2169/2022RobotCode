@@ -439,16 +439,19 @@ public class DriveCommand extends CommandBase {
         shuffleboard.boolInABox("Manual Balls", isManualBalls);
         shuffleboard.boolInABox("Manual LimeLight", isManualLimeLight);
         shuffleboard.boolInABox("dog shifter is in high gear", driveTrain.dogStatus());
-        shuffleboard.text("Speed", "" + navX.getSpeed());
-        shuffleboard.text("Right Distance", "" + limeLight.getRightDistance());
-        shuffleboard.text("Left Distance", "" + limeLight.getLeftDistance());
+        shuffleboard.number("Speed", navX.getSpeed());
+        shuffleboard.number("Right Distance", limeLight.getRightDistance());
+        shuffleboard.number("Left Distance", limeLight.getLeftDistance());
         shuffleboard.number("Shooter RPM", shooter.getRPM());
         shuffleboard.number("Shooter RPM again", shooter.getRPM());
         shuffleboard.boolInABox("BeamBreak", beamBreak.isBall());
-        shuffleboard.text("Shooter Percent Output", (lTrigger > rTrigger ? lTrigger : rTrigger) + "");
-        shuffleboard.text("Shooter Current", shooter.getCurrent() + "");
+        shuffleboard.number("Shooter Percent Output", (lTrigger > rTrigger ? lTrigger : rTrigger));
+        shuffleboard.number("Shooter Current", shooter.getCurrent());
         //shuffleboard.number("filpenmungus", beamBreak.isBall2());
         shuffleboard.number("Shooter Voltage", shooter.getVoltage());
+        shuffleboard.number("Velocity X", navX.getXVelocity());
+        shuffleboard.number("Velocity Y", navX.getYVelocity());
+        shuffleboard.number("Velocity Z", navX.getZVelocity());
 
 
 

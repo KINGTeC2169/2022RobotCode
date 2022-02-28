@@ -8,9 +8,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LimeLight extends SubsystemBase{
 
-    public static double rimHeight = 219; // Height of upper HUB rim in inches
+    private double previousPower;
+    public static double rimHeight = 104; // Height of upper HUB rim in inches
     public static final double launchHeight = 26; // Height of ball when last contacting ramp
-    public static final double fgInInchesPerSec = 388.2204; // The acceleration due to gravity in in/sec
+    public static final double fgInInchesPerSec = -386.2204724; // The acceleration due to gravity in in/sec
     public static final double rampAngle = 67.5; // in degrees
     public static final double flywheelRadius = .0508; // in meters
     public static final double wheelMass = 1.22; // in kg
@@ -38,6 +39,20 @@ public class LimeLight extends SubsystemBase{
 
     public double getLeftYPercent() {
         return limeLightLeft.getEntry("ty").getDouble(0);
+    }
+    public double autoAimPower() {
+        double error = getLeftXPercent() + getRightXPercent();
+        //double power = previousPower + (error* .00000125);
+        double power = previousPower + (error* .00014);
+        previousPower = power;
+       if(previousPower > 1){
+        previousPower = 1;
+      }
+      else if (previousPower < -1){
+        previousPower = -1;
+      }
+      return power;
+
     }
 
     public double getRightDistance() {
@@ -73,12 +88,13 @@ public class LimeLight extends SubsystemBase{
     }
 
     // Returns the time the ball will be in the air for a predicted shot at distance from center of hub
-    private static double getShotDuration(double distance) {
+    public static double getShotDuration(double distance) {
         // Numerator of time function (broken at the moment)
-        //double numerator = 2 * (2*Math.cot(Math.toRadians(rampAngle)) / distance - rimHeight + launchHeight);
+        double numerator = (-1 /Math.tan(Math.toRadians(rampAngle))) * (2*(rimHeight - launchHeight)) + distance;
+        // Denominator of time function 
+        double denominator = -fgInInchesPerSec * (1/Math.tan(Math.toRadians(rampAngle)));
         // Returns the time, in seconds, that the ball will be in the air
-        //return Math.sqrt(numerator / fgInInchesPerSec);
-        return 1; // Temporary return value that works for shooting from tarmac line, need to figure out time calculation
+        return Math.sqrt(numerator / denominator);
     }
 
     // Returns the velocity of a shot that will travel DISTANCE horizontally with the pre-specified rampAngle
