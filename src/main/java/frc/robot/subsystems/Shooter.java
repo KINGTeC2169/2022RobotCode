@@ -26,7 +26,7 @@ public class Shooter extends SubsystemBase {
 
     public Shooter() {
         //TODO: how fast for ramp up
-        shooter.configOpenloopRamp(0);
+        shooter.configOpenloopRamp(.5);
         shooter.configClosedloopRamp(0);
         //shooter.configClosedLoopPeriod(P, 3);
         shooter.configVelocityMeasurementPeriod(SensorVelocityMeasPeriod.Period_100Ms);

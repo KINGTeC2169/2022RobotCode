@@ -223,6 +223,7 @@ public class DriveCommand extends CommandBase {
             //Option 2:
             if(limeLight.rpm() != 0) {
                 desiredRPM = limeLight.rpm();
+                System.out.println(limeLight.rpm());
             }
             else {
                 //Error: limelight malfunction- shoot from edge of tarmac
@@ -232,15 +233,15 @@ public class DriveCommand extends CommandBase {
 
             if(rTrigger > lTrigger) {
                 if(colorSensor.isEnemyColor())
-                    shooter.shoot(rTrigger);
+                    shooter.shoot(-rTrigger);
                 else
-                    shooter.setCoolerRPM(desiredRPM);
+                    shooter.setCoolerRPM(-desiredRPM);
             }
             else if(lTrigger > rTrigger) {
                 if(colorSensor.isEnemyColor())
-                    shooter.shoot(-lTrigger);
+                    shooter.shoot(lTrigger);
                 else {
-                    shooter.setCoolerRPM(-desiredRPM);
+                    shooter.setCoolerRPM(desiredRPM);
                 }
             } else {
                 shooter.stopShooter();

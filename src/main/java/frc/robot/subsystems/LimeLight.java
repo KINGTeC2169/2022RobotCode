@@ -20,8 +20,6 @@ public class LimeLight extends SubsystemBase{
     public static final double ballMass = .269; // in kg
     public static final double ballI = .00254; // Moment of inertia for a spherical shell (with cargo dimensions plugged in)
 
-    public static double distanceFromHubCenter = 107 + 117.5; // Distance in inches
-
     private static NetworkTable limeLightLeft = NetworkTableInstance.getDefault().getTable("limelight-back");
     private static NetworkTable limeLightRight = NetworkTableInstance.getDefault().getTable("limelight-front");
 
@@ -58,12 +56,12 @@ public class LimeLight extends SubsystemBase{
     public double getRightDistance() {
         if(getRightYPercent() == 0)
             return 0.0;
-        return (63.593059725) / Math.tan(((37 + getRightYPercent()) * Math.PI)/180);
+        return ((63.593059725) / Math.tan(((37 + getRightYPercent()) * Math.PI)/180)) + 131.0;
     }
     public double getLeftDistance() {
         if(getLeftYPercent() == 0)
             return 0.0;
-        return (63.593059725) / Math.tan(((37 + getLeftYPercent()) * Math.PI)/180);
+        return ((63.593059725) / Math.tan(((37 + getLeftYPercent()) * Math.PI)/180 )) + 131.0;
     }
     
     public void setRightPipeline(int pipelineID) {
@@ -99,7 +97,7 @@ public class LimeLight extends SubsystemBase{
 
     // Returns the velocity of a shot that will travel DISTANCE horizontally with the pre-specified rampAngle
     private static double getShotVelocity(double distance) {
-        return distanceFromHubCenter / (2 * getShotDuration(distance) * Math.cos(Math.toRadians(rampAngle)));
+        return distance / (2 * getShotDuration(distance) * Math.cos(Math.toRadians(rampAngle)));
     }
 
     // Makes calls to functions above to return the predicted WHEEL RPM needed for predicted shot
