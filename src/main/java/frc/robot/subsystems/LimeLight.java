@@ -87,8 +87,8 @@ public class LimeLight extends SubsystemBase{
 
     // Returns the time the ball will be in the air for a predicted shot at distance from center of hub
     public static double getShotDuration(double distance) {
-        // Numerator of time function (broken at the moment)
-        double numerator = (-1 /Math.tan(Math.toRadians(rampAngle))) * (2*(rimHeight - launchHeight)) + distance;
+        // Numerator of time function
+        double numerator = 2 * (-1 /Math.tan(Math.toRadians(rampAngle)) * (rimHeight - launchHeight) + distance);
         // Denominator of time function 
         double denominator = -fgInInchesPerSec * (1/Math.tan(Math.toRadians(rampAngle)));
         // Returns the time, in seconds, that the ball will be in the air
@@ -97,7 +97,7 @@ public class LimeLight extends SubsystemBase{
 
     // Returns the velocity of a shot that will travel DISTANCE horizontally with the pre-specified rampAngle
     private static double getShotVelocity(double distance) {
-        return distance / (2 * getShotDuration(distance) * Math.cos(Math.toRadians(rampAngle)));
+        return distance / (getShotDuration(distance) * Math.cos(Math.toRadians(rampAngle)));
     }
 
     // Makes calls to functions above to return the predicted WHEEL RPM needed for predicted shot
