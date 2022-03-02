@@ -18,6 +18,7 @@ import frc.robot.subsystems.ShuffleboardManager;
 import frc.robot.utils.Constants;
 import frc.robot.utils.Controls;
 import frc.robot.utils.MathDoer;
+import frc.robot.utils.PID;
 //Hello
 public class DriveCommand extends CommandBase {
     private Timer timer = new Timer();
@@ -48,6 +49,8 @@ public class DriveCommand extends CommandBase {
     private double desiredRPM;
     private double leftDist;
     private double rightDist;
+
+    PID limeDrive = new PID(1, 1, 1);
  
     //Adds all subsystems to the driving command
     public DriveCommand(DriveTrain driveTrain, Arduino arduino, Shooter shooter, Intake intake, Indexer indexer, Climber climber, LimeLight limeLight, NavX navX, BallManager ballManager, BeamBreak beamBreak, ColorSensor colorSensor, ShuffleboardManager shuffleboard) {
@@ -179,20 +182,20 @@ public class DriveCommand extends CommandBase {
             rightPower = -1.0;
         }
         //Auto aim locking mechanic
+        /*
         if(Controls.getLeftStickBottom()) {
-            if(limeLight.getRightXPercent() > 0 || limeLight.getLeftXPercent() > 0) {
-                rightPower -= limeLight.getRightXPercent() / 50;
-                leftPower += limeLight.getRightXPercent() / 50;
-                rightPower -= limeLight.getLeftXPercent() / 50;
-                leftPower += limeLight.getLeftXPercent() / 50;
-            }
-            else if(limeLight.getLeftXPercent() < 0 || limeLight.getRightXPercent() < 0) {
+            if(limeLight.getRightXPercent() != 0 || limeLight.getLeftXPercent() != 0) {
                 rightPower -= limeLight.getRightXPercent() / 50;
                 leftPower += limeLight.getRightXPercent() / 50;
                 rightPower -= limeLight.getLeftXPercent() / 50;
                 leftPower += limeLight.getLeftXPercent() / 50;
             }
         }
+        */
+        limeDrive.setSetpoint(0);
+        limeDrive.calculate(limeLight.getRightXPercent() + limeLight.getLeftXPercent());
+        rightPower -= limeDrive.getOutput();
+        leftPower += limeDrive.getOutput();
 
          //applies the powers to the motors
          driveTrain.lDrive(leftPower);
@@ -453,7 +456,7 @@ public class DriveCommand extends CommandBase {
         shuffleboard.number("Velocity X", navX.getXVelocity());
         shuffleboard.number("Velocity Y", navX.getYVelocity());
         shuffleboard.number("Velocity Z", navX.getZVelocity());
-
+        shuffleboard.number("LimeLight RPM", desiredRPM);
 
 
     }
