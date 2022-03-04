@@ -50,7 +50,7 @@ public class DriveCommand extends CommandBase {
     private double leftDist;
     private double rightDist;
 
-    PID limeDrive = new PID(1, 1, 1);
+    PID limeDrive = new PID(.05, 0, .005);
  
     //Adds all subsystems to the driving command
     public DriveCommand(DriveTrain driveTrain, Arduino arduino, Shooter shooter, Intake intake, Indexer indexer, Climber climber, LimeLight limeLight, NavX navX, BallManager ballManager, BeamBreak beamBreak, ColorSensor colorSensor, ShuffleboardManager shuffleboard) {
@@ -195,8 +195,8 @@ public class DriveCommand extends CommandBase {
         if(Controls.getLeftStickBottom()) {
             limeDrive.setSetpoint(0);
             limeDrive.calculate(limeLight.getRightXPercent() + limeLight.getLeftXPercent());
-            rightPower -= limeDrive.getOutput();
-            leftPower += limeDrive.getOutput();
+            rightPower += limeDrive.getOutput();
+            leftPower -= limeDrive.getOutput();
         }
          //applies the powers to the motors
          driveTrain.lDrive(leftPower);
