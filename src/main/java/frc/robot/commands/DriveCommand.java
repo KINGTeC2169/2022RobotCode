@@ -264,36 +264,6 @@ public class DriveCommand extends CommandBase {
                 CompressorTank.enable();
                 shooter.stopShooter();
             }
-            
-            if(Controls.getControllerY() && Controls.getDPad() == 90) {
-                shooter.setCoolerRPM(-7200);
-            }
-
-            if(Controls.getControllerB() && Controls.getDPad() == 90) {
-                shooter.setCoolerRPM(-3600);
-            }
-
-            if(Controls.getControllerA() && Controls.getDPad() == 90) {
-                shooter.setCoolerRPM(-1200);
-            }
-
-
-
-            if(Controls.getControllerY()) {
-                shooter.setCoolerRPM(7200);
-            }
-
-            if(Controls.getControllerB()) {
-                shooter.setCoolerRPM(shuffleboard.getSlider("Cool Wacky shooter rpm setter"));
-            }
-
-            if(Controls.getControllerA()) {
-                shooter.setCoolerRPM(1200);
-            }
-            if(Controls.getControllerX()) {
-                shooter.shoot(1);
-
-        }
     }
               
         
