@@ -48,7 +48,7 @@ public class RobotInit extends CommandBase {
         //for(double current = climber.getCurrent(); current < Constants.climberCurrent; current = climber.getCurrent()) {
             //climber.retractArm();
         //}
-        climber.setZero();
+        //climber.setZero();
         isDone = true;
         timer.reset();
     }

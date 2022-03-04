@@ -192,17 +192,19 @@ public class DriveCommand extends CommandBase {
             }
         }
         */
-        limeDrive.setSetpoint(0);
-        limeDrive.calculate(limeLight.getRightXPercent() + limeLight.getLeftXPercent());
-        rightPower -= limeDrive.getOutput();
-        leftPower += limeDrive.getOutput();
-
+        if(Controls.getLeftStickBottom()) {
+            limeDrive.setSetpoint(0);
+            limeDrive.calculate(limeLight.getRightXPercent() + limeLight.getLeftXPercent());
+            rightPower -= limeDrive.getOutput();
+            leftPower += limeDrive.getOutput();
+        }
          //applies the powers to the motors
          driveTrain.lDrive(leftPower);
          driveTrain.rDrive(rightPower);
  
          if(Controls.getLeftStickTopPressed())
              driveTrain.shiftThatDog();
+        
 
         /*--------------------------------Shooting------------------------------------------------
         ----------------------------------------------------------------------------------------------------------------------
@@ -214,8 +216,8 @@ public class DriveCommand extends CommandBase {
         ----------------------------------------------------------------------------------------------------------------------*/
 
         //Shooter- it shoots.
-        double rTrigger = Controls.getRightControllerTrigger();
-        double lTrigger = Controls.getLeftControllerTrigger();
+        double rTrigger = Controls.getRightControllerTrigger() * 0;
+        double lTrigger = Controls.getLeftControllerTrigger() * 0;
         if(!isManualLimeLight) {
             
 
@@ -287,6 +289,7 @@ public class DriveCommand extends CommandBase {
         if(isManualBalls) {
             if(Controls.getRightControllerBumper()) {
                 indexer.suckUp(Controls.getRightControllerBumper());
+                //TODO: wtf do we do this??
                 arduino.changeLed(false);
             } else {
                 indexer.reverseSuckUp(Controls.getRightStickBottom());
@@ -384,18 +387,34 @@ public class DriveCommand extends CommandBase {
 
         /*
         if(Controls.getControllerY()) {
-            if(!climber.isTop())
+           // if(!climber.isTop())
                 climber.extendArm();
         } else if(Controls.getControllerA()) {
-            if(!climber.isBottom())
+           // if(!climber.isBottom())
                 climber.retractArm();
-            else    
-                climber.setZero();
+            //else    
+              //  climber.setZero();
         }
-        if(Controls.getRightControllerBumperPressed()) {
-            climber.movePiston();
+        else {
+            climber.stopArm();
         }
         */
+        if(Controls.getRightControllerTrigger() > Controls.getLeftControllerTrigger()) {
+            climber.extendArmTrigger(Controls.getRightControllerTrigger());
+        }
+        else if(Controls.getLeftControllerTrigger() > Controls.getRightControllerTrigger()) {
+            climber.reverseArmTrigger(Controls.getLeftControllerTrigger());
+        }
+
+        if(Controls.getControllerX()) {
+            climber.movePistonDown();
+        }
+        else if(Controls.getControllerB()) {
+            climber.movePistonUp();
+        }
+        
+
+        
 
 
 /*--------------------------------ShuffleBoard------------------------------------------------
@@ -427,6 +446,8 @@ public class DriveCommand extends CommandBase {
         shuffleboard.number("Velocity Y", navX.getYVelocity());
         shuffleboard.number("Velocity Z", navX.getZVelocity());
         shuffleboard.number("LimeLight RPM", desiredRPM);
+        shuffleboard.number("Climber Sensor", climber.getSensorPos());
+        shuffleboard.number("Climber Current", climber.getCurrent());
 
 
     }

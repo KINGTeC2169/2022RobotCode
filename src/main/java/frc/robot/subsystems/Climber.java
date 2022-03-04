@@ -15,22 +15,46 @@ public class Climber extends SubsystemBase {
     TalonFX climber = new TalonFX(ActuatorMap.climber);
     DoubleSolenoid climberAdjuster = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, ActuatorMap.climberPistonOne, ActuatorMap.climberPistonTwo);
     Solenoid ratchet = new Solenoid(PneumaticsModuleType.CTREPCM, ActuatorMap.winch);
+    
+    public Climber() {
+        climber.configOpenloopRamp(1);
+    }
+
+    public void extendArmTrigger(double power) {
+        climber.set(ControlMode.PercentOutput, -power);
+    }
+
+    public void reverseArmTrigger(double power) {
+        climber.set(ControlMode.PercentOutput, power);
+    }
+
     public void init() {
         climberAdjuster.set(Value.kForward);
     }
 
     public void extendArm() {
-        climber.set(ControlMode.PercentOutput, 0.5);
+        climber.set(ControlMode.PercentOutput, -0.2);
+    }
+
+    public void stopArm() {
+        climber.set(ControlMode.PercentOutput, 0);
     }
 
     public void retractArm() {
-        climber.set(ControlMode.PercentOutput, -0.5);
+        climber.set(ControlMode.PercentOutput, 0.2);
     }
     
-    public void movePiston() {
+    public double getSensorPos() {
+        return climber.getSelectedSensorPosition();
+    }
+
+    public void movePistonUp() {
         //Apparently we have to 'wiggle' the pistons somehow
-        climberAdjuster.toggle();
+        climberAdjuster.set(Value.kForward);
         }
+    public void movePistonDown() {
+        climberAdjuster.set(Value.kReverse);
+    }
     public double getCurrent() {
         return climber.getSupplyCurrent();
     }
