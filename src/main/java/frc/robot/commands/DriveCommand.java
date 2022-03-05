@@ -50,7 +50,7 @@ public class DriveCommand extends CommandBase {
     private double leftDist;
     private double rightDist;
 
-    PID limeDrive = new PID(.05, 0, .005);
+    PID limeDrive = new PID(.05, 0.00005, .005);
  
     //Adds all subsystems to the driving command
     public DriveCommand(DriveTrain driveTrain, Arduino arduino, Shooter shooter, Intake intake, Indexer indexer, Climber climber, LimeLight limeLight, NavX navX, BallManager ballManager, BeamBreak beamBreak, ColorSensor colorSensor, ShuffleboardManager shuffleboard) {
@@ -216,8 +216,8 @@ public class DriveCommand extends CommandBase {
         ----------------------------------------------------------------------------------------------------------------------*/
 
         //Shooter- it shoots.
-        double rTrigger = Controls.getRightControllerTrigger() * 0;
-        double lTrigger = Controls.getLeftControllerTrigger() * 0;
+        double rTrigger = Controls.getRightControllerTrigger();
+        double lTrigger = Controls.getLeftControllerTrigger();
         if(!isManualLimeLight) {
             
 
@@ -240,13 +240,13 @@ public class DriveCommand extends CommandBase {
                 if(colorSensor.isEnemyColor())
                     shooter.shoot(-rTrigger);
                 else
-                    shooter.setCoolerRPM(-desiredRPM);
+                    shooter.setCoolerestRPM(-desiredRPM);
             }
             else if(lTrigger > rTrigger) {
                 if(colorSensor.isEnemyColor())
                     shooter.shoot(lTrigger);
                 else {
-                    shooter.setCoolerRPM(desiredRPM);
+                    shooter.setCoolerestRPM(desiredRPM);
                 }
             } else {
                 shooter.stopShooter();
@@ -399,6 +399,7 @@ public class DriveCommand extends CommandBase {
             climber.stopArm();
         }
         */
+        /*
         if(Controls.getRightControllerTrigger() > Controls.getLeftControllerTrigger()) {
             climber.extendArmTrigger(Controls.getRightControllerTrigger());
         }
@@ -412,7 +413,7 @@ public class DriveCommand extends CommandBase {
         else if(Controls.getControllerB()) {
             climber.movePistonUp();
         }
-        
+        */
 
         
 

@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.ActuatorMap;
 import frc.robot.utils.Constants;
+import frc.robot.utils.PID;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
@@ -22,6 +23,7 @@ public class Shooter extends SubsystemBase {
     double intstagrill;
     double previousPower = 0.0;
     double previousError = 0.0;
+    PID rpmLoop = new PID(.0005, 0, 0);
     
 
     public Shooter() {
@@ -55,8 +57,14 @@ public class Shooter extends SubsystemBase {
       else if (previousPower < -1){
         previousPower = -1;
       }
+    }
 
-       
+    public void setCoolerestRPM(double rpm) {
+        CompressorTank.disable();
+        rpmLoop.setSetpoint(rpm);
+        rpmLoop.calculate(getRPM());
+        shooter.set(ControlMode.PercentOutput, rpmLoop.getOutput());
+        System.out.println("i like large balls");
     }
 
     public boolean hitRPM() {
