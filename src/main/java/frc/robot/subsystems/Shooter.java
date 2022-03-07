@@ -23,7 +23,7 @@ public class Shooter extends SubsystemBase {
     double intstagrill;
     double previousPower = 0.0;
     double previousError = 0.0;
-    PID rpmLoop = new PID(.0005, 0, 0);
+    PID rpmLoop = new PID(.0005, 0, .05);
     
 
     public Shooter() {
@@ -64,7 +64,7 @@ public class Shooter extends SubsystemBase {
         rpmLoop.setSetpoint(rpm);
         rpmLoop.calculate(getRPM());
         shooter.set(ControlMode.PercentOutput, rpmLoop.getOutput());
-        System.out.println("i like large balls");
+        System.out.println(rpm);
     }
 
     public boolean hitRPM() {
