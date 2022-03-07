@@ -23,7 +23,7 @@ public class Shooter extends SubsystemBase {
     double intstagrill;
     double previousPower = 0.0;
     double previousError = 0.0;
-    PID rpmLoop = new PID(.0005, 0, .05);
+    PID rpmLoop = new PID(.0004, .0008, .000005);
     
 
     public Shooter() {
@@ -63,8 +63,9 @@ public class Shooter extends SubsystemBase {
         CompressorTank.disable();
         rpmLoop.setSetpoint(rpm);
         rpmLoop.calculate(getRPM());
+        //System.out.println("OutPut: " + rpmLoop.getOutput());
         shooter.set(ControlMode.PercentOutput, rpmLoop.getOutput());
-        System.out.println(rpm);
+        //System.out.println(rpm);
     }
 
     public boolean hitRPM() {

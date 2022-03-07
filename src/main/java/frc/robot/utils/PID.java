@@ -19,6 +19,7 @@ public class PID {
 		final double derivative = (error - this.previous_error) / .02;
 		this.output = P * error + I * this.integral + D * derivative;
 		this.previous_error = error;
+		//System.out.println("Error: " + error);
 	}
 
 	public void setSetpoint(double setpoint) {
