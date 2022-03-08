@@ -12,7 +12,7 @@ public class LimeLight extends SubsystemBase{
     public static double rimHeight = 104; // Height of upper HUB rim in inches
     public static final double launchHeight = 26; // Height of ball when last contacting ramp
     public static final double fgInInchesPerSec = -386.2204724; // The acceleration due to gravity in in/sec
-    public static final double rampAngle = 67.5; // in degrees
+    public static final double rampAngle = 71; // in degrees
     public static final double flywheelRadius = .0508; // in meters
     public static final double wheelMass = 1.22; // in kg
     public static final double wheelRadius = .0508; // Wheel radius in meters
