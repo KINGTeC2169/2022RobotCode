@@ -1,7 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.Autonomous;
+import frc.robot.autoCommands.Autonomous;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.RobotInit;
 import frc.robot.commands.TestingCommand;
