@@ -216,8 +216,8 @@ public class DriveCommand extends CommandBase {
         ----------------------------------------------------------------------------------------------------------------------*/
 
         //Shooter- it shoots.
-        double rTrigger = Controls.getRightControllerTrigger();
-        double lTrigger = Controls.getLeftControllerTrigger();
+        double rTrigger = Controls.getRightControllerTrigger() * 0;
+        double lTrigger = Controls.getLeftControllerTrigger() * 0;
         if(!isManualLimeLight) {
             
 
@@ -399,7 +399,7 @@ public class DriveCommand extends CommandBase {
             climber.stopArm();
         }
         */
-        /*
+        
         if(Controls.getRightControllerTrigger() > Controls.getLeftControllerTrigger()) {
             climber.extendArmTrigger(Controls.getRightControllerTrigger());
         }
@@ -407,6 +407,7 @@ public class DriveCommand extends CommandBase {
             climber.reverseArmTrigger(Controls.getLeftControllerTrigger());
         }
 
+        /*
         if(Controls.getControllerX()) {
             climber.movePistonDown();
         }
@@ -414,6 +415,12 @@ public class DriveCommand extends CommandBase {
             climber.movePistonUp();
         }
         */
+
+        if(Controls.getControllerXPressed()) {
+            climber.toggLock();
+        }
+        
+        
 
         
 

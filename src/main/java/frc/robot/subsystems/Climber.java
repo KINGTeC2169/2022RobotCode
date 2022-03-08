@@ -76,6 +76,9 @@ public class Climber extends SubsystemBase {
     public void unlock() {
         ratchet.set(false);
     }
+    public void toggLock() {
+        ratchet.toggle();
+    }
     public void setZero() {
         climber.setSelectedSensorPosition(0);
     }
