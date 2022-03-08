@@ -11,5 +11,28 @@ public class Arduino extends SubsystemBase {
     public void changeLed(boolean isOn) {
         ledLeft.set(isOn);
     }
+
+    public void blinkLeft() {
+
+    }
+
+    public void blinkRight() {
+
+    }
+
+    public void rightOn() {
+
+    }
     
+    public void leftOn() {
+
+    }
+
+    public void leftOff() {
+
+    }
+
+    public void rightOff() {
+
+    }
 }
