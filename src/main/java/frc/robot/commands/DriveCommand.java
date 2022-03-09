@@ -454,6 +454,7 @@ public class DriveCommand extends CommandBase {
         shuffleboard.number("LimeLight RPM", desiredRPM);
         shuffleboard.number("Climber Sensor", climber.getSensorPos());
         shuffleboard.number("Climber Current", climber.getCurrent());
+        shuffleboard.number("Stator Current", climber.getStatorCurrent());
 
 
     }

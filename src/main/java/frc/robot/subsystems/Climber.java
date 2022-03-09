@@ -59,6 +59,10 @@ public class Climber extends SubsystemBase {
         return climber.getSupplyCurrent();
     }
 
+    public double getStatorCurrent() {
+        return climber.getStatorCurrent();
+    }
+
     public double getSensorPos() {
         return climber.getSelectedSensorPosition();
     }

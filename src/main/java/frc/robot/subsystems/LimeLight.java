@@ -37,30 +37,16 @@ public class LimeLight extends SubsystemBase{
     public double getLeftYPercent() {
         return limeLightLeft.getEntry("ty").getDouble(0);
     }
-    public double autoAimPower() {
-        double error = getLeftXPercent() + getRightXPercent();
-        //double power = previousPower + (error* .00000125);
-        double power = previousPower + (error* .00014);
-        previousPower = power;
-       if(previousPower > 1){
-        previousPower = 1;
-      }
-      else if (previousPower < -1){
-        previousPower = -1;
-      }
-      return power;
-
-    }
-
+    
     public double getRightDistance() {
         if(getRightYPercent() == 0)
             return 0.0;
-        return ((63.593059725) / Math.tan(((29.4 + getRightYPercent()) * Math.PI)/180))/* + 131.0*/;
+        return ((63.593059725) / Math.tan(((29.4 + getRightYPercent()) * Math.PI)/180)) + 24/* + 131.0*/;
     }
     public double getLeftDistance() {
         if(getLeftYPercent() == 0)
             return 0.0;
-        return ((63.593059725) / Math.tan(((29.4 + getLeftYPercent()) * Math.PI)/180 ))/* + 131.0*/;
+        return ((63.593059725) / Math.tan(((29.4 + getLeftYPercent()) * Math.PI)/180 )) + 24/* + 131.0*/;
     }
     
     public void setRightPipeline(int pipelineID) {
@@ -73,11 +59,9 @@ public class LimeLight extends SubsystemBase{
 
     public double rpm() {
         if(getLeftDistance() > 0 && getRightDistance() == 0) {
-            //return equation
             return getRPM(getLeftDistance());
         }
         else if(getRightDistance() > 0 && getLeftDistance() == 0) {
-            //return equation
             return getRPM(getRightDistance());
         }
         else
