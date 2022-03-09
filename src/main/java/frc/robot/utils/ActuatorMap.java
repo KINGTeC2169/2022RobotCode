@@ -18,9 +18,9 @@ public class ActuatorMap {
     public static final int climber = 2;
     
     //Digital Inputs/Outputs (DIO)
-    public static final int beamBreak = 2;
-    public static final int leftLed = 5;
-    public static final int rightLed = 6;
+    public static final int beamBreak = 0;
+    public static final int leftLed = 7;
+    public static final int rightLed = 8;
 
     //Pneumatics Control Module (PCM) 
     public static final int intakePistonOne = 3;

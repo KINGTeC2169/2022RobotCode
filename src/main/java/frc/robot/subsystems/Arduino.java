@@ -9,18 +9,9 @@ import frc.robot.utils.ActuatorMap;
 public class Arduino extends SubsystemBase {
     DigitalOutput ledLeft = new DigitalOutput(ActuatorMap.leftLed);
     DigitalOutput ledRight = new DigitalOutput(ActuatorMap.rightLed);
-    Timer time = new Timer();
     
     public void changeLed(boolean isOn) {
         ledLeft.set(isOn);
-    }
-
-    public void blinkLeft() {
-
-    }
-
-    public void blinkRight() {
-
     }
 
     public void rightOn() {
@@ -32,10 +23,20 @@ public class Arduino extends SubsystemBase {
     }
 
     public void leftOff() {
-
+        ledLeft.set(false);
     }
 
     public void rightOff() {
+        ledLeft.set(false);
+    }
 
+    public void off() {
+        ledRight.set(false);
+        ledLeft.set(false);
+    }
+
+    public void on() {
+        ledRight.set(true);
+        ledLeft.set(true);
     }
 }

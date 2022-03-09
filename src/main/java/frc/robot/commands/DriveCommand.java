@@ -23,7 +23,6 @@ import frc.robot.utils.PID;
 public class DriveCommand extends CommandBase {
     private Timer timer = new Timer();
     private double indexerTimeSave;
-    private double shooterTimeSave;
     
     private DriveTrain driveTrain;
     private Arduino arduino;
@@ -47,8 +46,6 @@ public class DriveCommand extends CommandBase {
     private boolean isManualLimeLight = true;
     private boolean isManualBalls = true;
     private double desiredRPM;
-    private double leftDist;
-    private double rightDist;
 
     PID limeDrive = new PID(.05, 0.00005, .005);
  
@@ -214,7 +211,8 @@ public class DriveCommand extends CommandBase {
         ------------------------------------------Just wanted to break it up a little more- *just a little*-------------------
         ----------------------------------------------------------------------------------------------------------------------
         ----------------------------------------------------------------------------------------------------------------------*/
-
+        //arduino.rightOn();
+        //arduino.leftOn();
         //Shooter- it shoots.
         double rTrigger = Controls.getRightControllerTrigger();
         double lTrigger = Controls.getLeftControllerTrigger();
@@ -223,12 +221,8 @@ public class DriveCommand extends CommandBase {
 
 
             //Shoots based on which trigger is pressed, one set of LEDs is set up
-
-            //TODO: this will be an equation based on limelight distance
-            //Option 2:
             if(limeLight.rpm() != 0) {
                 desiredRPM = limeLight.rpm();
-                System.out.println(limeLight.rpm());
             }
             else {
                 //Error: limelight malfunction- shoot from edge of tarmac
@@ -241,6 +235,8 @@ public class DriveCommand extends CommandBase {
                     shooter.shoot(-rTrigger);
                 else
                     shooter.setCoolerestRPM(-desiredRPM);
+                arduino.rightOff();
+                //arduino.leftOff();
             }
             else if(lTrigger > rTrigger) {
                 if(colorSensor.isEnemyColor())
@@ -248,20 +244,23 @@ public class DriveCommand extends CommandBase {
                 else {
                     shooter.setCoolerestRPM(desiredRPM);
                 }
+                arduino.leftOff();
+                //arduino.rightOff();
             } else {
                 shooter.stopShooter();
                 CompressorTank.enable();
+                arduino.on();
             }
 
         } else {
 
 
             if(rTrigger > lTrigger) {
-                shooter.shoot(-rTrigger);
-                //shooter.setCoolerRPM(-500);
+                //shooter.shoot(-rTrigger);
+                shooter.setCoolerestRPM(-3600);
             } else if(rTrigger < lTrigger) {
-                shooter.shoot(lTrigger);
-                //shooter.setCoolerRPM(500);
+                //shooter.shoot(lTrigger);
+                shooter.setCoolerestRPM(3600);
             } else {
                 CompressorTank.enable();
                 shooter.stopShooter();
@@ -290,10 +289,10 @@ public class DriveCommand extends CommandBase {
             if(Controls.getRightControllerBumper()) {
                 indexer.suckUp(Controls.getRightControllerBumper());
                 //TODO: wtf do we do this??
-                arduino.changeLed(false);
+                //arduino.changeLed(false);
             } else {
                 indexer.reverseSuckUp(Controls.getRightStickBottom());
-                arduino.changeLed(true);
+                //arduino.changeLed(true);
             }
             
             if(Controls.getLeftControllerBumperPressed() || indexer.isShoveBallRunning()) {
@@ -325,7 +324,6 @@ public class DriveCommand extends CommandBase {
             }
 
             //Moves cylinder for indexing/shooting
-            //TODO: Does not work
             if(Controls.getLeftControllerBumper() || indexer.isShoveBallRunning()) {
                     indexer.shoveBall();
                     ballManager.shootBall();
@@ -385,20 +383,18 @@ public class DriveCommand extends CommandBase {
         ----------------------------------------------------------------------------------------------------------------------*/
         //Climber -- Y = arm goes up, A = arm goes down, RightBumper = move cylinder 
 
-        /*
-        if(Controls.getControllerY()) {
-           // if(!climber.isTop())
-                climber.extendArm();
-        } else if(Controls.getControllerA()) {
-           // if(!climber.isBottom())
-                climber.retractArm();
-            //else    
-              //  climber.setZero();
+        if(Controls.getControllerA() && !climber.isBottom()) {
+            climber.retractArm();
         }
-        else {
+        else if (Controls.getControllerY() && !climber.isTop()) {
+            climber.extendArm();
+        }
+        else 
             climber.stopArm();
+
+        if(Controls.getControllerB()) {
+            climber.setZero();
         }
-        */
         /*
         if(Controls.getRightControllerTrigger() > Controls.getLeftControllerTrigger()) {
             climber.extendArmTrigger(Controls.getRightControllerTrigger());
@@ -414,8 +410,10 @@ public class DriveCommand extends CommandBase {
         else if(Controls.getControllerB()) {
             climber.movePistonUp();
         }
+        else {
+            climber.pistonOff();
+        }
         */
-
         if(Controls.getControllerXPressed()) {
             climber.toggLock();
         }
@@ -450,9 +448,9 @@ public class DriveCommand extends CommandBase {
         shuffleboard.number("Shooter Current", shooter.getCurrent());
         //shuffleboard.number("filpenmungus", beamBreak.isBall2());
         shuffleboard.number("Shooter Voltage", shooter.getVoltage());
-        shuffleboard.number("Velocity X", navX.getXVelocity());
-        shuffleboard.number("Velocity Y", navX.getYVelocity());
-        shuffleboard.number("Velocity Z", navX.getZVelocity());
+        //shuffleboard.number("Velocity X", navX.getXVelocity());
+        //shuffleboard.number("Velocity Y", navX.getYVelocity());
+        //shuffleboard.number("Velocity Z", navX.getZVelocity());
         shuffleboard.number("LimeLight RPM", desiredRPM);
         shuffleboard.number("Climber Sensor", climber.getSensorPos());
         shuffleboard.number("Climber Current", climber.getCurrent());
