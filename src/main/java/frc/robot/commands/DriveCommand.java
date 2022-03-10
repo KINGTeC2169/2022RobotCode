@@ -256,11 +256,11 @@ public class DriveCommand extends CommandBase {
 
 
             if(rTrigger > lTrigger) {
-                //shooter.shoot(-rTrigger);
-                shooter.setCoolerestRPM(-3600);
+                shooter.shoot(-rTrigger);
+                //shooter.setCoolerestRPM(-3600);
             } else if(rTrigger < lTrigger) {
-                //shooter.shoot(lTrigger);
-                shooter.setCoolerestRPM(3600);
+                shooter.shoot(lTrigger);
+                //shooter.setCoolerestRPM(3600);
             } else {
                 CompressorTank.enable();
                 shooter.stopShooter();
@@ -392,9 +392,15 @@ public class DriveCommand extends CommandBase {
         else 
             climber.stopArm();
 
-        if(Controls.getControllerB()) {
+
+        
+        if(Controls.getDPad() == 270) {
+            climber.retractArm();
+        }
+        if(Controls.getDPad() == 90) {
             climber.setZero();
         }
+
         /*
         if(Controls.getRightControllerTrigger() > Controls.getLeftControllerTrigger()) {
             climber.extendArmTrigger(Controls.getRightControllerTrigger());
@@ -403,7 +409,7 @@ public class DriveCommand extends CommandBase {
             climber.reverseArmTrigger(Controls.getLeftControllerTrigger());
         }   
         */
-        /*
+        
         if(Controls.getControllerX()) {
             climber.movePistonDown();
         }
@@ -413,11 +419,13 @@ public class DriveCommand extends CommandBase {
         else {
             climber.pistonOff();
         }
-        */
+        
+
+        /*
         if(Controls.getControllerXPressed()) {
             climber.toggLock();
         }
-        
+        */
         
 
         
@@ -446,7 +454,6 @@ public class DriveCommand extends CommandBase {
         shuffleboard.boolInABox("BeamBreak", beamBreak.isBall());
         shuffleboard.number("Shooter Percent Output", (lTrigger > rTrigger ? lTrigger : rTrigger));
         shuffleboard.number("Shooter Current", shooter.getCurrent());
-        //shuffleboard.number("filpenmungus", beamBreak.isBall2());
         shuffleboard.number("Shooter Voltage", shooter.getVoltage());
         //shuffleboard.number("Velocity X", navX.getXVelocity());
         //shuffleboard.number("Velocity Y", navX.getYVelocity());

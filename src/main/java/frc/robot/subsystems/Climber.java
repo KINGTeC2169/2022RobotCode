@@ -43,6 +43,14 @@ public class Climber extends SubsystemBase {
     public void retractArm() {
         climber.set(ControlMode.PercentOutput, 0.2);
     }
+
+    public double motorPower() {
+        if(!isBottom() && !isTop()) {
+            return getCurrent() / 10.0;
+        }
+        else
+            return 0;
+    }
     
     
 
@@ -68,10 +76,14 @@ public class Climber extends SubsystemBase {
     }
 
     public boolean isTop() {
-        return climber.getSelectedSensorPosition() >= Constants.climberLimit;
+        return climber.getSelectedSensorPosition() <= Constants.climberLimit;
     }
 
     public boolean isBottom() {
+        return climber.getSelectedSensorPosition() > 0;
+    }
+
+    public boolean isBottomCurrent() {
         return getCurrent() > Constants.climberCurrent;
     }
 

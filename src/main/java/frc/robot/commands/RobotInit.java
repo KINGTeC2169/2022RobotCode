@@ -46,11 +46,14 @@ public class RobotInit extends CommandBase {
         indexer.down();
         //TODO: 26 is a placeholder for current, make sure to change
         //for(double current = climber.getCurrent(); current < Constants.climberCurrent; current = climber.getCurrent()) {
-            //climber.retractArm();
+          //  climber.retractArm();
         //}
-        //climber.setZero();
+        //climber.stopArm();
+        climber.setZero();
         isDone = true;
         timer.reset();
+
+
     }
     @Override
     public boolean isFinished() {
