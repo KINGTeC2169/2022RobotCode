@@ -15,6 +15,7 @@ public class Climber extends SubsystemBase {
     TalonFX climber = new TalonFX(ActuatorMap.climber);
     DoubleSolenoid climberAdjuster = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, ActuatorMap.climberPistonOne, ActuatorMap.climberPistonTwo);
     Solenoid ratchet = new Solenoid(PneumaticsModuleType.CTREPCM, ActuatorMap.winch);
+    private double limit = -200000;
     
     public Climber() {
         climber.configOpenloopRamp(0);
@@ -33,6 +34,10 @@ public class Climber extends SubsystemBase {
     }
 
     public void extendArm() {
+        climber.set(ControlMode.PercentOutput, -1);
+    }
+
+    public void extendArmSlow() {
         climber.set(ControlMode.PercentOutput, -0.2);
     }
 
@@ -41,6 +46,10 @@ public class Climber extends SubsystemBase {
     }
 
     public void retractArm() {
+        climber.set(ControlMode.PercentOutput, 1);
+    }
+
+    public void retractArmSlow() {
         climber.set(ControlMode.PercentOutput, 0.2);
     }
 
@@ -76,10 +85,17 @@ public class Climber extends SubsystemBase {
     }
 
     public boolean isTop() {
-        return climber.getSelectedSensorPosition() <= Constants.climberLimit;
+        if(true)
+            return false;
+        if(getStatorCurrent() > 50) {
+            return climber.getSelectedSensorPosition() <= (limit - 20000);
+        }
+        else
+            return climber.getSelectedSensorPosition() <= limit;
     }
 
     public boolean isBottom() {
+        
         return climber.getSelectedSensorPosition() > 0;
     }
 

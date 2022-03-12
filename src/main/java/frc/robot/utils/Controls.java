@@ -79,6 +79,14 @@ public class Controls {
         return controller.getPOV();
     }
 
+    public static boolean babyBackRibs() {
+        return controller.getBackButtonPressed();
+    }
+
+    public static boolean startYourEngines() {
+        return controller.getStartButtonPressed();
+    }
+
     //Joystick inputs
     public static double getLeftStickY() {
         return -leftJoy.getY();

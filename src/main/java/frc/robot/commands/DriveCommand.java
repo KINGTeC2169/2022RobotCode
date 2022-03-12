@@ -46,6 +46,7 @@ public class DriveCommand extends CommandBase {
     private boolean isManualLimeLight = true;
     private boolean isManualBalls = true;
     private double desiredRPM;
+    private boolean climbingTime;
 
     PID limeDrive = new PID(.05, 0.00005, .005);
  
@@ -205,7 +206,7 @@ public class DriveCommand extends CommandBase {
 
         /*--------------------------------Shooting------------------------------------------------
         ----------------------------------------------------------------------------------------------------------------------
-        ----------------------------------------------------------------------------------------------------------------------
+        --------------------------------------------240,000--------------------------------------------------------------------------
         ----------------------------------------------------------------------------------------------------------------------
         ----------------------------------------------------------------------------------------------------------------------
         ------------------------------------------Just wanted to break it up a little more- *just a little*-------------------
@@ -343,9 +344,9 @@ public class DriveCommand extends CommandBase {
         ------------------------------------------Just wanted to break it up a little more- *just a little*-------------------
         ----------------------------------------------------------------------------------------------------------------------
         ----------------------------------------------------------------------------------------------------------------------*/
-        if(Controls.getDPad() == 0)
+        if(Controls.getDPad() == 90)
             intake.up();
-        else if(Controls.getDPad() == 180)
+        else if(Controls.getDPad() == 270)
             intake.down();
         else {
             intake.off();
@@ -383,6 +384,7 @@ public class DriveCommand extends CommandBase {
         ----------------------------------------------------------------------------------------------------------------------*/
         //Climber -- Y = arm goes up, A = arm goes down, RightBumper = move cylinder 
 
+
         if(Controls.getControllerA() && !climber.isBottom()) {
             climber.retractArm();
         }
@@ -394,10 +396,13 @@ public class DriveCommand extends CommandBase {
 
 
         
-        if(Controls.getDPad() == 270) {
-            climber.retractArm();
+        if(Controls.getDPad() == 180) {
+            climber.retractArmSlow();
         }
-        if(Controls.getDPad() == 90) {
+        if(Controls.getDPad() == 0) {
+            climber.extendArmSlow();
+        }
+        if(Controls.babyBackRibs()) {
             climber.setZero();
         }
 
@@ -409,23 +414,32 @@ public class DriveCommand extends CommandBase {
             climber.reverseArmTrigger(Controls.getLeftControllerTrigger());
         }   
         */
-        
-        if(Controls.getControllerX()) {
-            climber.movePistonDown();
-        }
-        else if(Controls.getControllerB()) {
-            climber.movePistonUp();
+        if(!climbingTime) {
+            if(Controls.getControllerX()) {
+                climber.movePistonDown();
+                climbingTime = true;
+            }
+            else {
+                climber.movePistonUp();
+            }
         }
         else {
-            climber.pistonOff();
+            if(Controls.getControllerX()) {
+                climber.movePistonDown();
+            }
+            else if(Controls.getControllerB()) {
+                climber.movePistonUp();
+            }
+            else {
+                climber.pistonOff();
+            }
         }
-        
 
-        /*
-        if(Controls.getControllerXPressed()) {
+        
+        if(Controls.startYourEngines()) {
             climber.toggLock();
         }
-        */
+        
         
 
         
@@ -445,19 +459,15 @@ public class DriveCommand extends CommandBase {
         shuffleboard.boolInABox("POS: 2", ballManager.getSecondPositionBall());
         shuffleboard.boolInABox("Manual Balls", isManualBalls);
         shuffleboard.boolInABox("Manual LimeLight", isManualLimeLight);
-        shuffleboard.boolInABox("dog shifter is in high gear", driveTrain.dogStatus());
-        shuffleboard.number("Speed", navX.getSpeed());
+        shuffleboard.boolInABox("Is High Gear", !driveTrain.dogStatus());
         shuffleboard.number("Right Distance", limeLight.getRightDistance());
         shuffleboard.number("Left Distance", limeLight.getLeftDistance());
         shuffleboard.number("Shooter RPM", shooter.getRPM());
         shuffleboard.number("Shooter RPM again", shooter.getRPM());
         shuffleboard.boolInABox("BeamBreak", beamBreak.isBall());
-        shuffleboard.number("Shooter Percent Output", (lTrigger > rTrigger ? lTrigger : rTrigger));
-        shuffleboard.number("Shooter Current", shooter.getCurrent());
+        //shuffleboard.number("Shooter Percent Output", (lTrigger > rTrigger ? lTrigger : rTrigger));
+        //shuffleboard.number("Shooter Current", shooter.getCurrent());
         shuffleboard.number("Shooter Voltage", shooter.getVoltage());
-        //shuffleboard.number("Velocity X", navX.getXVelocity());
-        //shuffleboard.number("Velocity Y", navX.getYVelocity());
-        //shuffleboard.number("Velocity Z", navX.getZVelocity());
         shuffleboard.number("LimeLight RPM", desiredRPM);
         shuffleboard.number("Climber Sensor", climber.getSensorPos());
         shuffleboard.number("Climber Current", climber.getCurrent());
