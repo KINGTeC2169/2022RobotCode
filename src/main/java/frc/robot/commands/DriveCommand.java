@@ -47,6 +47,7 @@ public class DriveCommand extends CommandBase {
     private boolean isManualBalls = true;
     private double desiredRPM;
     private boolean climbingTime;
+    private boolean weGotA2319 = true;
 
     PID limeDrive = new PID(.05, 0.00005, .005);
  
@@ -103,6 +104,8 @@ public class DriveCommand extends CommandBase {
                 isManualLimeLight = true;
             }
         }
+
+        
         
         
         /*--------------------------------Driving------------------------------------------------
@@ -385,21 +388,35 @@ public class DriveCommand extends CommandBase {
         //Climber -- Y = arm goes up, A = arm goes down, RightBumper = move cylinder 
 
 
-        if(Controls.getControllerA() && !climber.isBottom()) {
-            climber.retractArm();
-        }
-        else if (Controls.getControllerY() && !climber.isTop()) {
-            climber.extendArm();
-        }
-        else 
-            climber.stopArm();
+        
+        if(weGotA2319) {
+            if(climber.getCurrent() < 8) {
+                System.out.println("balls");
+                climber.retractArmSlow();
+            }
+            else {
+                weGotA2319 = false;
+                climber.stopArm();
+                climber.setZero();
+            }
+        } else {
+        
 
+            if(Controls.getControllerA() && !climber.isBottom()) {
+                climber.retractArm();
+            }
+            else if (Controls.getControllerY() && !climber.isTop()) {
+                climber.extendArm();
+            }
+            else 
+                climber.stopArm();
+        }
 
         
-        if(Controls.getDPad() == 180) {
+        if(Controls.getDPad() == 180 && !climber.isBottom()) {
             climber.retractArmSlow();
         }
-        if(Controls.getDPad() == 0) {
+        if(Controls.getDPad() == 0 && !climber.isTop()) {
             climber.extendArmSlow();
         }
         if(Controls.babyBackRibs()) {
@@ -472,6 +489,9 @@ public class DriveCommand extends CommandBase {
         shuffleboard.number("Climber Sensor", climber.getSensorPos());
         shuffleboard.number("Climber Current", climber.getCurrent());
         shuffleboard.number("Stator Current", climber.getStatorCurrent());
+        shuffleboard.boolInABox("Is Enemy ball", colorSensor.isEnemyColor());
+        shuffleboard.boolInABox("Red", colorSensor.isRed());
+        shuffleboard.boolInABox("Blue", colorSensor.isBlue());
 
 
     }
