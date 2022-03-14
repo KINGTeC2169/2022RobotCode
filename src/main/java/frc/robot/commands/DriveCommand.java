@@ -198,6 +198,11 @@ public class DriveCommand extends CommandBase {
             limeDrive.calculate(limeLight.getRightXPercent() + limeLight.getLeftXPercent());
             rightPower += limeDrive.getOutput();
             leftPower -= limeDrive.getOutput();
+            //TODO: this is an experiment, probably wont work
+            driveTrain.rampOn();
+        }
+        else {
+            driveTrain.rampOff();
         }
          //applies the powers to the motors
          driveTrain.lDrive(leftPower);
