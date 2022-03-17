@@ -13,17 +13,17 @@ public class ColorSensor extends SubsystemBase {
     ColorSensorV3 sensor = new ColorSensorV3(i2cPort);
 
     public boolean isRed() {
-        return sensor.getBlue() < sensor.getRed() ? true : false;
+        return sensor.getBlue() < sensor.getRed();
     }
 
     public boolean isBlue() {
-        return sensor.getBlue() < sensor.getRed() ? false : true;
+        return sensor.getBlue() > sensor.getRed();
     }
 
     public boolean isEnemyColor() {
-        return false;
         
-        /*
+        
+        
         if(isBlue()) {
             if(DriverStation.getAlliance().equals(Alliance.Blue)) {
                 return false;
@@ -35,7 +35,7 @@ public class ColorSensor extends SubsystemBase {
             }
             return true;
         }
-        */
+        
     }
     
 }

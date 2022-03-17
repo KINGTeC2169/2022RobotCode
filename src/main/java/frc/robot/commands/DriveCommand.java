@@ -23,7 +23,6 @@ import frc.robot.utils.PID;
 public class DriveCommand extends CommandBase {
     private Timer timer = new Timer();
     private double indexerTimeSave;
-    private double shooterTimeSave;
     
     private DriveTrain driveTrain;
     private Arduino arduino;
@@ -47,8 +46,8 @@ public class DriveCommand extends CommandBase {
     private boolean isManualLimeLight = true;
     private boolean isManualBalls = true;
     private double desiredRPM;
-    private double leftDist;
-    private double rightDist;
+    private boolean climbingTime;
+    private boolean weGotA2319 = true;
 
     PID limeDrive = new PID(.05, 0.00005, .005);
  
@@ -105,6 +104,8 @@ public class DriveCommand extends CommandBase {
                 isManualLimeLight = true;
             }
         }
+
+        
         
         
         /*--------------------------------Driving------------------------------------------------
@@ -197,6 +198,11 @@ public class DriveCommand extends CommandBase {
             limeDrive.calculate(limeLight.getRightXPercent() + limeLight.getLeftXPercent());
             rightPower += limeDrive.getOutput();
             leftPower -= limeDrive.getOutput();
+            //TODO: this is an experiment, probably wont work
+            driveTrain.rampOn();
+        }
+        else {
+            driveTrain.rampOff();
         }
          //applies the powers to the motors
          driveTrain.lDrive(leftPower);
@@ -208,27 +214,24 @@ public class DriveCommand extends CommandBase {
 
         /*--------------------------------Shooting------------------------------------------------
         ----------------------------------------------------------------------------------------------------------------------
-        ----------------------------------------------------------------------------------------------------------------------
+        --------------------------------------------240,000--------------------------------------------------------------------------
         ----------------------------------------------------------------------------------------------------------------------
         ----------------------------------------------------------------------------------------------------------------------
         ------------------------------------------Just wanted to break it up a little more- *just a little*-------------------
         ----------------------------------------------------------------------------------------------------------------------
         ----------------------------------------------------------------------------------------------------------------------*/
-
+        //arduino.rightOn();
+        //arduino.leftOn();
         //Shooter- it shoots.
-        double rTrigger = Controls.getRightControllerTrigger() * 0;
-        double lTrigger = Controls.getLeftControllerTrigger() * 0;
+        double rTrigger = Controls.getRightControllerTrigger();
+        double lTrigger = Controls.getLeftControllerTrigger();
         if(!isManualLimeLight) {
             
 
 
             //Shoots based on which trigger is pressed, one set of LEDs is set up
-
-            //TODO: this will be an equation based on limelight distance
-            //Option 2:
             if(limeLight.rpm() != 0) {
                 desiredRPM = limeLight.rpm();
-                System.out.println(limeLight.rpm());
             }
             else {
                 //Error: limelight malfunction- shoot from edge of tarmac
@@ -241,6 +244,8 @@ public class DriveCommand extends CommandBase {
                     shooter.shoot(-rTrigger);
                 else
                     shooter.setCoolerestRPM(-desiredRPM);
+                arduino.rightOff();
+                //arduino.leftOff();
             }
             else if(lTrigger > rTrigger) {
                 if(colorSensor.isEnemyColor())
@@ -248,9 +253,12 @@ public class DriveCommand extends CommandBase {
                 else {
                     shooter.setCoolerestRPM(desiredRPM);
                 }
+                arduino.leftOff();
+                //arduino.rightOff();
             } else {
                 shooter.stopShooter();
                 CompressorTank.enable();
+                arduino.on();
             }
 
         } else {
@@ -258,10 +266,10 @@ public class DriveCommand extends CommandBase {
 
             if(rTrigger > lTrigger) {
                 shooter.shoot(-rTrigger);
-                //shooter.setCoolerRPM(-500);
+                //shooter.setCoolerestRPM(-3600);
             } else if(rTrigger < lTrigger) {
                 shooter.shoot(lTrigger);
-                //shooter.setCoolerRPM(500);
+                //shooter.setCoolerestRPM(3600);
             } else {
                 CompressorTank.enable();
                 shooter.stopShooter();
@@ -290,10 +298,10 @@ public class DriveCommand extends CommandBase {
             if(Controls.getRightControllerBumper()) {
                 indexer.suckUp(Controls.getRightControllerBumper());
                 //TODO: wtf do we do this??
-                arduino.changeLed(false);
+                //arduino.changeLed(false);
             } else {
                 indexer.reverseSuckUp(Controls.getRightStickBottom());
-                arduino.changeLed(true);
+                //arduino.changeLed(true);
             }
             
             if(Controls.getLeftControllerBumperPressed() || indexer.isShoveBallRunning()) {
@@ -325,7 +333,6 @@ public class DriveCommand extends CommandBase {
             }
 
             //Moves cylinder for indexing/shooting
-            //TODO: Does not work
             if(Controls.getLeftControllerBumper() || indexer.isShoveBallRunning()) {
                     indexer.shoveBall();
                     ballManager.shootBall();
@@ -345,9 +352,9 @@ public class DriveCommand extends CommandBase {
         ------------------------------------------Just wanted to break it up a little more- *just a little*-------------------
         ----------------------------------------------------------------------------------------------------------------------
         ----------------------------------------------------------------------------------------------------------------------*/
-        if(Controls.getDPad() == 0)
+        if(Controls.getDPad() == 90)
             intake.up();
-        else if(Controls.getDPad() == 180)
+        else if(Controls.getDPad() == 270)
             intake.down();
         else {
             intake.off();
@@ -385,38 +392,73 @@ public class DriveCommand extends CommandBase {
         ----------------------------------------------------------------------------------------------------------------------*/
         //Climber -- Y = arm goes up, A = arm goes down, RightBumper = move cylinder 
 
-        /*
-        if(Controls.getControllerY()) {
-           // if(!climber.isTop())
-                climber.extendArm();
-        } else if(Controls.getControllerA()) {
-           // if(!climber.isBottom())
-                climber.retractArm();
-            //else    
-              //  climber.setZero();
-        }
-        else {
-            climber.stopArm();
-        }
-        */
+
         
+        if(weGotA2319) {
+            if(climber.getCurrent() < 8) {
+                System.out.println("balls");
+                climber.retractArmSlow();
+            }
+            else {
+                weGotA2319 = false;
+                climber.stopArm();
+                climber.setZero();
+            }
+        } else {
+        
+
+            if(Controls.getControllerA() && !climber.isBottom()) {
+                climber.retractArm();
+            }
+            else if (Controls.getControllerY() && !climber.isTop()) {
+                climber.extendArm();
+            }
+            else 
+                climber.stopArm();
+        }
+
+        
+        if(Controls.getDPad() == 180 && !climber.isBottom()) {
+            climber.retractArmSlow();
+        }
+        if(Controls.getDPad() == 0 && !climber.isTop()) {
+            climber.extendArmSlow();
+        }
+        if(Controls.babyBackRibs()) {
+            climber.setZero();
+        }
+
+        /*
         if(Controls.getRightControllerTrigger() > Controls.getLeftControllerTrigger()) {
             climber.extendArmTrigger(Controls.getRightControllerTrigger());
         }
         else if(Controls.getLeftControllerTrigger() > Controls.getRightControllerTrigger()) {
             climber.reverseArmTrigger(Controls.getLeftControllerTrigger());
-        }
-
-        /*
-        if(Controls.getControllerX()) {
-            climber.movePistonDown();
-        }
-        else if(Controls.getControllerB()) {
-            climber.movePistonUp();
-        }
+        }   
         */
+        if(!climbingTime) {
+            if(Controls.getControllerX()) {
+                climber.movePistonDown();
+                climbingTime = true;
+            }
+            else {
+                climber.movePistonUp();
+            }
+        }
+        else {
+            if(Controls.getControllerX()) {
+                climber.movePistonDown();
+            }
+            else if(Controls.getControllerB()) {
+                climber.movePistonUp();
+            }
+            else {
+                climber.pistonOff();
+            }
+        }
 
-        if(Controls.getControllerXPressed()) {
+        
+        if(Controls.startYourEngines()) {
             climber.toggLock();
         }
         
@@ -439,23 +481,22 @@ public class DriveCommand extends CommandBase {
         shuffleboard.boolInABox("POS: 2", ballManager.getSecondPositionBall());
         shuffleboard.boolInABox("Manual Balls", isManualBalls);
         shuffleboard.boolInABox("Manual LimeLight", isManualLimeLight);
-        shuffleboard.boolInABox("dog shifter is in high gear", driveTrain.dogStatus());
-        shuffleboard.number("Speed", navX.getSpeed());
+        shuffleboard.boolInABox("Is High Gear", !driveTrain.dogStatus());
         shuffleboard.number("Right Distance", limeLight.getRightDistance());
         shuffleboard.number("Left Distance", limeLight.getLeftDistance());
         shuffleboard.number("Shooter RPM", shooter.getRPM());
         shuffleboard.number("Shooter RPM again", shooter.getRPM());
         shuffleboard.boolInABox("BeamBreak", beamBreak.isBall());
-        shuffleboard.number("Shooter Percent Output", (lTrigger > rTrigger ? lTrigger : rTrigger));
-        shuffleboard.number("Shooter Current", shooter.getCurrent());
-        //shuffleboard.number("filpenmungus", beamBreak.isBall2());
+        //shuffleboard.number("Shooter Percent Output", (lTrigger > rTrigger ? lTrigger : rTrigger));
+        //shuffleboard.number("Shooter Current", shooter.getCurrent());
         shuffleboard.number("Shooter Voltage", shooter.getVoltage());
-        shuffleboard.number("Velocity X", navX.getXVelocity());
-        shuffleboard.number("Velocity Y", navX.getYVelocity());
-        shuffleboard.number("Velocity Z", navX.getZVelocity());
         shuffleboard.number("LimeLight RPM", desiredRPM);
         shuffleboard.number("Climber Sensor", climber.getSensorPos());
         shuffleboard.number("Climber Current", climber.getCurrent());
+        shuffleboard.number("Stator Current", climber.getStatorCurrent());
+        shuffleboard.boolInABox("Is Enemy ball", colorSensor.isEnemyColor());
+        shuffleboard.boolInABox("Red", colorSensor.isRed());
+        shuffleboard.boolInABox("Blue", colorSensor.isBlue());
 
 
     }

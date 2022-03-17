@@ -63,14 +63,11 @@ public class Shooter extends SubsystemBase {
         CompressorTank.disable();
         rpmLoop.setSetpoint(rpm);
         rpmLoop.calculate(getRPM());
-        //System.out.println("OutPut: " + rpmLoop.getOutput());
         shooter.set(ControlMode.PercentOutput, rpmLoop.getOutput());
-        //System.out.println(rpm);
     }
 
     public boolean hitRPM() {
         return hitRPM;
-
     }
 
     public void stopShooter() {
@@ -79,6 +76,7 @@ public class Shooter extends SubsystemBase {
     public double getCurrent() {
         return shooter.getSupplyCurrent();
     }
+
     public double getVoltage() {
         return shooter.getMotorOutputVoltage();
     }

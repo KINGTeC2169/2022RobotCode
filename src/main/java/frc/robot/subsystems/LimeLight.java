@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import javax.lang.model.util.ElementScanner6;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -12,7 +11,7 @@ public class LimeLight extends SubsystemBase{
     public static double rimHeight = 104; // Height of upper HUB rim in inches
     public static final double launchHeight = 26; // Height of ball when last contacting ramp
     public static final double fgInInchesPerSec = -386.2204724; // The acceleration due to gravity in in/sec
-    public static final double rampAngle = 67.5; // in degrees
+    public static final double rampAngle = 71; // in degrees
     public static final double flywheelRadius = .0508; // in meters
     public static final double wheelMass = 1.22; // in kg
     public static final double wheelRadius = .0508; // Wheel radius in meters
@@ -38,30 +37,16 @@ public class LimeLight extends SubsystemBase{
     public double getLeftYPercent() {
         return limeLightLeft.getEntry("ty").getDouble(0);
     }
-    public double autoAimPower() {
-        double error = getLeftXPercent() + getRightXPercent();
-        //double power = previousPower + (error* .00000125);
-        double power = previousPower + (error* .00014);
-        previousPower = power;
-       if(previousPower > 1){
-        previousPower = 1;
-      }
-      else if (previousPower < -1){
-        previousPower = -1;
-      }
-      return power;
-
-    }
-
+    
     public double getRightDistance() {
         if(getRightYPercent() == 0)
             return 0.0;
-        return ((63.593059725) / Math.tan(((29.4 + getRightYPercent()) * Math.PI)/180))/* + 131.0*/;
+        return ((63.593059725) / Math.tan(((29.4 + getRightYPercent()) * Math.PI)/180)) + 24/* + 131.0*/;
     }
     public double getLeftDistance() {
         if(getLeftYPercent() == 0)
             return 0.0;
-        return ((63.593059725) / Math.tan(((29.4 + getLeftYPercent()) * Math.PI)/180 ))/* + 131.0*/;
+        return ((63.593059725) / Math.tan(((29.4 + getLeftYPercent()) * Math.PI)/180 )) + 24/* + 131.0*/;
     }
     
     public void setRightPipeline(int pipelineID) {
@@ -74,11 +59,9 @@ public class LimeLight extends SubsystemBase{
 
     public double rpm() {
         if(getLeftDistance() > 0 && getRightDistance() == 0) {
-            //return equation
             return getRPM(getLeftDistance());
         }
         else if(getRightDistance() > 0 && getLeftDistance() == 0) {
-            //return equation
             return getRPM(getRightDistance());
         }
         else

@@ -31,6 +31,20 @@ public class DriveTrain extends SubsystemBase {
         lSlave.configOpenloopRamp(0);
     }
 
+    public void rampOn() {
+        rMaster.configOpenloopRamp(0.3);
+        lMaster.configOpenloopRamp(0.3);
+        rSlave.configOpenloopRamp(0.3);
+        lSlave.configOpenloopRamp(0.3);
+    }
+
+    public void rampOff() {
+        rMaster.configOpenloopRamp(0);
+        lMaster.configOpenloopRamp(0);
+        rSlave.configOpenloopRamp(0);
+        lSlave.configOpenloopRamp(0);
+    }
+
     //Drive for the right gearbox
     public void rDrive(double power) {
         //set slaves to follow

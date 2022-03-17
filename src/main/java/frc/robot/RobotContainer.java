@@ -38,7 +38,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   //Makes TeleOp command with all subsystems needed for teleOp
-  private final DriveCommand m_teleopCommand = new DriveCommand(driveTrain, arduino, shooter, intake, indexer, climber, limeLight, navX, ballManager, beamBreak, colorSensor, shuffleboard);
+  private DriveCommand m_teleopCommand;
   private final Autonomous m_autoCommand = new Autonomous(driveTrain, shooter, navX, indexer);
   //private final TestingCommand m_testCommand = new TestingCommand(testing, shooter, navX);
   private final RobotInit m_InitCommand = new RobotInit(climber, indexer, intake, ballManager, shuffleboard);
@@ -50,6 +50,10 @@ public class RobotContainer {
   //public Command getAutonomousCommand() {
     //return m_autoCommand;
   //}
+  public void makeTeleOp() {
+    m_teleopCommand = new DriveCommand(driveTrain, arduino, shooter, intake, indexer, climber, limeLight, navX, ballManager, beamBreak, colorSensor, shuffleboard);
+  }
+
   public Command getTeleopCommand() {
     return m_teleopCommand;
   }

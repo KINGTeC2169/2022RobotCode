@@ -17,7 +17,7 @@ public class Climber extends SubsystemBase {
     Solenoid ratchet = new Solenoid(PneumaticsModuleType.CTREPCM, ActuatorMap.winch);
     
     public Climber() {
-        climber.configOpenloopRamp(1);
+        climber.configOpenloopRamp(0);
     }
 
     public void extendArmTrigger(double power) {
@@ -33,6 +33,10 @@ public class Climber extends SubsystemBase {
     }
 
     public void extendArm() {
+        climber.set(ControlMode.PercentOutput, -1);
+    }
+
+    public void extendArmSlow() {
         climber.set(ControlMode.PercentOutput, -0.2);
     }
 
@@ -41,41 +45,61 @@ public class Climber extends SubsystemBase {
     }
 
     public void retractArm() {
-        climber.set(ControlMode.PercentOutput, 0.2);
-    }
-    
-    public double getSensorPos() {
-        return climber.getSelectedSensorPosition();
+        climber.set(ControlMode.PercentOutput, 1);
     }
 
+    public void retractArmSlow() {
+        climber.set(ControlMode.PercentOutput, 0.2);
+    }
+
+    public double motorPower() {
+        if(!isBottom() && !isTop()) {
+            return getCurrent() / 10.0;
+        }
+        else
+            return 0;
+    }
+    
+    
+
     public void movePistonUp() {
-        //Apparently we have to 'wiggle' the pistons somehow
         climberAdjuster.set(Value.kForward);
         }
     public void movePistonDown() {
         climberAdjuster.set(Value.kReverse);
     }
+    public void pistonOff() {
+        climberAdjuster.set(Value.kOff);
+    }
     public double getCurrent() {
         return climber.getSupplyCurrent();
     }
-    public void movePistonForward() {
-        climberAdjuster.set(Value.kForward);
+
+    public double getStatorCurrent() {
+        return climber.getStatorCurrent();
+    }
+
+    public double getSensorPos() {
+        return climber.getSelectedSensorPosition();
     }
 
     public boolean isTop() {
-        return climber.getSelectedSensorPosition() >= Constants.climberLimit;
+        
+        return climber.getSelectedSensorPosition() <= Constants.climberLimit;
     }
 
     public boolean isBottom() {
+        if(getCurrent() > 50) {
+            return climber.getSelectedSensorPosition() >= 20000;
+        }
+        else
+            return climber.getSelectedSensorPosition() >= -4000;
+    }
+
+    public boolean isBottomCurrent() {
         return getCurrent() > Constants.climberCurrent;
     }
 
-    public void lock() {
-        ratchet.set(true);
-    }
-    public void unlock() {
-        ratchet.set(false);
-    }
     public void toggLock() {
         ratchet.toggle();
     }

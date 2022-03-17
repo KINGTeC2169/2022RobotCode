@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -29,10 +28,10 @@ public class Intake extends SubsystemBase {
     }
 
     public void down() {
-        intakePiston.set(Value.kReverse);
-    }
-    public void up() {
         intakePiston.set(Value.kForward);
+    }   
+    public void up() {
+        intakePiston.set(Value.kReverse);
     }
 
     public void off() {
