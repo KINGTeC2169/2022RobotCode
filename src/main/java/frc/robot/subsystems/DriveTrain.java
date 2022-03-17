@@ -32,10 +32,10 @@ public class DriveTrain extends SubsystemBase {
     }
 
     public void rampOn() {
-        rMaster.configOpenloopRamp(0.3);
-        lMaster.configOpenloopRamp(0.3);
-        rSlave.configOpenloopRamp(0.3);
-        lSlave.configOpenloopRamp(0.3);
+        rMaster.configOpenloopRamp(0.1);
+        lMaster.configOpenloopRamp(0.1);
+        rSlave.configOpenloopRamp(0.1);
+        lSlave.configOpenloopRamp(0.1);
     }
 
     public void rampOff() {

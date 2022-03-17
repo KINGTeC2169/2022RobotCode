@@ -9,9 +9,9 @@ public class LimeLight extends SubsystemBase{
 
     private double previousPower;
     public static double rimHeight = 104; // Height of upper HUB rim in inches
-    public static final double launchHeight = 26; // Height of ball when last contacting ramp
+    public static final double launchHeight = 32; // Height of ball when last contacting ramp
     public static final double fgInInchesPerSec = -386.2204724; // The acceleration due to gravity in in/sec
-    public static final double rampAngle = 71; // in degrees
+    public static final double rampAngle = 67.5; // in degrees
     public static final double flywheelRadius = .0508; // in meters
     public static final double wheelMass = 1.22; // in kg
     public static final double wheelRadius = .0508; // Wheel radius in meters
@@ -41,12 +41,12 @@ public class LimeLight extends SubsystemBase{
     public double getRightDistance() {
         if(getRightYPercent() == 0)
             return 0.0;
-        return ((63.593059725) / Math.tan(((29.4 + getRightYPercent()) * Math.PI)/180)) + 24/* + 131.0*/;
+        return ((63.593059725) / Math.tan(((28 + getRightYPercent()) * Math.PI)/180)) + 24/* + 131.0*/;
     }
     public double getLeftDistance() {
         if(getLeftYPercent() == 0)
             return 0.0;
-        return ((63.593059725) / Math.tan(((29.4 + getLeftYPercent()) * Math.PI)/180 )) + 24/* + 131.0*/;
+        return ((63.593059725) / Math.tan(((28 + getLeftYPercent()) * Math.PI)/180 )) + 24/* + 131.0*/;
     }
     
     public void setRightPipeline(int pipelineID) {
