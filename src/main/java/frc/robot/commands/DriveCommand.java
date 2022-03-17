@@ -224,8 +224,17 @@ public class DriveCommand extends CommandBase {
         ------------------------------------------Just wanted to break it up a little more- *just a little*-------------------
         ----------------------------------------------------------------------------------------------------------------------
         ----------------------------------------------------------------------------------------------------------------------*/
-        //arduino.rightOn();
-        //arduino.leftOn();
+        //ledManager
+        if(shooter.isShootingLeft()) {
+            arduino.rightOn();
+        } else {
+            arduino.rightOff();
+        }
+        if(shooter.isShootingRight()) {
+            arduino.leftOn();
+        } else {
+            arduino.leftOff();
+        }
         //Shooter- it shoots.
         double rTrigger = Controls.getRightControllerTrigger();
         double lTrigger = Controls.getLeftControllerTrigger();
@@ -248,8 +257,6 @@ public class DriveCommand extends CommandBase {
                     shooter.shoot(-rTrigger);
                 else
                     shooter.setCoolerestRPM(-desiredRPM);
-                arduino.rightOff();
-                //arduino.leftOff();
             }
             else if(lTrigger > rTrigger) {
                 if(colorSensor.isEnemyColor())
@@ -257,12 +264,10 @@ public class DriveCommand extends CommandBase {
                 else {
                     shooter.setCoolerestRPM(desiredRPM);
                 }
-                arduino.leftOff();
-                //arduino.rightOff();
+
             } else {
                 shooter.stopShooter();
                 CompressorTank.enable();
-                arduino.on();
             }
 
         } else {

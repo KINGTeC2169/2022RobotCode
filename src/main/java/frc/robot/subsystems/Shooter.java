@@ -73,6 +73,12 @@ public class Shooter extends SubsystemBase {
     public void stopShooter() {
         shooter.set(ControlMode.PercentOutput, 0);
     }
+    public boolean isShootingLeft() {
+        return shooter.getMotorOutputPercent() > 0;
+    }
+    public boolean isShootingRight() {
+        return shooter.getMotorOutputPercent() < 0;
+    }
     public double getCurrent() {
         return shooter.getSupplyCurrent();
     }

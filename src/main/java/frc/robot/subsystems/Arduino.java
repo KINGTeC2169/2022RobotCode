@@ -15,28 +15,28 @@ public class Arduino extends SubsystemBase {
     }
 
     public void rightOn() {
-        ledRight.set(true);
+        ledRight.set(false);
     }
     
     public void leftOn() {
-        ledLeft.set(true);
+        ledLeft.set(false);
     }
 
     public void leftOff() {
-        ledLeft.set(false);
+        ledLeft.set(true);
     }
 
     public void rightOff() {
-        ledLeft.set(false);
+        ledRight.set(true);
     }
 
     public void off() {
-        ledRight.set(false);
-        ledLeft.set(false);
+        ledRight.set(true);
+        ledLeft.set(true);
     }
 
     public void on() {
-        ledRight.set(true);
-        ledLeft.set(true);
+        ledRight.set(false);
+        ledLeft.set(false);
     }
 }
