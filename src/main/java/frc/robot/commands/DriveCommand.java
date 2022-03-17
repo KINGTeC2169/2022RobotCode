@@ -46,6 +46,7 @@ public class DriveCommand extends CommandBase {
     private boolean isManualLimeLight = true;
     private boolean isManualBalls = true;
     private double desiredRPM;
+    private double lastKnownRPM;
     private boolean climbingTime;
     private boolean weGotA2319 = true;
     private boolean goingUp;
@@ -245,10 +246,11 @@ public class DriveCommand extends CommandBase {
             //Shoots based on which trigger is pressed, one set of LEDs is set up
             if(limeLight.rpm() != 0) {
                 desiredRPM = limeLight.rpm();
+                lastKnownRPM = limeLight.rpm();
             }
             else {
                 //Error: limelight malfunction- shoot from edge of tarmac
-                desiredRPM = 3600;
+                desiredRPM = lastKnownRPM;
             }
 
 
