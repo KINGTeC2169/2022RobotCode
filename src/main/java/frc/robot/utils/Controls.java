@@ -28,21 +28,29 @@ public class Controls {
     public static boolean getControllerA() {
         return controller.getAButton();
     }
+    public static boolean getControllerAPressed() {
+        return controller.getAButtonPressed();
+    }
 
     public static boolean getControllerB() {
         return controller.getBButton();
+    }
+    public static boolean getControllerBPressed() {
+        return controller.getBButtonPressed();
     }
 
     public static boolean getControllerX() {
         return controller.getXButton();
     }
-
     public static boolean getControllerXPressed() {
         return controller.getXButtonPressed();
     }
 
     public static boolean getControllerY() {
         return controller.getYButton();
+    }
+    public static boolean getControllerYPressed() {
+        return controller.getYButtonPressed();
     }
 
     public static double getRightControllerTrigger() {

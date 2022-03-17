@@ -48,6 +48,10 @@ public class DriveCommand extends CommandBase {
     private double desiredRPM;
     private boolean climbingTime;
     private boolean weGotA2319 = true;
+    private boolean goingUp;
+    private boolean goingDown;
+    private boolean shooting;
+    //I hate these scuffed boolean methods
 
     PID limeDrive = new PID(.05, 0.00005, .005);
  
@@ -396,7 +400,6 @@ public class DriveCommand extends CommandBase {
         
         if(weGotA2319) {
             if(climber.getCurrent() < 8) {
-                System.out.println("balls");
                 climber.retractArmSlow();
             }
             else {
@@ -404,9 +407,38 @@ public class DriveCommand extends CommandBase {
                 climber.stopArm();
                 climber.setZero();
             }
-        } else {
+        } else {/*else {
         
+            if(Controls.getControllerYPressed() && !goingDown) {
+                goingUp = true;
+                goingDown = false;
+            }
+            else if(Controls.getControllerAPressed() && !goingUp) {
+                goingDown = true;
+                goingUp = false;
+            }
 
+            if(goingUp && !climber.isTop()) {
+                climber.extendArm();
+                System.out.println("balls");
+            }
+            else {
+                climber.stopArm();
+                goingUp = false;
+            }
+
+
+            if(goingDown && !climber.isBottom()) {
+                climber.retractArm();
+                System.out.println("balls 2");
+            }
+            else {
+                climber.stopArm();
+                goingDown = false;
+            }
+*/
+
+            
             if(Controls.getControllerA() && !climber.isBottom()) {
                 climber.retractArm();
             }
@@ -415,18 +447,20 @@ public class DriveCommand extends CommandBase {
             }
             else 
                 climber.stopArm();
+            
         }
 
         
-        if(Controls.getDPad() == 180 && !climber.isBottom()) {
+        if(Controls.getDPad() == 180)
             climber.retractArmSlow();
-        }
-        if(Controls.getDPad() == 0 && !climber.isTop()) {
+        
+        if(Controls.getDPad() == 0)
             climber.extendArmSlow();
-        }
-        if(Controls.babyBackRibs()) {
+        
+        if(Controls.babyBackRibs())
             climber.setZero();
-        }
+        
+        
 
         /*
         if(Controls.getRightControllerTrigger() > Controls.getLeftControllerTrigger()) {
@@ -457,7 +491,7 @@ public class DriveCommand extends CommandBase {
             }
         }
 
-        
+            
         if(Controls.startYourEngines()) {
             climber.toggLock();
         }

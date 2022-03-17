@@ -21,9 +21,9 @@ public class ColorSensor extends SubsystemBase {
     }
 
     public boolean isEnemyColor() {
+        return false;
         
-        
-        
+        /*
         if(isBlue()) {
             if(DriverStation.getAlliance().equals(Alliance.Blue)) {
                 return false;
@@ -35,7 +35,7 @@ public class ColorSensor extends SubsystemBase {
             }
             return true;
         }
-        
+        */
     }
     
 }

@@ -52,14 +52,6 @@ public class Climber extends SubsystemBase {
         climber.set(ControlMode.PercentOutput, 0.2);
     }
 
-    public double motorPower() {
-        if(!isBottom() && !isTop()) {
-            return getCurrent() / 10.0;
-        }
-        else
-            return 0;
-    }
-    
     
 
     public void movePistonUp() {
@@ -84,7 +76,6 @@ public class Climber extends SubsystemBase {
     }
 
     public boolean isTop() {
-        
         return climber.getSelectedSensorPosition() <= Constants.climberLimit;
     }
 
@@ -93,7 +84,7 @@ public class Climber extends SubsystemBase {
             return climber.getSelectedSensorPosition() >= 20000;
         }
         else
-            return climber.getSelectedSensorPosition() >= -4000;
+            return climber.getSelectedSensorPosition() >= -20000;
     }
 
     public boolean isBottomCurrent() {
