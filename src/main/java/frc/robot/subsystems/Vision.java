@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Vision extends SubsystemBase {
      //TODO: get what the networktable is called from the pi
-    private static NetworkTable Pi = NetworkTableInstance.getDefault().getTable("vision");
+    private static NetworkTable Pi = NetworkTableInstance.getDefault().getTable("");
     public double ballLocationX() {
         return 0;
     }
