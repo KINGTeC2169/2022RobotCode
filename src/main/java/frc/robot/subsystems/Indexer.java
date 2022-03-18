@@ -13,15 +13,20 @@ import frc.robot.utils.Constants;
 public class Indexer extends SubsystemBase {
     VictorSPX indexer = new VictorSPX(ActuatorMap.indexer);
     Solenoid indexerPiston = new Solenoid(PneumaticsModuleType.CTREPCM , ActuatorMap.feederPiston);
-    
+    boolean isSuckingUp = false;
+
     Timer timer = new Timer();
     boolean isShoveBallRunning = false;
     
     public void suckUp(boolean stimulating) {
-        if(stimulating)
+        if(stimulating) {
             indexer.set(ControlMode.PercentOutput, -Constants.indexSpeed);
-        else
+            isSuckingUp = true;
+        }
+        else {
             indexer.set(ControlMode.PercentOutput, 0);
+            isSuckingUp = false;
+        }
     }
 
     public void reverseSuckUp(boolean stimulating) {
@@ -52,6 +57,9 @@ public class Indexer extends SubsystemBase {
     }
     public boolean isShoveBallRunning() {
         return isShoveBallRunning;
+    }
+    public boolean isSuckingUp() {
+        return isSuckingUp;
     }
 
     public void up() {
