@@ -332,7 +332,6 @@ public class DriveCommand extends CommandBase {
             if(ballManager.getFirstPositionBall() && !ballManager.getSecondPositionBall()) {
                 if(indexerTimeSave == 0.0) {
                     indexerTimeSave = timer.get();
-                    ballManager.cycleBall();
                 }
                 //5.0 is amount of time indexer runs
                 if(timer.get() - indexerTimeSave < 2) {
@@ -343,6 +342,7 @@ public class DriveCommand extends CommandBase {
                     indexerTimeSave = 0.0;
                 }  
             }
+            ballManager.cycleBall();
 
             //Moves cylinder for indexing/shooting
             if(Controls.getLeftControllerBumper() || indexer.isShoveBallRunning()) {
