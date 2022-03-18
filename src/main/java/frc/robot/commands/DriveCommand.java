@@ -334,7 +334,7 @@ public class DriveCommand extends CommandBase {
                     indexerTimeSave = timer.get();
                 }
                 //5.0 is amount of time indexer runs
-                if(timer.get() - indexerTimeSave < 2) {
+                if(timer.get() - indexerTimeSave < 2.5) {
                     indexer.suckUp(true);
                 } else {
                     //Added this to reset timer after indexer runs
