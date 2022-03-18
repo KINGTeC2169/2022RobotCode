@@ -58,7 +58,6 @@ public class DriveCommand extends CommandBase {
  
     //Adds all subsystems to the driving command
     public DriveCommand(DriveTrain driveTrain, Arduino arduino, Shooter shooter, Intake intake, Indexer indexer, Climber climber, LimeLight limeLight, NavX navX, BallManager ballManager, BeamBreak beamBreak, ColorSensor colorSensor, ShuffleboardManager shuffleboard) {
-        timer.start();
         this.driveTrain = driveTrain;
         addRequirements(driveTrain);
         this.arduino = arduino;
@@ -330,19 +329,22 @@ public class DriveCommand extends CommandBase {
                 indexer.suckUp(false);
             }
             if(ballManager.getFirstPositionBall() && !ballManager.getSecondPositionBall()) {
-                if(indexerTimeSave == 0.0) {
-                    indexerTimeSave = timer.get();
+                if(timer.get() == 0.0) {
+                    timer.start();
+                    ballManager.cycleBall();
                 }
                 //5.0 is amount of time indexer runs
-                if(timer.get() - indexerTimeSave < 2) {
+                if(timer.get() < 2) {
                     indexer.suckUp(true);
                 } else {
                     //Added this to reset timer after indexer runs
                     indexer.suckUp(false);
-                    indexerTimeSave = 0.0;
+                    timer.stop();
+                    timer.reset();
+
                 }  
             }
-            ballManager.cycleBall();
+            
 
             //Moves cylinder for indexing/shooting
             if(Controls.getLeftControllerBumper() || indexer.isShoveBallRunning()) {
