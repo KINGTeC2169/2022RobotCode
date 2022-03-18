@@ -307,7 +307,7 @@ public class DriveCommand extends CommandBase {
         if(isManualBalls) {
             if(Controls.getRightControllerBumper()) {
                 indexer.suckUp(Controls.getRightControllerBumper());
-                //TODO: wtf do we do this??
+                //TODO: wtf do we do this?? get better :)
                 //arduino.changeLed(false);
             } else {
                 indexer.reverseSuckUp(Controls.getRightStickBottom());

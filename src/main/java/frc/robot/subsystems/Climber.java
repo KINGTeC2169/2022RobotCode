@@ -81,7 +81,7 @@ public class Climber extends SubsystemBase {
 
     public boolean isBottom() {
         if(getCurrent() > 50) {
-            return climber.getSelectedSensorPosition() >= 20000;
+            return climber.getSelectedSensorPosition() >= 30000;
         }
         else
             return climber.getSelectedSensorPosition() >= -20000;
