@@ -339,6 +339,7 @@ public class DriveCommand extends CommandBase {
                 } else {
                     //Added this to reset timer after indexer runs
                     indexer.suckUp(false);
+                    indexerTimeSave = 0.0;
                     ballManager.cycleBall();
                 }  
             }
