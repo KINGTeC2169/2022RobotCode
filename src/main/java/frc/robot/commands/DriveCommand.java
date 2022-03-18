@@ -346,7 +346,7 @@ public class DriveCommand extends CommandBase {
             
 
             //Moves cylinder for indexing/shooting
-            if(Controls.getLeftControllerBumper() || indexer.isShoveBallRunning() && !indexer.isSuckingUp()) {
+            if((Controls.getLeftControllerBumper() && !indexer.isSuckingUp()) || indexer.isShoveBallRunning()) {
                 indexer.shoveBall();
                 ballManager.shootBall();
             }
