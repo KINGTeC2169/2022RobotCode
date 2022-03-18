@@ -330,8 +330,10 @@ public class DriveCommand extends CommandBase {
                 indexer.suckUp(false);
             }
             if(ballManager.getFirstPositionBall() && !ballManager.getSecondPositionBall()) {
-                if(indexerTimeSave == 0.0) 
+                if(indexerTimeSave == 0.0) {
                     indexerTimeSave = timer.get();
+                    ballManager.cycleBall();
+                }
                 //5.0 is amount of time indexer runs
                 if(timer.get() - indexerTimeSave < 2) {
                     indexer.suckUp(true);
@@ -339,7 +341,6 @@ public class DriveCommand extends CommandBase {
                     //Added this to reset timer after indexer runs
                     indexer.suckUp(false);
                     indexerTimeSave = 0.0;
-                    ballManager.cycleBall();
                 }  
             }
 
