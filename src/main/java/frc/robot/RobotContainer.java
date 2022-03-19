@@ -33,6 +33,7 @@ public class RobotContainer {
     private BallManager ballManager = new BallManager();
     private BeamBreak beamBreak = new BeamBreak();
     private ColorSensor colorSensor = new ColorSensor();
+    //private Testing testing = new Testing();
     private ShuffleboardManager shuffleboard = new ShuffleboardManager();
     //private Testing testing = new Testing();
   // The robot's subsystems and commands are defined here...
@@ -40,7 +41,7 @@ public class RobotContainer {
   //Makes TeleOp command with all subsystems needed for teleOp
   private DriveCommand m_teleopCommand;
   private final Autonomous m_autoCommand = new Autonomous(driveTrain, shooter, navX, indexer);
-  //private final TestingCommand m_testCommand = new TestingCommand(testing, shooter, navX);
+  //private final TestingCommand m_testCommand = new TestingCommand(driveTrain, testing, arduino, shooter, intake, indexer, climber, limeLight, navX, ballManager, beamBreak, colorSensor, shuffleboard);
   private final RobotInit m_InitCommand = new RobotInit(climber, indexer, intake, ballManager, shuffleboard);
 
   public RobotContainer() {

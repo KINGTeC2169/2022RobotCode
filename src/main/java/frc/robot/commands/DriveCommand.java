@@ -37,6 +37,8 @@ public class DriveCommand extends CommandBase {
     private ColorSensor colorSensor;
     private ShuffleboardManager shuffleboard;
 
+    private double setpoint;
+    private double distance;
     private double leftY;
     private double rightX;
     private double rightTwist;
@@ -198,12 +200,14 @@ public class DriveCommand extends CommandBase {
             }
         }
         */
+        distance = limeLight.getLeftDistance() + limeLight.getRightDistance();
+        setpoint = driveTrain.getAngle(distance, LimeLight.getShotDuration(distance));
         if(Controls.getLeftStickBottom()) {
-            limeDrive.setSetpoint(0);
+            limeDrive.setSetpoint(setpoint);
+            //System.out.println(setpoint);
             limeDrive.calculate(limeLight.getRightXPercent() + limeLight.getLeftXPercent());
             rightPower += limeDrive.getOutput();
             leftPower -= limeDrive.getOutput();
-            //TODO: this is an experiment, probably wont work
             driveTrain.rampOn();
         }
         else {
@@ -212,6 +216,7 @@ public class DriveCommand extends CommandBase {
          //applies the powers to the motors
          driveTrain.lDrive(leftPower);
          driveTrain.rDrive(rightPower);
+         System.out.println(leftPower);
  
          if(Controls.getLeftStickTopPressed())
              driveTrain.shiftThatDog();

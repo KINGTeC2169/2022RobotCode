@@ -19,11 +19,8 @@ public class DriveTrain extends SubsystemBase {
 
     Solenoid dog = new Solenoid(PneumaticsModuleType.CTREPCM, ActuatorMap.dog);
 
-    boolean driveToMyBallsisDone;
     boolean turnIsDone;
 
-
-    private double endPos;
     public DriveTrain() {
         rMaster.configOpenloopRamp(0);
         lMaster.configOpenloopRamp(0);
@@ -70,20 +67,6 @@ public class DriveTrain extends SubsystemBase {
         lMaster.set(ControlMode.PercentOutput, power);
     }
 
-    public void driveToMyBalls(double inches, double speed) {
-        endPos = Constants.TalonSRXCPR / Constants.wheelCirc * inches;
-        lMaster.setSelectedSensorPosition(0);
-        if(lMaster.getSelectedSensorPosition() < endPos) {
-            driveToMyBallsisDone = false;
-            rDrive(speed);
-            lDrive(speed);
-        }else {
-            driveToMyBallsisDone = true;
-            rDrive(0);
-            lDrive(0);
-        }
-    }
-
     public void turn(double angle, double currentAngle) {
         if(currentAngle < angle) {
             turnIsDone = false;
@@ -96,9 +79,6 @@ public class DriveTrain extends SubsystemBase {
             lDrive(0);
         }
     }
-    public boolean driveToMyBallsisDone() {
-        return driveToMyBallsisDone;
-    } 
 
     public boolean turnisDone() {
         return turnIsDone;
@@ -111,5 +91,16 @@ public class DriveTrain extends SubsystemBase {
     public boolean dogStatus() {
         return dog.get();
     }
+
+    public double getRPM() {
+        return ((600 * rMaster.getSelectedSensorVelocity() / Constants.TalonFXCPR) + (600 * lMaster.getSelectedSensorVelocity() / Constants.TalonFXCPR)) / 2;
+    }
+
+    public double getSpeed() {
+        return (getRPM() / 60) * Constants.wheelCirc;
+    }
     
+    public double getAngle(double distance, double duration) {
+        return Math.atan((getSpeed() * duration) / distance);
+    }
 }

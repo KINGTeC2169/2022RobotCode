@@ -69,8 +69,6 @@ public class Autonomous extends CommandBase {
 
         //Drive:
         if(counter == 4) {
-            driveTrain.driveToMyBalls(36, 0.5);
-            if(driveTrain.driveToMyBallsisDone())
             counter++;
         }
 
