@@ -22,6 +22,8 @@ public class ActuatorMap {
     public static final int leftLed = 7;
     public static final int rightLed = 8;
 
+    public static final int pressure = 2;
+
     //Pneumatics Control Module (PCM) 
     public static final int intakePistonOne = 3;
     public static final int intakePistonTwo = 6;

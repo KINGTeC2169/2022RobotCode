@@ -1,9 +1,11 @@
 package frc.robot.autoCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CompressorTank;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Shooter;
 import frc.robot.utils.Constants;
@@ -15,12 +17,16 @@ public class Autonomous extends CommandBase {
     private Shooter shooter;
     private NavX navx;
     private Indexer indexer;
+    private Climber climber;
+    private Intake intake;
+
     private double turnAngle;
+    
 
     private Timer timer = new Timer();
     private int counter;
 
-    public Autonomous(DriveTrain driveTrain, Shooter shooter, NavX navx, Indexer indexer) {
+    public Autonomous(DriveTrain driveTrain, Shooter shooter, NavX navx, Indexer indexer, Climber climber, Intake intake) {
         this.driveTrain = driveTrain;
         addRequirements(driveTrain);
         this.shooter = shooter;
@@ -29,46 +35,41 @@ public class Autonomous extends CommandBase {
         addRequirements(navx);
         this.indexer = indexer;
         addRequirements(indexer);
+        this.climber = climber;
+        addRequirements(climber);
+        this.intake = intake;
+        addRequirements(intake);
     }
 
     @Override
     public void execute() {
         //"Your code goes here" - CodeHS
 
-        //Auto plan: shoot then drive backwards
-        //Yeah thats it for now
-
         //Initialization (dont know if we need this or not, i just added it anyways)
+        
+        if(climber.getCurrent() < 8) {
+            climber.retractArmSlow();
+        }
+        else {
+            climber.stopArm();
+            climber.setZero();
+        }
+
+        //Drive
         if(counter == 0) {
-            turnAngle = navx.getAngle() + 90;
-            counter++;
+            intake.down();
+            intake.suck(true);
+            if(driveTrain.getRightPos() < 50000)
+                driveTrain.rDrive(.7);
+            if(driveTrain.getLeftPos() < 50000)
+                driveTrain.lDrive(.7);
+            else
+                counter++;
         }
 
-        //Speed up flywheel
+
         if(counter == 1) {
-            //TODO: change to auto shoot distance and drone strike the taliban
-            shooter.setCoolerRPM(Constants.taliban);
-            if(shooter.hitRPM())
-                counter++;
-        }
-
-        //Feed ball:
-
-        if(counter == 2) {
-            indexer.shoveBall();
-            counter++;
-        }
-
-        //Turn:
-        if(counter == 3) {
-            CompressorTank.enable();
-            driveTrain.turn(turnAngle, navx.getAngle());
-            if(driveTrain.turnisDone())
-                counter++;
-        }
-
-        //Drive:
-        if(counter == 4) {
+            intake.suck(false);
             counter++;
         }
 

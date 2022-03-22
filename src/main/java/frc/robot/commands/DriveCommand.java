@@ -11,6 +11,7 @@ import frc.robot.subsystems.CompressorTank;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.JacobSensor;
 import frc.robot.subsystems.LimeLight;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Shooter;
@@ -36,6 +37,7 @@ public class DriveCommand extends CommandBase {
     private BeamBreak beamBreak;
     private ColorSensor colorSensor;
     private ShuffleboardManager shuffleboard;
+    private JacobSensor jacobSensor;
 
     private double setpoint;
     private double distance;
@@ -59,7 +61,7 @@ public class DriveCommand extends CommandBase {
     PID limeDrive = new PID(.05, 0.00005, .005);
  
     //Adds all subsystems to the driving command
-    public DriveCommand(DriveTrain driveTrain, Arduino arduino, Shooter shooter, Intake intake, Indexer indexer, Climber climber, LimeLight limeLight, NavX navX, BallManager ballManager, BeamBreak beamBreak, ColorSensor colorSensor, ShuffleboardManager shuffleboard) {
+    public DriveCommand(DriveTrain driveTrain, Arduino arduino, Shooter shooter, Intake intake, Indexer indexer, Climber climber, LimeLight limeLight, NavX navX, BallManager ballManager, BeamBreak beamBreak, ColorSensor colorSensor, ShuffleboardManager shuffleboard, JacobSensor jacobSensor) {
         timer.start();
         this.driveTrain = driveTrain;
         addRequirements(driveTrain);
@@ -85,6 +87,8 @@ public class DriveCommand extends CommandBase {
         addRequirements(colorSensor);
         this.shuffleboard = shuffleboard;
         addRequirements(shuffleboard);
+        this.jacobSensor = jacobSensor;
+        addRequirements(jacobSensor);
     }
 
     @Override
@@ -202,8 +206,9 @@ public class DriveCommand extends CommandBase {
         */
         distance = limeLight.getLeftDistance() + limeLight.getRightDistance();
         setpoint = driveTrain.getAngle(distance, LimeLight.getShotDuration(distance));
+        System.out.println(driveTrain.getSpeed());
         if(Controls.getLeftStickBottom()) {
-            limeDrive.setSetpoint(setpoint);
+            limeDrive.setSetpoint(0);
             //System.out.println(setpoint);
             limeDrive.calculate(limeLight.getRightXPercent() + limeLight.getLeftXPercent());
             rightPower += limeDrive.getOutput();
@@ -545,6 +550,7 @@ public class DriveCommand extends CommandBase {
         shuffleboard.boolInABox("Is Enemy ball", colorSensor.isEnemyColor());
         shuffleboard.boolInABox("Red", colorSensor.isRed());
         shuffleboard.boolInABox("Blue", colorSensor.isBlue());
+        shuffleboard.number("Pressure", jacobSensor.getPressure());
 
 
     }

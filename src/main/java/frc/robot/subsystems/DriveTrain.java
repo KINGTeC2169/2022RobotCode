@@ -103,4 +103,17 @@ public class DriveTrain extends SubsystemBase {
     public double getAngle(double distance, double duration) {
         return Math.atan((getSpeed() * duration) / distance);
     }
+
+    public void setZero() {
+        lMaster.setSelectedSensorPosition(0);
+        rMaster.setSelectedSensorPosition(0);
+    }
+
+    public double getLeftPos() {
+        return lMaster.getSelectedSensorPosition();
+    }
+
+    public double getRightPos() {
+        return rMaster.getSelectedSensorPosition();
+    }
 }

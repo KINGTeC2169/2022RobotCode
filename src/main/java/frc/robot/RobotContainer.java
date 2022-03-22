@@ -13,6 +13,7 @@ import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.JacobSensor;
 import frc.robot.subsystems.LimeLight;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Shooter;
@@ -35,12 +36,13 @@ public class RobotContainer {
     private ColorSensor colorSensor = new ColorSensor();
     //private Testing testing = new Testing();
     private ShuffleboardManager shuffleboard = new ShuffleboardManager();
+    private JacobSensor jacobSensor = new JacobSensor();
     //private Testing testing = new Testing();
   // The robot's subsystems and commands are defined here...
 
   //Makes TeleOp command with all subsystems needed for teleOp
   private DriveCommand m_teleopCommand;
-  private final Autonomous m_autoCommand = new Autonomous(driveTrain, shooter, navX, indexer);
+  private final Autonomous m_autoCommand = new Autonomous(driveTrain, shooter, navX, indexer, climber, intake);
   //private final TestingCommand m_testCommand = new TestingCommand(driveTrain, testing, arduino, shooter, intake, indexer, climber, limeLight, navX, ballManager, beamBreak, colorSensor, shuffleboard);
   private final RobotInit m_InitCommand = new RobotInit(climber, indexer, intake, ballManager, shuffleboard);
 
@@ -52,7 +54,7 @@ public class RobotContainer {
     //return m_autoCommand;
   //}
   public void makeTeleOp() {
-    m_teleopCommand = new DriveCommand(driveTrain, arduino, shooter, intake, indexer, climber, limeLight, navX, ballManager, beamBreak, colorSensor, shuffleboard);
+    m_teleopCommand = new DriveCommand(driveTrain, arduino, shooter, intake, indexer, climber, limeLight, navX, ballManager, beamBreak, colorSensor, shuffleboard, jacobSensor);
   }
 
   public Command getTeleopCommand() {
