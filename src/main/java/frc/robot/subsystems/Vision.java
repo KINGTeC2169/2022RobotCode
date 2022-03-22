@@ -13,7 +13,11 @@ public class Vision extends SubsystemBase {
     public int ballCount() {
         return 0;
     }
-    public boolean isRed() {
-        return false;
+    public double[][] getBallLocation() {
+        //array structure is 
+        //[color (blue = 0, red = 1), x, y, confidence]
+        // camera resolutino is 640 by 480 so the middle would be 320, 240 as x and y
+        //python script will give the most confident blue and most confident red to stop from overwhelming and to avoid arraylists
+        return new double[][]{{1, 200, 200, 50}, {0, 100, 100, 75}};
     }
 }
