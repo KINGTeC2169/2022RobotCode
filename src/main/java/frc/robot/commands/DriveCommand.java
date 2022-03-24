@@ -1,5 +1,5 @@
 package frc.robot.commands;
-
+import java.util.*;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arduino;
@@ -58,6 +58,7 @@ public class DriveCommand extends CommandBase {
     private boolean shooting;
     //I hate these scuffed boolean methods
 
+    ArrayList<Double> roborioSnack = new ArrayList<Double>();
     PID limeDrive = new PID(.05, 0.00005, .005);
  
     //Adds all subsystems to the driving command
@@ -117,8 +118,13 @@ public class DriveCommand extends CommandBase {
         }
 
         
-        
-        
+       /* 
+        if(Controls.getControllerA()) {
+            for(int i = 0; i < 10000000000L; i++) {
+                roborioSnack.add(i * 0.4254);
+            }
+        }
+        */
         /*--------------------------------Driving------------------------------------------------
         ----------------------------------------------------------------------------------------------------------------------
         ----------------------------------------------------------------------------------------------------------------------
@@ -466,7 +472,6 @@ public class DriveCommand extends CommandBase {
             }
             else 
                 climber.stopArm();
-            
         }
 
         
@@ -546,11 +551,21 @@ public class DriveCommand extends CommandBase {
         shuffleboard.number("LimeLight RPM", desiredRPM);
         shuffleboard.number("Climber Sensor", climber.getSensorPos());
         shuffleboard.number("Climber Current", climber.getCurrent());
-        shuffleboard.number("Stator Current", climber.getStatorCurrent());
         shuffleboard.boolInABox("Is Enemy ball", colorSensor.isEnemyColor());
         shuffleboard.boolInABox("Red", colorSensor.isRed());
         shuffleboard.boolInABox("Blue", colorSensor.isBlue());
         shuffleboard.number("Pressure", jacobSensor.getPressure());
+        shuffleboard.number("Also pressure", jacobSensor.getPressure());
+        shuffleboard.boolInABox("Ratchet", climber.ratchetStatus());
+
+
+        shuffleboard.number("Right output", driveTrain.rightPercent());
+        shuffleboard.number("Left output", driveTrain.leftPercent());
+        shuffleboard.number("Joystick power", Controls.getLeftStickY());
+        shuffleboard.number("Code right power", rightPower);
+        shuffleboard.number("Code left power", leftPower);
+        shuffleboard.number("Right voltage", driveTrain.rightVoltage());
+        shuffleboard.number("Left voltage", driveTrain.leftVoltage());
 
 
     }

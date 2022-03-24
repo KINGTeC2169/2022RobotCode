@@ -8,11 +8,11 @@ import frc.robot.utils.ActuatorMap;
 public class JacobSensor extends SubsystemBase{
 
     AnalogPotentiometer tape = new AnalogPotentiometer(ActuatorMap.pressure, 100, 0);
-    //AnalogInput tape2 = new AnalogInput(2);s
+    //AnalogInput tape2 = new AnalogInput(ActuatorMap.pressure);
     
 
     public double getPressure() {
         return tape.get();
-        
+            
     }
 }

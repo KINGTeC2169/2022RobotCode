@@ -37,7 +37,7 @@ public class Climber extends SubsystemBase {
     }
 
     public void extendArmSlow() {
-        climber.set(ControlMode.PercentOutput, -0.2);
+        climber.set(ControlMode.PercentOutput, -0.4);
     }
 
     public void stopArm() {
@@ -49,7 +49,7 @@ public class Climber extends SubsystemBase {
     }
 
     public void retractArmSlow() {
-        climber.set(ControlMode.PercentOutput, 0.2);
+        climber.set(ControlMode.PercentOutput, 0.4);
     }
 
     
@@ -84,7 +84,7 @@ public class Climber extends SubsystemBase {
             return climber.getSelectedSensorPosition() >= 30000;
         }
         else
-            return climber.getSelectedSensorPosition() >= -20000;
+            return climber.getSelectedSensorPosition() >= -25000;
     }
 
     public boolean isBottomCurrent() {
@@ -94,6 +94,10 @@ public class Climber extends SubsystemBase {
     public void toggLock() {
         ratchet.toggle();
     }
+    public boolean ratchetStatus() {
+        return ratchet.get();
+    }
+
     public void setZero() {
         climber.setSelectedSensorPosition(0);
     }

@@ -51,7 +51,6 @@ public class DriveTrain extends SubsystemBase {
         //set right motors to be inverted
         rMaster.setInverted(true);
         rSlave.setInverted(true);
-
         rMaster.set(ControlMode.PercentOutput, power);
     }
 
@@ -115,5 +114,19 @@ public class DriveTrain extends SubsystemBase {
 
     public double getRightPos() {
         return rMaster.getSelectedSensorPosition();
+    }
+
+    public double leftPercent() {
+        return lMaster.getMotorOutputPercent();
+    }
+
+    public double rightPercent() {
+        return rMaster.getMotorOutputPercent();
+    }
+    public double rightVoltage() {
+        return rMaster.getMotorOutputVoltage();
+    }
+    public double leftVoltage() {
+        return lMaster.getMotorOutputVoltage();
     }
 }
