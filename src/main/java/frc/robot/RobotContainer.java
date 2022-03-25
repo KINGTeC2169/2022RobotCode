@@ -39,12 +39,11 @@ public class RobotContainer {
     private ShuffleboardManager shuffleboard = new ShuffleboardManager();
     private JacobSensor jacobSensor = new JacobSensor();
     private Vision vision = new Vision();
-    //private Testing testing = new Testing();
   // The robot's subsystems and commands are defined here...
 
   //Makes TeleOp command with all subsystems needed for teleOp
   private DriveCommand m_teleopCommand;
-  private final Autonomous m_autoCommand = new Autonomous(driveTrain, shooter, navX, indexer, climber, intake, vision, ballManager);
+  private Autonomous m_autoCommand;
   //private final TestingCommand m_testCommand = new TestingCommand(driveTrain, testing, arduino, shooter, intake, indexer, climber, limeLight, navX, ballManager, beamBreak, colorSensor, shuffleboard);
   private final RobotInit m_InitCommand = new RobotInit(climber, indexer, intake, ballManager, shuffleboard);
 
@@ -57,6 +56,10 @@ public class RobotContainer {
     m_teleopCommand = new DriveCommand(driveTrain, arduino, shooter, intake, indexer, climber, limeLight, navX, ballManager, beamBreak, colorSensor, shuffleboard, jacobSensor);
   }
 
+  public void makeAuto() {
+    m_autoCommand = new Autonomous(driveTrain, shooter, navX, indexer, climber, intake, vision, ballManager, limeLight, beamBreak);
+  }
+
   public Command getTeleopCommand() {
     return m_teleopCommand;
   }
@@ -66,7 +69,7 @@ public class RobotContainer {
   //public Command getTestCommand() {
     //return m_testCommand;
   //}
-  //public Command getAutoCommand() {
-  //    return m_autoCommand;
-  //}
+  public Command getAutoCommand() {
+      return m_autoCommand;
+  }
 }

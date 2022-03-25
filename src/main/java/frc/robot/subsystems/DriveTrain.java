@@ -26,6 +26,11 @@ public class DriveTrain extends SubsystemBase {
         lMaster.configOpenloopRamp(0);
         rSlave.configOpenloopRamp(0);
         lSlave.configOpenloopRamp(0);
+        rSlave.follow(rMaster);
+        rMaster.setInverted(true);
+        rSlave.setInverted(true);
+        lSlave.follow(lMaster);
+
     }
 
     public void rampOn() {
@@ -45,25 +50,30 @@ public class DriveTrain extends SubsystemBase {
     //Drive for the right gearbox
     public void rDrive(double power) {
         //set slaves to follow
-        rSlave.follow(rMaster);
+        //rSlave.follow(rMaster);
 
 
         //set right motors to be inverted
-        rMaster.setInverted(true);
-        rSlave.setInverted(true);
+        //rMaster.setInverted(true);
+        //rSlave.setInverted(true);
         rMaster.set(ControlMode.PercentOutput, power);
     }
 
     //Drive for the left gearbox
     public void lDrive(double power) {
         //set slaves to follow
-        lSlave.follow(lMaster);
+        //lSlave.follow(lMaster);
 
 
         //set slaves to be inverted
         //lSlave.setInverted(true);
 
         lMaster.set(ControlMode.PercentOutput, power);
+    }
+
+    public void stop() {
+        rMaster.set(ControlMode.PercentOutput, 0);
+        lMaster.set(ControlMode.PercentOutput, 0);
     }
 
     public void turn(double angle, double currentAngle) {

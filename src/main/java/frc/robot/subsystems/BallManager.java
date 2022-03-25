@@ -41,6 +41,10 @@ public class BallManager extends SubsystemBase {
         ballCount[0] = false;
         ballCount[1] = false; 
     }
+    public void startAuto() {
+        ballCount[0] = false;
+        ballCount[1] = true;
+    }
 
 
 
