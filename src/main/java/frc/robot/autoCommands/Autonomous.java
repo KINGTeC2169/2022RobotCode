@@ -11,6 +11,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LimeLight;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.ShuffleboardManager;
 import frc.robot.subsystems.Vision;
 import frc.robot.utils.Constants;
 import frc.robot.utils.PID;
@@ -33,6 +34,7 @@ public class Autonomous extends CommandBase {
     private BallManager ballManager;
     private LimeLight limeLight;
     private BeamBreak beamBreak;
+    private ShuffleboardManager shuffleboard;
 
 
     private int team;
@@ -56,7 +58,7 @@ public class Autonomous extends CommandBase {
     private int counter;
 
     public Autonomous(DriveTrain driveTrain, Shooter shooter, NavX navx, Indexer indexer, 
-    Climber climber, Intake intake, Vision vision, BallManager ballManager, LimeLight limeLight, BeamBreak beamBreak) {
+    Climber climber, Intake intake, Vision vision, BallManager ballManager, LimeLight limeLight, BeamBreak beamBreak, ShuffleboardManager shuffleboard) {
         this.driveTrain = driveTrain;
         addRequirements(driveTrain);
         this.shooter = shooter;
@@ -77,18 +79,38 @@ public class Autonomous extends CommandBase {
         addRequirements(limeLight);
         this.beamBreak = beamBreak;
         addRequirements(beamBreak);
+        this.shuffleboard = shuffleboard;
+        addRequirements(shuffleboard);
+        singleInit = true;
     }
 
     @Override
+    public void initialize() {
+        counter = 0;
+        driveTrain.downShift();
+        driveTrain.setZero();
+        ballManager.startAuto();
+        autoAim.setSetpoint(0);
+        singleInit = false;
+        driveTrain.rDrive(0);
+        driveTrain.lDrive(0);
+        System.out.println("running auto init");
+    }
+    @Override
     public void execute() {
         //"Your code goes here" - CodeHS
+        /*
         if(singleInit) {
+            counter = 0;
+            driveTrain.downShift();
             driveTrain.setZero();
             ballManager.startAuto();
             autoAim.setSetpoint(0);
-        }
-        else
             singleInit = false;
+            driveTrain.rDrive(0);
+            driveTrain.lDrive(0);
+            System.out.println("running auto init");
+        }*/
 
         //Initialization
         /*
@@ -129,10 +151,10 @@ public class Autonomous extends CommandBase {
         if(!beamBreak.isBall()) {
             sameBall = false;
         }
-
+        /*
         double rightPower = 0;
         double leftPower = 0;
-        /*
+        
         if((vision.validBlueTarget() && team == BLUE) || (vision.validRedTarget() && team == RED)) {
             holyShitTheresABall = true;
         } else {
@@ -169,22 +191,27 @@ public class Autonomous extends CommandBase {
         //Drive
         if(counter == 0) {
             intake.suck(true);
-            if(!ballManager.getFirstPositionBall()) {
-                if(driveTrain.getLeftPos() < 24 * inches) {
-                    driveTrain.lDrive(.5);
+            if(true/*!ballManager.getFirstPositionBall()*/) {
+                if(driveTrain.getLeftPos() > -50000) {
+                    driveTrain.lDrive(.3);
                 }
-                if(driveTrain.getRightPos() < 24 * inches) {
-                    driveTrain.rDrive(.5);
+                if(driveTrain.getRightPos() > -50000) {
+                    driveTrain.rDrive(.3);
                 }
-                else
+                else {
                     driveTrain.stop();
+                    intake.suck(false);
                     ballManager.newBall();
+                    System.out.println("Why");
+                    counter++;
+                }
             }
+            /*
             else {
                 driveTrain.stop();
                 intake.suck(false);
                 counter++;
-            }
+            }*/
         }
 
 
@@ -193,7 +220,6 @@ public class Autonomous extends CommandBase {
             lastKnownRPM = limeLight.rpm();
         }
         else {
-            //Error: limelight malfunction- shoot from edge of tarmac
             desiredRPM = lastKnownRPM;
         }
 
@@ -201,6 +227,7 @@ public class Autonomous extends CommandBase {
             if(limeLight.getLeftDistance() + limeLight.getRightDistance() == 0 || (limeLight.getRightDistance() > 0 && limeLight.getLeftDistance() > 0)) {
                 driveTrain.rDrive(0.3);
                 driveTrain.lDrive(-0.3);
+                System.out.println("Limelight error");
                 shotTimer.stop();
                 shotTimer.reset();
             }
@@ -218,27 +245,41 @@ public class Autonomous extends CommandBase {
                 driveTrain.rDrive(autoAim.getOutput());
                 driveTrain.lDrive(autoAim.getOutput());
             }
+    
+            if(shotTimer.get() > 5) {
+                indexer.shoveBall();
+                ballManager.shootBall();
+                indexer.suckUp(true);
+                ballManager.cycleBall();
+                suckTime.start();
+                shotTimer.reset();
+            }
+
+            if(suckTime.get() >= 3) {
+                indexer.suckUp(false);
+                suckTime.stop();
+                suckTime.reset();
+            }
+            if(ballManager.getNumberOfBalls() == 0) {
+                counter++;
+            }
+        }
+        if(counter == 2) {
+            driveTrain.stop();
         }
 
-        if(shotTimer.get() > 5) {
-            indexer.shoveBall();
-            ballManager.shootBall();
-            indexer.suckUp(true);
-            ballManager.cycleBall();
-            suckTime.start();
-            shotTimer.reset();
-        }
-
-        if(suckTime.get() >= 3) {
-            indexer.suckUp(false);
-            suckTime.stop();
-            suckTime.reset();
-        }
-        
-
-
-
-
+        /*
+        shuffleboard.number("Vroom", driveTrain.rightPercent());
+        shuffleboard.number("Left Vroom", driveTrain.leftPercent());
+        shuffleboard.number("Left Pos", driveTrain.getLeftPos());
+        shuffleboard.number("Right Pos", driveTrain.getRightPos());
+        shuffleboard.boolInABox("Init", singleInit);
+        shuffleboard.number("Counter", counter);
+        shuffleboard.boolInABox("Shifty Shafts", driveTrain.dogStatus());
+        shuffleboard.boolInABox("POS 1 auto", ballManager.getFirstPositionBall());
+        shuffleboard.boolInABox("POS 2 auto", ballManager.getSecondPositionBall());
+        shuffleboard.number("Auto RPM", desiredRPM);
+        */
 
 
     }

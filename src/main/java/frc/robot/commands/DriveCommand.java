@@ -47,8 +47,8 @@ public class DriveCommand extends CommandBase {
     private double quickStopAcummolatss;
     private boolean isIntaking;
     private boolean sameBall;
-    private boolean isManualLimeLight = true;
-    private boolean isManualBalls = true;
+    private boolean isManualLimeLight;
+    private boolean isManualBalls;
     private double desiredRPM;
     private double lastKnownRPM;
     private boolean climbingTime;
@@ -90,6 +90,10 @@ public class DriveCommand extends CommandBase {
         addRequirements(shuffleboard);
         this.jacobSensor = jacobSensor;
         addRequirements(jacobSensor);
+    }
+    @Override
+    public void initialize() {
+        driveTrain.stop();
     }
 
     @Override
@@ -212,7 +216,7 @@ public class DriveCommand extends CommandBase {
         */
         distance = limeLight.getLeftDistance() + limeLight.getRightDistance();
         setpoint = driveTrain.getAngle(distance, LimeLight.getShotDuration(distance));
-        System.out.println(driveTrain.getSpeed());
+        //System.out.println(driveTrain.getSpeed());
         if(Controls.getLeftStickBottom()) {
             limeDrive.setSetpoint(0);
             //System.out.println(setpoint);
@@ -227,7 +231,7 @@ public class DriveCommand extends CommandBase {
          //applies the powers to the motors
          driveTrain.lDrive(leftPower);
          driveTrain.rDrive(rightPower);
-         System.out.println(leftPower);
+         //System.out.println(leftPower);
  
          if(Controls.getLeftStickTopPressed())
              driveTrain.shiftThatDog();
@@ -534,7 +538,7 @@ public class DriveCommand extends CommandBase {
         ----------------------------------------------------------------------------------------------------------------------
         ----------------------------------------------------------------------------------------------------------------------*/
 
-
+        /*
         shuffleboard.boolInABox("POS: 1", ballManager.getFirstPositionBall());
         shuffleboard.boolInABox("POS: 2", ballManager.getSecondPositionBall());
         shuffleboard.boolInABox("Manual Balls", isManualBalls);
@@ -566,9 +570,10 @@ public class DriveCommand extends CommandBase {
         shuffleboard.number("Code left power", leftPower);
         shuffleboard.number("Right voltage", driveTrain.rightVoltage());
         shuffleboard.number("Left voltage", driveTrain.leftVoltage());
-
+        */
 
     }
+
 
 }
 

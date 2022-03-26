@@ -97,6 +97,10 @@ public class DriveTrain extends SubsystemBase {
         dog.toggle();
     }
 
+    public void downShift() {
+        dog.set(true);
+    }
+
     public boolean dogStatus() {
         return dog.get();
     }

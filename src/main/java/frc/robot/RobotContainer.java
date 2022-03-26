@@ -2,8 +2,10 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.autoCommands.Autonomous;
+import frc.robot.commands.Death;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.RobotInit;
+import frc.robot.commands.ShuffleData;
 import frc.robot.commands.TestingCommand;
 import frc.robot.subsystems.Arduino;
 import frc.robot.subsystems.BallManager;
@@ -21,6 +23,7 @@ import frc.robot.subsystems.ShuffleboardManager;
 import frc.robot.subsystems.Testing;
 import frc.robot.subsystems.Vision;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
 public class RobotContainer {
@@ -44,11 +47,14 @@ public class RobotContainer {
   //Makes TeleOp command with all subsystems needed for teleOp
   private DriveCommand m_teleopCommand;
   private Autonomous m_autoCommand;
+  private ShuffleData m_shuffleData;
+  private Death m_death;
   //private final TestingCommand m_testCommand = new TestingCommand(driveTrain, testing, arduino, shooter, intake, indexer, climber, limeLight, navX, ballManager, beamBreak, colorSensor, shuffleboard);
   private final RobotInit m_InitCommand = new RobotInit(climber, indexer, intake, ballManager, shuffleboard);
 
   public RobotContainer() {
-    
+    m_shuffleData = new ShuffleData(driveTrain, arduino, shooter, intake, indexer, climber, limeLight, navX, ballManager, beamBreak, colorSensor, shuffleboard, jacobSensor);
+    m_death = new Death(driveTrain, shooter);
   }
 
 
@@ -57,7 +63,7 @@ public class RobotContainer {
   }
 
   public void makeAuto() {
-    m_autoCommand = new Autonomous(driveTrain, shooter, navX, indexer, climber, intake, vision, ballManager, limeLight, beamBreak);
+    m_autoCommand = new Autonomous(driveTrain, shooter, navX, indexer, climber, intake, vision, ballManager, limeLight, beamBreak, shuffleboard);
   }
 
   public Command getTeleopCommand() {
@@ -71,5 +77,13 @@ public class RobotContainer {
   //}
   public Command getAutoCommand() {
       return m_autoCommand;
+  }
+
+  public Command getShuffleData() {
+    return m_shuffleData;
+  }
+
+  public CommandBase Die() {
+    return m_death;
   }
 }

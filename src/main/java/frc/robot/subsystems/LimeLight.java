@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 
 import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -19,8 +20,9 @@ public class LimeLight extends SubsystemBase{
     public static final double ballMass = .269; // in kg
     public static final double ballI = .00254; // Moment of inertia for a spherical shell (with cargo dimensions plugged in)
 
-    private static NetworkTable limeLightLeft = NetworkTableInstance.getDefault().getTable("limelight-back");
-    private static NetworkTable limeLightRight = NetworkTableInstance.getDefault().getTable("limelight-front");
+    private static NetworkTable limeLightLeft = NetworkTableInstance.getDefault().getTable("limelight-left");
+    private static NetworkTable limeLightRight = NetworkTableInstance.getDefault().getTable("limelight-right");
+    
 
     public double getRightXPercent() {
         return limeLightRight.getEntry("tx").getDouble(0);

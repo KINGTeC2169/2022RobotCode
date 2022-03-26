@@ -44,12 +44,6 @@ public class RobotInit extends CommandBase {
         ballManager.reset();
         //climber.movePistonForward();
         indexer.down();
-        //TODO: 26 is a placeholder for current, make sure to change
-        //for(double current = climber.getCurrent(); current < Constants.climberCurrent; current = climber.getCurrent()) {
-          //  climber.retractArm();
-        //}
-        //climber.stopArm();
-        climber.setZero();
         isDone = true;
         timer.reset();
 
