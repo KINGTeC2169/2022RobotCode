@@ -14,26 +14,31 @@ public class Intake extends SubsystemBase {
     VictorSPX intake = new VictorSPX(ActuatorMap.intake);
     DoubleSolenoid intakePiston = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, ActuatorMap.intakePistonOne, ActuatorMap.intakePistonTwo);
     
-    public void suck(boolean isSuckingMeOff) {
-        if(isSuckingMeOff) 
+    /**Sets intake to suck in */
+    public void suck(boolean slurp) {
+        if(slurp) 
             intake.set(ControlMode.PercentOutput, Constants.intakeSpeed);   
         else
             intake.set(ControlMode.PercentOutput, 0);
     }
-    public void reverseSuck(boolean isSuckingMeOff) {
-        if(isSuckingMeOff) 
+
+    /**Sets intake to outtake */
+    public void reverseSuck(boolean slurp) {
+        if(slurp) 
             intake.set(ControlMode.PercentOutput, -Constants.intakeSpeed);   
         else
             intake.set(ControlMode.PercentOutput, 0);
     }
 
+    /**Moves the intake down */
     public void down() {
         intakePiston.set(Value.kForward);
-    }   
+    }
+    /**Pulls the intake up */
     public void up() {
         intakePiston.set(Value.kReverse);
     }
-
+    /**Sets intake solenoid to off position */
     public void off() {
         intakePiston.set(Value.kOff);
     }

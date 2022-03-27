@@ -13,7 +13,7 @@ public class ShuffleboardManager extends SubsystemBase {
         .add("Max Speed", 1)
           .getEntry();
 
-    
+    /**Creates a BooleanBox */
     public void boolInABox(String key, boolean bool) {
         SmartDashboard.putBoolean(key , bool);
     }
@@ -23,10 +23,11 @@ public class ShuffleboardManager extends SubsystemBase {
         field.setRobotPose(xMeters, yMeters, rotation);
         SmartDashboard.putData(field);
     }
-
+    /**Adds text to shuffleboard */
     public void text(String key, String value) {
         SmartDashboard.putString(key, value);
     }
+    /**Adds a number to shuffleboard */
     public void number(String key, double value) {
         SmartDashboard.putNumber(key, value);
     }

@@ -20,65 +20,55 @@ public class Climber extends SubsystemBase {
         climber.configOpenloopRamp(0);
     }
 
-    public void extendArmTrigger(double power) {
-        climber.set(ControlMode.PercentOutput, -power);
-    }
-
-    public void reverseArmTrigger(double power) {
-        climber.set(ControlMode.PercentOutput, power);
-    }
-
-    public void init() {
-        climberAdjuster.set(Value.kForward);
-    }
-
+    /**Extends arms at a speed of 1 */
     public void extendArm() {
         climber.set(ControlMode.PercentOutput, -1);
     }
 
+    /**Extends arms at a speed of 0.4 */
     public void extendArmSlow() {
         climber.set(ControlMode.PercentOutput, -0.4);
     }
 
+    /**Turns off arms */
     public void stopArm() {
         climber.set(ControlMode.PercentOutput, 0);
     }
 
+    /**Retracts arms at a speed of 1 */
     public void retractArm() {
         climber.set(ControlMode.PercentOutput, 1);
     }
 
+    /**Retracts arms at a speed of 0.4 */
     public void retractArmSlow() {
         climber.set(ControlMode.PercentOutput, 0.4);
     }
 
     
-
+    /**Extends climber piston */
     public void movePistonUp() {
         climberAdjuster.set(Value.kForward);
-        }
+    }
+    /**Retracts climber piston */
     public void movePistonDown() {
         climberAdjuster.set(Value.kReverse);
     }
+    /**Sets climber solenoid to off position */
     public void pistonOff() {
         climberAdjuster.set(Value.kOff);
     }
-    public double getCurrent() {
-        return climber.getSupplyCurrent();
-    }
 
-    public double getStatorCurrent() {
-        return climber.getStatorCurrent();
-    }
-
+    
+    /**Returns value of climber encoder */
     public double getSensorPos() {
         return climber.getSelectedSensorPosition();
     }
-
+    /**Returns true if climber has reached top of encoder limit */
     public boolean isTop() {
         return climber.getSelectedSensorPosition() <= Constants.climberLimit;
     }
-
+    /**Returns true if climber has reached bottom of encoder limit */
     public boolean isBottom() {
         if(getCurrent() > 50) {
             return climber.getSelectedSensorPosition() >= 30000;
@@ -86,19 +76,27 @@ public class Climber extends SubsystemBase {
         else
             return climber.getSelectedSensorPosition() >= -25000;
     }
-
+    /**Returns true if climber is exerting more current than limit */
     public boolean isBottomCurrent() {
         return getCurrent() > Constants.climberCurrent;
     }
-
+    /**Toggles the climbing ratchet */
     public void toggLock() {
         ratchet.toggle();
+    }
+
+    /**Sets climber encoder value to 0 */
+    public void setZero() {
+        climber.setSelectedSensorPosition(0);
+    }
+
+
+    //These are just for shuffleboard
+    public double getCurrent() {
+        return climber.getSupplyCurrent();
     }
     public boolean ratchetStatus() {
         return ratchet.get();
     }
 
-    public void setZero() {
-        climber.setSelectedSensorPosition(0);
-    }
 }

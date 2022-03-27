@@ -9,6 +9,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class NavX extends SubsystemBase {
     AHRS navx = new AHRS(SPI.Port.kMXP);
     
+    //We dont use the NavX, these are just here in case we ever want to
+    //
+    //
+
+
     public double getAngle() {
         return navx.getAngle();
     }

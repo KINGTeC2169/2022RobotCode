@@ -3,12 +3,10 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.BallManager;
-import frc.robot.subsystems.BeamBreak;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.ShuffleboardManager;
-import frc.robot.utils.Constants;
 
 
 public class RobotInit extends CommandBase {

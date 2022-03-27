@@ -20,6 +20,7 @@ public class ColorSensor extends SubsystemBase {
         return sensor.getBlue() > sensor.getRed();
     }
 
+    /**Returns true if enemy ball is detected. Values will be inconsisted if no ball is present */
     public boolean isEnemyColor() {
         return false;
         

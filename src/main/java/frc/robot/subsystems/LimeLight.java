@@ -2,13 +2,11 @@ package frc.robot.subsystems;
 
 
 import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LimeLight extends SubsystemBase{
 
-    private double previousPower;
     public static double rimHeight = 104; // Height of upper HUB rim in inches
     public static final double launchHeight = 32; // Height of ball when last contacting ramp
     public static final double fgInInchesPerSec = -386.2204724; // The acceleration due to gravity in in/sec
@@ -23,42 +21,57 @@ public class LimeLight extends SubsystemBase{
     private static NetworkTable limeLightLeft = NetworkTableInstance.getDefault().getTable("limelight-left");
     private static NetworkTable limeLightRight = NetworkTableInstance.getDefault().getTable("limelight-right");
     
-
+    /**Returns X offset of right limelight target */
     public double getRightXPercent() {
         return limeLightRight.getEntry("tx").getDouble(0);
     }
 
+    /**Returns Y offset of right limelight target */
     public double getRightYPercent() {
         return limeLightRight.getEntry("ty").getDouble(0);
     }
 
+    /**Returns X offset of left limelight target */
     public double getLeftXPercent() {
         return limeLightLeft.getEntry("tx").getDouble(0);
     }
 
+    /**Returns Y offset of left limelight target */
     public double getLeftYPercent() {
         return limeLightLeft.getEntry("ty").getDouble(0);
     }
     
+    /**Returns right distance to hub center. Returns 0.0 if no target found */
     public double getRightDistance() {
         if(getRightYPercent() == 0)
             return 0.0;
         return ((63.593059725) / Math.tan(((28 + getRightYPercent()) * Math.PI)/180)) + 24/* + 131.0*/;
     }
+
+    /**Returns left distance to hub center. Returns 0.0 if no target found */
     public double getLeftDistance() {
         if(getLeftYPercent() == 0)
             return 0.0;
         return ((63.593059725) / Math.tan(((28 + getLeftYPercent()) * Math.PI)/180 )) + 24/* + 131.0*/;
     }
     
+    /**Sets pipeline ID for right limelight */
     public void setRightPipeline(int pipelineID) {
         limeLightRight.getEntry("pipeline").setNumber(pipelineID);
     }
 
+    /**Sets pipeline ID for left limelight */
     public void setLeftPipeline(int pipelineID) {
         limeLightLeft.getEntry("pipeline").setNumber(pipelineID);
     }
 
+    /**Sets pipeline IDs for both limelights */
+    public void setPipeline(int pipelineID) {
+        limeLightRight.getEntry("pipeline").setNumber(pipelineID);
+        limeLightLeft.getEntry("pipeline").setNumber(pipelineID);
+    }
+
+    /**Returns rpm value based on distance to hub. Returns 0.0 if hub is not seen */
     public double rpm() {
         if(getLeftDistance() > 0 && getRightDistance() == 0) {
             return getRPM(getLeftDistance());

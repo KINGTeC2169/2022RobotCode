@@ -54,7 +54,7 @@ public class RobotContainer {
 
   public RobotContainer() {
     m_shuffleData = new ShuffleData(driveTrain, arduino, shooter, intake, indexer, climber, limeLight, navX, ballManager, beamBreak, colorSensor, shuffleboard, jacobSensor);
-    m_death = new Death(driveTrain, shooter);
+    m_death = new Death(driveTrain, shooter, intake, limeLight);
   }
 
 

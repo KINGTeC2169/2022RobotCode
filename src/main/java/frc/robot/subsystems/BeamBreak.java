@@ -8,6 +8,7 @@ public class BeamBreak extends SubsystemBase {
 
     private DigitalInput beamBreak = new DigitalInput(ActuatorMap.beamBreak);
 
+    /**Returns true if there is something in the beambreak */
     public boolean isBall() {
         return !beamBreak.get();
     }

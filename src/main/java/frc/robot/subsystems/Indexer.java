@@ -18,6 +18,7 @@ public class Indexer extends SubsystemBase {
     Timer timer = new Timer();
     boolean isShoveBallRunning = false;
     
+    /**Runs indexer forward based on input boolean*/
     public void suckUp(boolean stimulating) {
         if(stimulating) {
             indexer.set(ControlMode.PercentOutput, -Constants.indexSpeed);
@@ -29,13 +30,15 @@ public class Indexer extends SubsystemBase {
         }
     }
 
+    /**Runs indexer backwards based on input boolean */
     public void reverseSuckUp(boolean stimulating) {
         if(stimulating)
             indexer.set(ControlMode.PercentOutput, Constants.indexSpeed);
         else
             indexer.set(ControlMode.PercentOutput, 0);
     }
-    //TODO: Fix
+
+    /**Pushes feeder up for certain amount of time*/
     public void shoveBall() {
         if(timer.get() == 0) {
             timer.start();
@@ -43,28 +46,30 @@ public class Indexer extends SubsystemBase {
         if(timer.get() < Constants.shoveBallTime) {
             indexerPiston.set(true);
             isShoveBallRunning = true;
-
         } else {
             indexerPiston.set(false);
             isShoveBallRunning = false;
             timer.stop();
             timer.reset();
         }
-
-
-
-
     }
+
+    /**Returns true if feeder is up */
     public boolean isShoveBallRunning() {
         return isShoveBallRunning;
     }
+
+    /**Return true if indexer is running */
     public boolean isSuckingUp() {
         return isSuckingUp;
     }
 
+    /**Extends feeder */
     public void up() {
         indexerPiston.set(true);
     }
+
+    /**Retracts feeder */
     public void down() {
         indexerPiston.set(false);
     }

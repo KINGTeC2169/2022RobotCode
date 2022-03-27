@@ -20,7 +20,7 @@ import frc.robot.utils.Constants;
 import frc.robot.utils.Controls;
 import frc.robot.utils.MathDoer;
 import frc.robot.utils.PID;
-//Hello
+
 public class DriveCommand extends CommandBase {
     private Timer timer = new Timer();
     private double indexerTimeSave;
@@ -53,9 +53,6 @@ public class DriveCommand extends CommandBase {
     private double lastKnownRPM;
     private boolean climbingTime;
     private boolean weGotA2319 = true;
-    private boolean goingUp;
-    private boolean goingDown;
-    private boolean shooting;
     //I hate these scuffed boolean methods
 
     ArrayList<Double> roborioSnack = new ArrayList<Double>();
@@ -93,7 +90,6 @@ public class DriveCommand extends CommandBase {
     }
     @Override
     public void initialize() {
-        driveTrain.stop();
     }
 
     @Override
@@ -121,8 +117,8 @@ public class DriveCommand extends CommandBase {
             }
         }
 
-        
-       /* 
+        //This is a roborio snack. Run it during a match for a fun surprise
+        /* 
         if(Controls.getControllerA()) {
             for(int i = 0; i < 10000000000L; i++) {
                 roborioSnack.add(i * 0.4254);
@@ -204,16 +200,6 @@ public class DriveCommand extends CommandBase {
             rightPower = -1.0;
         }
         //Auto aim locking mechanic
-        /*
-        if(Controls.getLeftStickBottom()) {
-            if(limeLight.getRightXPercent() != 0 || limeLight.getLeftXPercent() != 0) {
-                rightPower -= limeLight.getRightXPercent() / 50;
-                leftPower += limeLight.getRightXPercent() / 50;
-                rightPower -= limeLight.getLeftXPercent() / 50;
-                leftPower += limeLight.getLeftXPercent() / 50;
-            }
-        }
-        */
         distance = limeLight.getLeftDistance() + limeLight.getRightDistance();
         setpoint = driveTrain.getAngle(distance, LimeLight.getShotDuration(distance));
         //System.out.println(driveTrain.getSpeed());
@@ -231,7 +217,6 @@ public class DriveCommand extends CommandBase {
          //applies the powers to the motors
          driveTrain.lDrive(leftPower);
          driveTrain.rDrive(rightPower);
-         //System.out.println(leftPower);
  
          if(Controls.getLeftStickTopPressed())
              driveTrain.shiftThatDog();
@@ -261,8 +246,6 @@ public class DriveCommand extends CommandBase {
         double lTrigger = Controls.getLeftControllerTrigger();
         if(!isManualLimeLight) {
             
-
-
             //Shoots based on which trigger is pressed, one set of LEDs is set up
             if(limeLight.rpm() != 0) {
                 desiredRPM = limeLight.rpm();
@@ -370,7 +353,6 @@ public class DriveCommand extends CommandBase {
                 indexer.shoveBall();
                 ballManager.shootBall();
             }
-
         }
     
 
@@ -411,9 +393,6 @@ public class DriveCommand extends CommandBase {
         }
         
         
-        
-        
-
 
 /*--------------------------------Climber------------------------------------------------
         ----------------------------------------------------------------------------------------------------------------------
@@ -423,8 +402,6 @@ public class DriveCommand extends CommandBase {
         ------------------------------------------Just wanted to break it up a little more- *just a little*-------------------
         ----------------------------------------------------------------------------------------------------------------------
         ----------------------------------------------------------------------------------------------------------------------*/
-        //Climber -- Y = arm goes up, A = arm goes down, RightBumper = move cylinder 
-
 
         
         if(weGotA2319) {
@@ -436,37 +413,7 @@ public class DriveCommand extends CommandBase {
                 climber.stopArm();
                 climber.setZero();
             }
-        } else {/*else {
-        
-            if(Controls.getControllerYPressed() && !goingDown) {
-                goingUp = true;
-                goingDown = false;
-            }
-            else if(Controls.getControllerAPressed() && !goingUp) {
-                goingDown = true;
-                goingUp = false;
-            }
-
-            if(goingUp && !climber.isTop()) {
-                climber.extendArm();
-                System.out.println("balls");
-            }
-            else {
-                climber.stopArm();
-                goingUp = false;
-            }
-
-
-            if(goingDown && !climber.isBottom()) {
-                climber.retractArm();
-                System.out.println("balls 2");
-            }
-            else {
-                climber.stopArm();
-                goingDown = false;
-            }
-*/
-
+        } else {
             
             if(Controls.getControllerA() && !climber.isBottom()) {
                 climber.retractArm();
@@ -488,16 +435,6 @@ public class DriveCommand extends CommandBase {
         if(Controls.babyBackRibs())
             climber.setZero();
         
-        
-
-        /*
-        if(Controls.getRightControllerTrigger() > Controls.getLeftControllerTrigger()) {
-            climber.extendArmTrigger(Controls.getRightControllerTrigger());
-        }
-        else if(Controls.getLeftControllerTrigger() > Controls.getRightControllerTrigger()) {
-            climber.reverseArmTrigger(Controls.getLeftControllerTrigger());
-        }   
-        */
         if(!climbingTime) {
             if(Controls.getControllerX()) {
                 climber.movePistonDown();
@@ -538,7 +475,7 @@ public class DriveCommand extends CommandBase {
         ----------------------------------------------------------------------------------------------------------------------
         ----------------------------------------------------------------------------------------------------------------------*/
 
-        /*
+        
         shuffleboard.boolInABox("POS: 1", ballManager.getFirstPositionBall());
         shuffleboard.boolInABox("POS: 2", ballManager.getSecondPositionBall());
         shuffleboard.boolInABox("Manual Balls", isManualBalls);
@@ -570,7 +507,7 @@ public class DriveCommand extends CommandBase {
         shuffleboard.number("Code left power", leftPower);
         shuffleboard.number("Right voltage", driveTrain.rightVoltage());
         shuffleboard.number("Left voltage", driveTrain.leftVoltage());
-        */
+        shuffleboard.number("Shooter RPM", driveTrain.getRPM());
 
     }
 

@@ -19,18 +19,17 @@ public class DriveTrain extends SubsystemBase {
 
     Solenoid dog = new Solenoid(PneumaticsModuleType.CTREPCM, ActuatorMap.dog);
 
-    boolean turnIsDone;
 
     public DriveTrain() {
         rMaster.configOpenloopRamp(0);
         lMaster.configOpenloopRamp(0);
         rSlave.configOpenloopRamp(0);
         lSlave.configOpenloopRamp(0);
+        
         rSlave.follow(rMaster);
         rMaster.setInverted(true);
         rSlave.setInverted(true);
         lSlave.follow(lMaster);
-
     }
 
     public void rampOn() {
@@ -47,68 +46,43 @@ public class DriveTrain extends SubsystemBase {
         lSlave.configOpenloopRamp(0);
     }
 
-    //Drive for the right gearbox
+    /**Sets power to right drive motors */
     public void rDrive(double power) {
-        //set slaves to follow
-        //rSlave.follow(rMaster);
-
-
-        //set right motors to be inverted
-        //rMaster.setInverted(true);
-        //rSlave.setInverted(true);
         rMaster.set(ControlMode.PercentOutput, power);
     }
 
-    //Drive for the left gearbox
+    /**Sets power to left drive motors */
     public void lDrive(double power) {
-        //set slaves to follow
-        //lSlave.follow(lMaster);
-
-
-        //set slaves to be inverted
-        //lSlave.setInverted(true);
-
         lMaster.set(ControlMode.PercentOutput, power);
     }
 
+    /**Sets all drive motors to off */
     public void stop() {
         rMaster.set(ControlMode.PercentOutput, 0);
         lMaster.set(ControlMode.PercentOutput, 0);
     }
 
-    public void turn(double angle, double currentAngle) {
-        if(currentAngle < angle) {
-            turnIsDone = false;
-            rDrive(0.5);
-            lDrive(-0.5);
-        }
-        else {
-            turnIsDone = true;
-            rDrive(0);
-            lDrive(0);
-        }
-    }
-
-    public boolean turnisDone() {
-        return turnIsDone;
-    } 
-
+    /**Hee hee hoo hoo, dog shifting... */
     public void shiftThatDog() {
         dog.toggle();
     }
 
+    /**Sets shifter to low gear */
     public void downShift() {
         dog.set(true);
     }
-
-    public boolean dogStatus() {
-        return dog.get();
+    /**Sets encoder values for drivetrain to 0 */
+    public void setZero() {
+        lMaster.setSelectedSensorPosition(0);
+        rMaster.setSelectedSensorPosition(0);
     }
 
+    //This is stuff for currently unfinished attempt at shooting while moving
     public double getRPM() {
         return ((600 * rMaster.getSelectedSensorVelocity() / Constants.TalonFXCPR) + (600 * lMaster.getSelectedSensorVelocity() / Constants.TalonFXCPR)) / 2;
     }
 
+    /**Returns speed of robot in inches/second */
     public double getSpeed() {
         return (getRPM() / 60) * Constants.wheelCirc;
     }
@@ -117,23 +91,21 @@ public class DriveTrain extends SubsystemBase {
         return Math.atan((getSpeed() * duration) / distance);
     }
 
-    public void setZero() {
-        lMaster.setSelectedSensorPosition(0);
-        rMaster.setSelectedSensorPosition(0);
-    }
+    
 
+    //This is all just info for shuffleboard
+    public boolean dogStatus() {
+        return dog.get();
+    }
     public double getLeftPos() {
         return lMaster.getSelectedSensorPosition();
     }
-
     public double getRightPos() {
         return rMaster.getSelectedSensorPosition();
     }
-
     public double leftPercent() {
         return lMaster.getMotorOutputPercent();
     }
-
     public double rightPercent() {
         return rMaster.getMotorOutputPercent();
     }
