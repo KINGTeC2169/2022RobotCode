@@ -16,6 +16,7 @@ import frc.robot.subsystems.Vision;
 import frc.robot.utils.Constants;
 import frc.robot.utils.PID;
 
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -53,6 +54,8 @@ public class Autonomous extends CommandBase {
     private Timer timer = new Timer();
     private Timer shotTimer = new Timer();
     private Timer suckTime = new Timer();
+    private Timer feedingTime = new Timer();
+    private Timer thePowerOfAnIntelNeuralComputeStick2 = new Timer();
     private int counter;
 
     public Autonomous(DriveTrain driveTrain, Shooter shooter, NavX navx, Indexer indexer, 
@@ -89,7 +92,6 @@ public class Autonomous extends CommandBase {
         driveTrain.setZero();
         ballManager.startAuto();
         autoAim.setSetpoint(0);
-        singleInit = false;
         driveTrain.rDrive(0);
         driveTrain.lDrive(0);
         System.out.println("running auto init");
@@ -109,27 +111,18 @@ public class Autonomous extends CommandBase {
             driveTrain.lDrive(0);
             System.out.println("running auto init");
         }*/
-
-        //Initialization
-        /*
-        if(DriverStation.getAlliance().equals(Alliance.Blue)) {
-            team = BLUE;
-        }
-        else if(DriverStation.getAlliance().equals(Alliance.Red)) {
-            team = RED;
-        }
-        */
         if(intakeDown) {
           timer.start();
             if(timer.get() < 2) {
                 intake.down();
+                CompressorTank.disable();
             }
             else {
                 intakeDown = false;
                 timer.stop();
             }  
         }
-        
+        driveTrain.rampOff();
 
         if(zeroing) {
             if(climber.getCurrent() < 8) {
@@ -189,11 +182,12 @@ public class Autonomous extends CommandBase {
         //Drive
         if(counter == 0) {
             intake.suck(true);
-            if(true/*!ballManager.getFirstPositionBall()*/) {
-                if(driveTrain.getLeftPos() > -50000) {
+            indexer.suckUp(true);
+            if(!ballManager.getFirstPositionBall()) {
+                if(driveTrain.getLeftPos() > -10000000) {
                     driveTrain.lDrive(.3);
                 }
-                if(driveTrain.getRightPos() > -50000) {
+                if(driveTrain.getRightPos() > -1000000) {
                     driveTrain.rDrive(.3);
                 }
                 else {
@@ -204,12 +198,13 @@ public class Autonomous extends CommandBase {
                     counter++;
                 }
             }
-            /*
+            
             else {
                 driveTrain.stop();
                 intake.suck(false);
+                ballManager.newBall();
                 counter++;
-            }*/
+            }
         }
 
 
@@ -227,7 +222,7 @@ public class Autonomous extends CommandBase {
                 driveTrain.lDrive(-0.3);
                 System.out.println("Limelight error");
                 shotTimer.stop();
-                shotTimer.reset();
+                //shotTimer.reset();
             }
             if(limeLight.getLeftDistance() != 0) {
                 shotTimer.start();
@@ -244,13 +239,19 @@ public class Autonomous extends CommandBase {
                 driveTrain.lDrive(autoAim.getOutput());
             }
     
-            if(shotTimer.get() > 5) {
-                indexer.shoveBall();
-                ballManager.shootBall();
-                indexer.suckUp(true);
-                ballManager.cycleBall();
-                suckTime.start();
-                shotTimer.reset();
+            if(shotTimer.get() > 3.5) {
+                indexer.up();
+                feedingTime.start();
+                if(feedingTime.get() >= 0.5) {
+                    feedingTime.stop();
+                    feedingTime.reset();
+                    indexer.down();
+                    ballManager.shootBall();
+                    indexer.suckUp(true);
+                    ballManager.cycleBall();
+                    suckTime.start();
+                    shotTimer.reset();
+                }   
             }
 
             if(suckTime.get() >= 3) {
@@ -264,9 +265,98 @@ public class Autonomous extends CommandBase {
         }
         if(counter == 2) {
             driveTrain.stop();
+            shooter.stopShooter();
+            intake.suck(false);
+            indexer.suckUp(false);
+            indexer.down();
+            counter++;
         }
 
-        /*
+        if(counter == 3) {
+            driveTrain.rDrive(0.2);
+            driveTrain.lDrive(-0.2);
+            if(vision.heKindaValidTho()) {
+                counter++;
+            }
+        }
+        if(counter == 4) {
+            thePowerOfAnIntelNeuralComputeStick2.start();
+            driveTrain.rDrive(-0.2);
+            driveTrain.lDrive(0.2);
+            if(thePowerOfAnIntelNeuralComputeStick2.get() > 2) {
+                driveTrain.stop();
+                counter++;
+            }
+        }
+
+        if(counter == 5) {
+            driveTrain.rDrive(0.3);
+            driveTrain.lDrive(0.3);
+            intake.suck(true);
+            indexer.suckUp(true);
+            if(ballManager.getFirstPositionBall()) {
+                intake.suck(false);
+                driveTrain.stop();
+                counter++;
+            }
+        }
+
+        if(counter == 6) {
+            if(limeLight.getLeftDistance() + limeLight.getRightDistance() == 0 || (limeLight.getRightDistance() > 0 && limeLight.getLeftDistance() > 0)) {
+                driveTrain.rDrive(0.3);
+                driveTrain.lDrive(-0.3);
+                System.out.println("Limelight error");
+                shotTimer.stop();
+                //shotTimer.reset();
+            }
+            if(limeLight.getLeftDistance() != 0) {
+                shotTimer.start();
+                shooter.setCoolerestRPM(desiredRPM);
+                autoAim.calculate(limeLight.getLeftXPercent());
+                driveTrain.rDrive(autoAim.getOutput());
+                driveTrain.lDrive(-autoAim.getOutput());
+            }
+            else if(limeLight.getRightDistance() != 0){
+                shotTimer.start();
+                shooter.setCoolerestRPM(-desiredRPM);
+                autoAim.calculate(limeLight.getRightXPercent());
+                driveTrain.rDrive(autoAim.getOutput());
+                driveTrain.lDrive(autoAim.getOutput());
+            }
+    
+            if(shotTimer.get() > 3.5) {
+                indexer.up();
+                feedingTime.start();
+                if(feedingTime.get() >= 0.5) {
+                    feedingTime.stop();
+                    feedingTime.reset();
+                    indexer.down();
+                    ballManager.shootBall();
+                    indexer.suckUp(true);
+                    ballManager.cycleBall();
+                    suckTime.start();
+                    shotTimer.reset();
+                }   
+            }
+
+            if(suckTime.get() >= 3) {
+                indexer.suckUp(false);
+                suckTime.stop();
+                suckTime.reset();
+            }
+            if(ballManager.getNumberOfBalls() == 0) {
+                counter++;
+            }
+        }
+        if(counter == 7) {
+            driveTrain.stop();
+            shooter.stopShooter();
+            intake.suck(false);
+            indexer.suckUp(false);
+            indexer.down();
+        }
+
+        
         shuffleboard.number("Vroom", driveTrain.rightPercent());
         shuffleboard.number("Left Vroom", driveTrain.leftPercent());
         shuffleboard.number("Left Pos", driveTrain.getLeftPos());
@@ -277,8 +367,21 @@ public class Autonomous extends CommandBase {
         shuffleboard.boolInABox("POS 1 auto", ballManager.getFirstPositionBall());
         shuffleboard.boolInABox("POS 2 auto", ballManager.getSecondPositionBall());
         shuffleboard.number("Auto RPM", desiredRPM);
+        
+
+
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        /* Test this if death doesn't work
+        if(interrupted) {
+            driveTrain.lDrive(0);
+            driveTrain.rDrive(0);
+            shooter.stopShooter();
+            intake.suck(false);
+            indexer.suckUp(false);
+        }
         */
-
-
     }
 }

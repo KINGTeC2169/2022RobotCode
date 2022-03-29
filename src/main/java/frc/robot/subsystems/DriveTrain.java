@@ -33,10 +33,10 @@ public class DriveTrain extends SubsystemBase {
     }
 
     public void rampOn() {
-        rMaster.configOpenloopRamp(0.1);
-        lMaster.configOpenloopRamp(0.1);
-        rSlave.configOpenloopRamp(0.1);
-        lSlave.configOpenloopRamp(0.1);
+        rMaster.configOpenloopRamp(0.2);
+        lMaster.configOpenloopRamp(0.2);
+        rSlave.configOpenloopRamp(0.2);
+        lSlave.configOpenloopRamp(0.2);
     }
 
     public void rampOff() {
@@ -58,8 +58,10 @@ public class DriveTrain extends SubsystemBase {
 
     /**Sets all drive motors to off */
     public void stop() {
-        rMaster.set(ControlMode.PercentOutput, 0);
-        lMaster.set(ControlMode.PercentOutput, 0);
+        //rMaster.set(ControlMode.PercentOutput, 0);
+        //lMaster.set(ControlMode.PercentOutput, 0);
+        rMaster.set(ControlMode.Disabled, 1);
+        lMaster.set(ControlMode.Disabled, 1);
     }
 
     /**Hee hee hoo hoo, dog shifting... */

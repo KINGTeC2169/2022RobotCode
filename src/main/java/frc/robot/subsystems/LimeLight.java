@@ -45,14 +45,14 @@ public class LimeLight extends SubsystemBase{
     public double getRightDistance() {
         if(getRightYPercent() == 0)
             return 0.0;
-        return ((63.593059725) / Math.tan(((28 + getRightYPercent()) * Math.PI)/180)) + 24/* + 131.0*/;
+        return ((54.593059725) / Math.tan(((28 + getRightYPercent()) * Math.PI)/180)) + 24/* + 131.0*/;
     }
 
     /**Returns left distance to hub center. Returns 0.0 if no target found */
     public double getLeftDistance() {
         if(getLeftYPercent() == 0)
             return 0.0;
-        return ((63.593059725) / Math.tan(((28 + getLeftYPercent()) * Math.PI)/180 )) + 24/* + 131.0*/;
+        return ((54.593059725) / Math.tan(((28 + getLeftYPercent()) * Math.PI)/180 )) + 24/* + 131.0*/;
     }
     
     /**Sets pipeline ID for right limelight */

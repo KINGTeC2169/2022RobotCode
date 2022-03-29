@@ -33,19 +33,7 @@ public class RobotInit extends CommandBase {
 
     @Override
     public void execute() {
-        timer.start();
-        while(timer.get() < 2) {
-            intake.up();
-        }
-        timer.stop();
-
         ballManager.reset();
-        //climber.movePistonForward();
-        indexer.down();
-        isDone = true;
-        timer.reset();
-
-
     }
     @Override
     public boolean isFinished() {

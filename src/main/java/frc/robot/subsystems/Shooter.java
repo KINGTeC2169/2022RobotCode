@@ -61,10 +61,12 @@ public class Shooter extends SubsystemBase {
         rpmLoop.calculate(getRPM());
         shooter.set(ControlMode.PercentOutput, rpmLoop.getOutput());
     }
-
+    /**Turns off flywheel */
     public void stopShooter() {
-        shooter.set(ControlMode.PercentOutput, 0);
+        //shooter.set(ControlMode.PercentOutput, 0);
+        shooter.set(ControlMode.Disabled, 1);
     }
+
     public boolean isShootingLeft() {
         return shooter.getMotorOutputPercent() > 0;
     }

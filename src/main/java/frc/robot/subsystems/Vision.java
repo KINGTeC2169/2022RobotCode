@@ -26,12 +26,15 @@ public class Vision extends SubsystemBase {
     }
     public boolean validRedTarget() {
         //gives if there is a red ball in frame
-        return getBallLocation()[0][0] > 0;
+        return getBallLocation()[0][0] != -1;
     }
     public boolean validBlueTarget() {
-        return getBallLocation()[1][0] > 0;
+        return getBallLocation()[1][0] != -1;
     }
 
+    public boolean heKindaValidTho() {
+        return getBallLocation()[0][0] != -1 || getBallLocation()[1][0] != -1;
+    }
     public double getBlueBallX() {
         return getBallLocation()[0][1];
     }

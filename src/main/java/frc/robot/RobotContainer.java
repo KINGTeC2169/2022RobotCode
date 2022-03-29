@@ -49,12 +49,12 @@ public class RobotContainer {
   private Autonomous m_autoCommand;
   private ShuffleData m_shuffleData;
   private Death m_death;
-  //private final TestingCommand m_testCommand = new TestingCommand(driveTrain, testing, arduino, shooter, intake, indexer, climber, limeLight, navX, ballManager, beamBreak, colorSensor, shuffleboard);
+  private final TestingCommand m_testCommand = new TestingCommand(driveTrain, arduino, shooter, intake, indexer, climber, limeLight, navX, ballManager, beamBreak, colorSensor, shuffleboard);
   private final RobotInit m_InitCommand = new RobotInit(climber, indexer, intake, ballManager, shuffleboard);
 
   public RobotContainer() {
     m_shuffleData = new ShuffleData(driveTrain, arduino, shooter, intake, indexer, climber, limeLight, navX, ballManager, beamBreak, colorSensor, shuffleboard, jacobSensor);
-    m_death = new Death(driveTrain, shooter, intake, limeLight);
+    m_death = new Death(driveTrain, shooter, intake, limeLight, indexer);
   }
 
 
@@ -66,15 +66,20 @@ public class RobotContainer {
     m_autoCommand = new Autonomous(driveTrain, shooter, navX, indexer, climber, intake, vision, ballManager, limeLight, beamBreak, shuffleboard);
   }
 
+  //public void makeTest() {
+    //m_testCommand;
+  //}
+
   public Command getTeleopCommand() {
     return m_teleopCommand;
   }
   public Command getInitCommand() {
     return m_InitCommand;
   }
-  //public Command getTestCommand() {
-    //return m_testCommand;
-  //}
+  public Command getTestCommand() {
+    //System.out.println("Death");
+    return m_testCommand;
+  }
   public Command getAutoCommand() {
       return m_autoCommand;
   }

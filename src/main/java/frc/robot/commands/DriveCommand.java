@@ -209,7 +209,7 @@ public class DriveCommand extends CommandBase {
             limeDrive.calculate(limeLight.getRightXPercent() + limeLight.getLeftXPercent());
             rightPower += limeDrive.getOutput();
             leftPower -= limeDrive.getOutput();
-            driveTrain.rampOn();
+            //driveTrain.rampOn();
         }
         else {
             driveTrain.rampOff();
@@ -486,32 +486,25 @@ public class DriveCommand extends CommandBase {
         shuffleboard.number("Shooter RPM", shooter.getRPM());
         shuffleboard.number("Shooter RPM again", shooter.getRPM());
         shuffleboard.boolInABox("BeamBreak", beamBreak.isBall());
-        //shuffleboard.number("Shooter Percent Output", (lTrigger > rTrigger ? lTrigger : rTrigger));
-        //shuffleboard.number("Shooter Current", shooter.getCurrent());
-        shuffleboard.number("Shooter Voltage", shooter.getVoltage());
         shuffleboard.number("LimeLight RPM", desiredRPM);
         shuffleboard.number("Climber Sensor", climber.getSensorPos());
-        shuffleboard.number("Climber Current", climber.getCurrent());
         shuffleboard.boolInABox("Is Enemy ball", colorSensor.isEnemyColor());
         shuffleboard.boolInABox("Red", colorSensor.isRed());
         shuffleboard.boolInABox("Blue", colorSensor.isBlue());
-        shuffleboard.number("Pressure", jacobSensor.getPressure());
-        shuffleboard.number("Also pressure", jacobSensor.getPressure());
         shuffleboard.boolInABox("Ratchet", climber.ratchetStatus());
-
-
-        shuffleboard.number("Right output", driveTrain.rightPercent());
-        shuffleboard.number("Left output", driveTrain.leftPercent());
-        shuffleboard.number("Joystick power", Controls.getLeftStickY());
-        shuffleboard.number("Code right power", rightPower);
-        shuffleboard.number("Code left power", leftPower);
-        shuffleboard.number("Right voltage", driveTrain.rightVoltage());
-        shuffleboard.number("Left voltage", driveTrain.leftVoltage());
-        shuffleboard.number("Shooter RPM", driveTrain.getRPM());
-
     }
 
-
+    @Override
+    public void end(boolean interrupted) {
+        /* Test this if death doesn't work
+        if(interrupted) {
+            driveTrain.stop();
+            shooter.stopShooter();
+            intake.suck(false);
+            indexer.suckUp(false);
+        }
+        */
+    }
 }
 
 

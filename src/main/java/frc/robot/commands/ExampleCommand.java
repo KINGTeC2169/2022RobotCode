@@ -14,8 +14,8 @@ public class ExampleCommand extends CommandBase {
     public void initialize() {}
 
     @Override
-    public void execute() {
-        System.out.println(navX.getAngle());
-        
-    }
+    public void execute() {}
+
+    @Override
+    public void end(boolean interrupted) {}
 }

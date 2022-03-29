@@ -1,7 +1,7 @@
 package frc.robot.commands;
 
+
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arduino;
 import frc.robot.subsystems.BallManager;
@@ -15,12 +15,10 @@ import frc.robot.subsystems.LimeLight;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.ShuffleboardManager;
-import frc.robot.subsystems.Testing;
 
 public class TestingCommand extends CommandBase {
 
     private DriveTrain driveTrain;
-    private Testing testing;
     private Arduino arduino;
     private Shooter shooter;
     private Intake intake;
@@ -33,13 +31,13 @@ public class TestingCommand extends CommandBase {
     private ColorSensor colorSensor;
     private ShuffleboardManager shuffleboard;
     private Timer timer = new Timer();
+    private String test;
         
 
-    public TestingCommand(DriveTrain driveTrain, Testing testing, Arduino arduino, Shooter shooter, Intake intake, Indexer indexer, Climber climber, LimeLight limeLight, NavX navx, BallManager ballManager, BeamBreak beamBreak, ColorSensor colorSensor, ShuffleboardManager shuffleboardManager) {
+    public TestingCommand(DriveTrain driveTrain, Arduino arduino, Shooter shooter, Intake intake, Indexer indexer, Climber climber, LimeLight limeLight, NavX navx, BallManager ballManager, BeamBreak beamBreak, ColorSensor colorSensor, ShuffleboardManager shuffleboardManager) {
+        System.out.println("balls 2");
         this.driveTrain = driveTrain;
         addRequirements(driveTrain);
-        this.testing = testing;
-        addRequirements(testing);
         this.arduino = arduino;
         addRequirements(arduino);
         this.shooter = shooter;
@@ -66,21 +64,54 @@ public class TestingCommand extends CommandBase {
     
     @Override
     public void execute() {
+        System.out.println("balls");
         timer.start();
         double time = timer.get();
         if(time < 3) {
             driveTrain.rDrive(.5);
             driveTrain.lDrive(.5);
+            test = "Drivetrain";
         }
         else if(time < 6) {
-            driveTrain.rDrive(0);
-            driveTrain.lDrive(0);
-            
+            driveTrain.stop();
+            intake.down();
+            intake.suck(true);
+            indexer.suckUp(true);
+            test = "indexer/intake";
         }
         else if(time < 9) {
-
+            intake.suck(false);
+            indexer.suckUp(false);
+            intake.up();
+            test = "intake pneumatics";
         }
-        
+        else if(time < 12) {
+            shooter.setCoolerestRPM(1000);
+            indexer.up();
+            test = "shooter/feeder";
+        }
+        else if(time < 14) {
+            shooter.stopShooter();
+            indexer.down();
+        }
+        else if(time < 16) {
+            climber.extendArmSlow();
+            test = "climber arms";
+        }
+        else if(time < 18) {
+            climber.retractArmSlow();
+        }
+        else if(time < 19) {
+            climber.movePistonDown();
+            test = "climber pneumatics";
+        }
+        else if(time < 20) {
+            climber.movePistonUp();
+        }
+        else {
+            timer.stop();
+        }
+        shuffleboard.text("Currently Testing", test);
         
     }
 }
