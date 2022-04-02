@@ -56,6 +56,9 @@ public class Shooter extends SubsystemBase {
 
     /**Good PID loop for RPM setting. This is the one we actually use */
     public void setCoolerestRPM(double rpm) {
+        if(rpm > 4500) {
+            rpm = 4500;
+        }
         CompressorTank.disable();
         rpmLoop.setSetpoint(rpm);
         rpmLoop.calculate(getRPM());

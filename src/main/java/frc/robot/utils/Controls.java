@@ -88,7 +88,7 @@ public class Controls {
     }
 
     public static boolean babyBackRibs() {
-        return controller.getBackButtonPressed();
+        return controller.getBackButton();
     }
 
     public static boolean startYourEngines() {

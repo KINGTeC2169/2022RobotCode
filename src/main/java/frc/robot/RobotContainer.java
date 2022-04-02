@@ -1,7 +1,11 @@
 package frc.robot;
 
+import com.ctre.phoenix.platform.can.AutocacheState;
+
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.autoCommands.Autonomous;
+import frc.robot.autoCommands.AutonomousButDumb;
 import frc.robot.commands.Death;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.RobotInit;
@@ -42,19 +46,23 @@ public class RobotContainer {
     private ShuffleboardManager shuffleboard = new ShuffleboardManager();
     private JacobSensor jacobSensor = new JacobSensor();
     private Vision vision = new Vision();
+    private SendableChooser autoChooser = new SendableChooser<String>();
   // The robot's subsystems and commands are defined here...
 
   //Makes TeleOp command with all subsystems needed for teleOp
   private DriveCommand m_teleopCommand;
-  private Autonomous m_autoCommand;
+  private Command m_autoCommand;
   private ShuffleData m_shuffleData;
   private Death m_death;
   private final TestingCommand m_testCommand = new TestingCommand(driveTrain, arduino, shooter, intake, indexer, climber, limeLight, navX, ballManager, beamBreak, colorSensor, shuffleboard);
-  private final RobotInit m_InitCommand = new RobotInit(climber, indexer, intake, ballManager, shuffleboard);
+  private final RobotInit m_InitCommand = new RobotInit(ballManager);
 
   public RobotContainer() {
     m_shuffleData = new ShuffleData(driveTrain, arduino, shooter, intake, indexer, climber, limeLight, navX, ballManager, beamBreak, colorSensor, shuffleboard, jacobSensor);
     m_death = new Death(driveTrain, shooter, intake, limeLight, indexer);
+    autoChooser.setDefaultOption("Normal", "Normal");
+    autoChooser.addOption("Dumb Wall Mode", "Dumb");
+    SmartDashboard.putData(autoChooser);
   }
 
 
@@ -63,7 +71,14 @@ public class RobotContainer {
   }
 
   public void makeAuto() {
-    m_autoCommand = new Autonomous(driveTrain, shooter, navX, indexer, climber, intake, vision, ballManager, limeLight, beamBreak, shuffleboard);
+    if(autoChooser.getSelected().equals("Normal")) {
+      System.out.println("Dogs are maybe mammals");
+      m_autoCommand = new Autonomous(driveTrain, shooter, navX, indexer, climber, intake, vision, ballManager, limeLight, beamBreak, shuffleboard);
+    } else if(autoChooser.getSelected().equals("Dumb")) {
+      m_autoCommand = new AutonomousButDumb(driveTrain, shooter, navX, indexer, climber, intake, vision, ballManager, limeLight, beamBreak, shuffleboard);
+      System.out.println("Dogs are mammals");
+    }
+   
   }
 
   //public void makeTest() {

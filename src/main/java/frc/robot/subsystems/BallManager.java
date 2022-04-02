@@ -45,6 +45,10 @@ public class BallManager extends SubsystemBase {
         return ballCount[1];
     }
 
+    public void setFirstPositionBall(boolean iLoveBalls) {
+        ballCount[0] = iLoveBalls;
+    }
+
     /**Sets both spots to false */
     public void reset() {
         ballCount[0] = false;

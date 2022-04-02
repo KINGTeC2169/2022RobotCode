@@ -21,11 +21,11 @@ public class ColorSensor extends SubsystemBase {
     }
 
     /**Returns true if enemy ball is detected. Values will be inconsisted if no ball is present */
-    public boolean isEnemyColor() {
-        return false;
-        
-        /*
+    public boolean isEnemyColor() {  
+
         if(isBlue()) {
+            
+            
             if(DriverStation.getAlliance().equals(Alliance.Blue)) {
                 return false;
             }
@@ -36,7 +36,7 @@ public class ColorSensor extends SubsystemBase {
             }
             return true;
         }
-        */
+        
     }
     
 }

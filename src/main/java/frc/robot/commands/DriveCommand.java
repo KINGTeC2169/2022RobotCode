@@ -90,6 +90,7 @@ public class DriveCommand extends CommandBase {
     }
     @Override
     public void initialize() {
+        ballManager.reset();
     }
 
     @Override
@@ -258,20 +259,23 @@ public class DriveCommand extends CommandBase {
 
 
             if(rTrigger > lTrigger) {
-                if(colorSensor.isEnemyColor())
-                    shooter.shoot(-rTrigger);
+                if(colorSensor.isEnemyColor() && ballManager.getSecondPositionBall())
+                    shooter.setCoolerestRPM(-1000);
                 else
                     shooter.setCoolerestRPM(-desiredRPM);
+                    System.out.println(desiredRPM);
             }
             else if(lTrigger > rTrigger) {
-                if(colorSensor.isEnemyColor())
-                    shooter.shoot(lTrigger);
+                if(colorSensor.isEnemyColor() && ballManager.getSecondPositionBall())
+                    shooter.setCoolerestRPM(1000);
                 else {
                     shooter.setCoolerestRPM(desiredRPM);
+                    System.out.println("Left");
                 }
 
             } else {
                 shooter.stopShooter();
+                System.out.println("Stopping");
                 CompressorTank.enable();
             }
 
@@ -286,7 +290,12 @@ public class DriveCommand extends CommandBase {
                 //shooter.setCoolerestRPM(3600);
             } else {
                 CompressorTank.enable();
-                shooter.stopShooter();
+                if(Controls.babyBackRibs()) {
+                    System.out.println("aaaAAAAA");
+                    shooter.setCoolerestRPM(500);
+                }
+                else
+                    shooter.stopShooter();
             }
     }
               
@@ -330,7 +339,12 @@ public class DriveCommand extends CommandBase {
              if(isIntaking && ballManager.getNumberOfBalls() == 0 || (ballManager.getSecondPositionBall() && !ballManager.getFirstPositionBall()) && isIntaking) {
                 indexer.suckUp(true);
             } else {
-                indexer.suckUp(false);
+                /*
+                if(Controls.getRightStickBottom()) {
+                    indexer.reverseSuckUp(true);
+                }
+                else */
+                    indexer.suckUp(false);
             }
             if(ballManager.getFirstPositionBall() && !ballManager.getSecondPositionBall()) {
                 if(indexerTimeSave == 0.0) {
@@ -347,6 +361,14 @@ public class DriveCommand extends CommandBase {
                 }  
             }
             
+            /*
+            if(Controls.getRightStickBottom() && (ballManager.getNumberOfBalls() == 2 || ballManager.getNumberOfBalls() == 0)) {
+                indexer.reverseSuckUp(true);
+                ballManager.setFirstPositionBall(false);
+            }
+            else 
+                indexer.reverseSuckUp(false);
+                */
 
             //Moves cylinder for indexing/shooting
             if((Controls.getLeftControllerBumper() && !indexer.isSuckingUp()) || indexer.isShoveBallRunning()) {
@@ -357,7 +379,8 @@ public class DriveCommand extends CommandBase {
     
 
         
-
+        System.out.println(Runtime.getRuntime().freeMemory());
+        //System.out.println(Runtime.getRuntime().maxMemory());
 
         /*--------------------------------Intake------------------------------------------------
         ----------------------------------------------------------------------------------------------------------------------
@@ -382,13 +405,17 @@ public class DriveCommand extends CommandBase {
             }
 
         } else {
-
-            if(ballManager.getNumberOfBalls() < 2) {
-                intake.suck(Controls.getRightStickTop());
-                isIntaking = Controls.getRightStickTop();
-            } else {
-                intake.suck(false);
-                isIntaking = false;
+            if(Controls.getRightStickBottom()) {
+                intake.reverseSuck(true);
+            }
+            else {
+                if(ballManager.getNumberOfBalls() < 2) {
+                    intake.suck(Controls.getRightStickTop());
+                    isIntaking = Controls.getRightStickTop();
+                } else {
+                    intake.suck(false);
+                    isIntaking = false;
+                }
             }
         }
         
@@ -425,15 +452,21 @@ public class DriveCommand extends CommandBase {
                 climber.stopArm();
         }
 
-        
+        /*
+        if(Controls.getControllerAPressed()) {
+            limeLight.changeRPM(-50);
+        }
+
+        if(Controls.getControllerYPressed()) {
+            limeLight.changeRPM(50);
+        }    
+        */
+
         if(Controls.getDPad() == 180)
             climber.retractArmSlow();
         
         if(Controls.getDPad() == 0)
             climber.extendArmSlow();
-        
-        if(Controls.babyBackRibs())
-            climber.setZero();
         
         if(!climbingTime) {
             if(Controls.getControllerX()) {
@@ -460,8 +493,15 @@ public class DriveCommand extends CommandBase {
         if(Controls.startYourEngines()) {
             climber.toggLock();
         }
-        
-        
+
+        if(Controls.getLeftControllerTrigger() == 0 && Controls.getRightControllerTrigger() == 0) {
+            if(climber.lockStatus()) {
+                arduino.on();
+            }
+            else {
+                arduino.off();
+            }
+        }
 
         
 
@@ -492,6 +532,8 @@ public class DriveCommand extends CommandBase {
         shuffleboard.boolInABox("Red", colorSensor.isRed());
         shuffleboard.boolInABox("Blue", colorSensor.isBlue());
         shuffleboard.boolInABox("Ratchet", climber.ratchetStatus());
+        shuffleboard.number("Climber current", climber.getCurrent());
+        //shuffleboard.number("RPM adjustmeny", limeLight.getRPMAdjusted());
     }
 
     @Override

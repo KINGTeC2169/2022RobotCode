@@ -65,8 +65,8 @@ public class TestingCommand extends CommandBase {
     @Override
     public void execute() {
         System.out.println("balls");
-        timer.start();
-        double time = timer.get();
+        //timer.start();
+        double time = 9999;
         if(time < 3) {
             driveTrain.rDrive(.5);
             driveTrain.lDrive(.5);

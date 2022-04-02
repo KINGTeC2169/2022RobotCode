@@ -70,8 +70,9 @@ public class Climber extends SubsystemBase {
     }
     /**Returns true if climber has reached bottom of encoder limit */
     public boolean isBottom() {
-        if(getCurrent() > 50) {
-            return climber.getSelectedSensorPosition() >= 30000;
+        if(getCurrent() > 30) {
+            System.out.println("Holy shit I'm climbing");
+            return climber.getSelectedSensorPosition() >= 0;
         }
         else
             return climber.getSelectedSensorPosition() >= -25000;
@@ -83,6 +84,10 @@ public class Climber extends SubsystemBase {
     /**Toggles the climbing ratchet */
     public void toggLock() {
         ratchet.toggle();
+    }
+
+    public boolean lockStatus() {
+        return ratchet.get();
     }
 
     /**Sets climber encoder value to 0 */

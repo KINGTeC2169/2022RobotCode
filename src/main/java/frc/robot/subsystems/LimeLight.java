@@ -10,13 +10,15 @@ public class LimeLight extends SubsystemBase{
     public static double rimHeight = 104; // Height of upper HUB rim in inches
     public static final double launchHeight = 32; // Height of ball when last contacting ramp
     public static final double fgInInchesPerSec = -386.2204724; // The acceleration due to gravity in in/sec
-    public static final double rampAngle = 67.5; // in degrees
+    public static final double rampAngle = 67.5; // in degrees     67.5
     public static final double flywheelRadius = .0508; // in meters
     public static final double wheelMass = 1.22; // in kg
     public static final double wheelRadius = .0508; // Wheel radius in meters
     public static final double ballRadius = .16025; // in meters
     public static final double ballMass = .269; // in kg
     public static final double ballI = .00254; // Moment of inertia for a spherical shell (with cargo dimensions plugged in)
+
+    //private static double rpmAdjust = 300;
 
     private static NetworkTable limeLightLeft = NetworkTableInstance.getDefault().getTable("limelight-left");
     private static NetworkTable limeLightRight = NetworkTableInstance.getDefault().getTable("limelight-right");
@@ -45,14 +47,14 @@ public class LimeLight extends SubsystemBase{
     public double getRightDistance() {
         if(getRightYPercent() == 0)
             return 0.0;
-        return ((54.593059725) / Math.tan(((28 + getRightYPercent()) * Math.PI)/180)) + 24/* + 131.0*/;
+        return ((63.593059725) / Math.tan(((28 + getRightYPercent()) * Math.PI)/180)) + 24/* + 131.0*/;
     }
 
     /**Returns left distance to hub center. Returns 0.0 if no target found */
     public double getLeftDistance() {
         if(getLeftYPercent() == 0)
             return 0.0;
-        return ((54.593059725) / Math.tan(((28 + getLeftYPercent()) * Math.PI)/180 )) + 24/* + 131.0*/;
+        return ((63.593059725) / Math.tan(((28 + getLeftYPercent()) * Math.PI)/180 )) + 24/* + 131.0*/;
     }
     
     /**Sets pipeline ID for right limelight */
@@ -74,14 +76,26 @@ public class LimeLight extends SubsystemBase{
     /**Returns rpm value based on distance to hub. Returns 0.0 if hub is not seen */
     public double rpm() {
         if(getLeftDistance() > 0 && getRightDistance() == 0) {
-            return getRPM(getLeftDistance());
+            return getRPM(getLeftDistance()) - 300;
+            //return getRPM(getLeftDistance()) - rpmAdjust;
         }
         else if(getRightDistance() > 0 && getLeftDistance() == 0) {
-            return getRPM(getRightDistance());
+            return getRPM(getRightDistance()) - 300;
+            //return getRPM(getRightDistance()) - rpmAdjust;
         }
         else
             return 0;
     }
+
+    /*
+    public void changeRPM(double vroom) {
+        rpmAdjust -= vroom;
+    }
+
+    public double getRPMAdjusted() {
+        return rpmAdjust - 300;
+    }
+    */
 
     // Returns the time the ball will be in the air for a predicted shot at distance from center of hub
     public static double getShotDuration(double distance) {

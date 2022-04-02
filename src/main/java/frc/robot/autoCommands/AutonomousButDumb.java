@@ -21,8 +21,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
-public class Autonomous extends CommandBase {
-    
+public class AutonomousButDumb extends CommandBase{
+        
     private DriveTrain driveTrain;
     private Shooter shooter;
     private NavX navx;
@@ -60,7 +60,7 @@ public class Autonomous extends CommandBase {
     private Timer thePowerOfAnIntelNeuralComputeStick2 = new Timer();
     private int counter;
 
-    public Autonomous(DriveTrain driveTrain, Shooter shooter, NavX navx, Indexer indexer, 
+    public AutonomousButDumb(DriveTrain driveTrain, Shooter shooter, NavX navx, Indexer indexer, 
     Climber climber, Intake intake, Vision vision, BallManager ballManager, LimeLight limeLight, BeamBreak beamBreak, ShuffleboardManager shuffleboard) {
         this.driveTrain = driveTrain;
         addRequirements(driveTrain);
@@ -113,17 +113,8 @@ public class Autonomous extends CommandBase {
             driveTrain.lDrive(0);
             System.out.println("running auto init");
         }*/
-        if(intakeDown) {
-          timer.start();
-            if(timer.get() < 2) {
-                intake.down();
-                CompressorTank.disable();
-            }
-            else {
-                intakeDown = false;
-                timer.stop();
-            }  
-        }
+        CompressorTank.disable();
+
         driveTrain.rampOff();
 
         if(zeroing) {
@@ -207,25 +198,6 @@ public class Autonomous extends CommandBase {
                 counter++;
             }
         }
-        if(counter == 1) {
-            driveTrain.setZero();
-            counter++;
-        }
-        if(counter == 2) {
-            if(driveTrain.getLeftPos() < (12 * inches)) {
-                indexer.suckUp(true);
-                driveTrain.lDrive(-.3);
-            }
-            if(driveTrain.getRightPos() < (12 * inches)) {
-                indexer.suckUp(true);
-                driveTrain.rDrive(-.3);
-            }
-            else {
-                driveTrain.stop();
-                indexer.suckUp(false);
-                counter++;
-            }
-        }
 
 
         if(limeLight.rpm() != 0) {
@@ -236,7 +208,7 @@ public class Autonomous extends CommandBase {
             desiredRPM = lastKnownRPM;
         }
 
-        if(counter == 3) {
+        if(counter == 1) {
             intake.up();
             if(limeLight.getLeftDistance() + limeLight.getRightDistance() == 0 || (limeLight.getRightDistance() > 0 && limeLight.getLeftDistance() > 0)) {
                 driveTrain.rDrive(0.3);
@@ -283,7 +255,7 @@ public class Autonomous extends CommandBase {
                 counter++;
             }
         }
-        if(counter == 4) {
+        if(counter == 2) {
             driveTrain.stop();
             shooter.stopShooter();
             intake.suck(false);
@@ -292,14 +264,14 @@ public class Autonomous extends CommandBase {
             //counter++;
         }
 
-        if(counter == 5) {
+        if(counter == 3) {
             driveTrain.rDrive(0.2);
             driveTrain.lDrive(-0.2);
             if(vision.heKindaValidTho()) {
                 counter++;
             }
         }
-        if(counter == 5) {
+        if(counter == 4) {
             thePowerOfAnIntelNeuralComputeStick2.start();
             driveTrain.rDrive(-0.2);
             driveTrain.lDrive(0.2);
@@ -309,7 +281,7 @@ public class Autonomous extends CommandBase {
             }
         }
 
-        if(counter == 6) {
+        if(counter == 5) {
             driveTrain.rDrive(0.3);
             driveTrain.lDrive(0.3);
             intake.suck(true);
@@ -321,7 +293,7 @@ public class Autonomous extends CommandBase {
             }
         }
 
-        if(counter == 7) {
+        if(counter == 6) {
             if(limeLight.getLeftDistance() + limeLight.getRightDistance() == 0 || (limeLight.getRightDistance() > 0 && limeLight.getLeftDistance() > 0)) {
                 driveTrain.rDrive(0.3);
                 driveTrain.lDrive(-0.3);
@@ -372,7 +344,7 @@ public class Autonomous extends CommandBase {
                 counter++;
             }
         }
-        if(counter == 8) {
+        if(counter == 7) {
             driveTrain.stop();
             shooter.stopShooter();
             intake.suck(false);
