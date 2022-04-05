@@ -172,17 +172,17 @@ public class FourBallAuto extends CommandBase{
             indexer.suckUp(true);
             if(!ballManager.getFirstPositionBall()) {
                 if(driveTrain.getLeftPos() > -(76 * inches)) {
-                    driveTrain.lDrive(.3);
+                    driveTrain.lDrive(driveSpeed);
                 }
                 if(driveTrain.getRightPos() > -(76 * inches)) {
-                    driveTrain.rDrive(.3);
+                    driveTrain.rDrive(driveSpeed);
                 }
                 else {
                     driveTrain.stop();
                     //driveTrain.setZero();
                     intake.suck(false);
                     ballManager.newBall();
-                    counter++;
+                    counter = 8;
                 }
 
             } else {
@@ -209,7 +209,7 @@ public class FourBallAuto extends CommandBase{
 
         //target limelight
         if(counter == 2) {
-            if(aimTime.get() < 1) {
+            if(aimTime.get() < aimingTime) {
                 autoAim.calculate(limeLight.getRightXPercent());
                 driveTrain.rDrive(autoAim.getOutput());
                 driveTrain.lDrive(-autoAim.getOutput());
@@ -233,7 +233,7 @@ public class FourBallAuto extends CommandBase{
             }
             else {
                 loadBallTime.start();
-                if(loadBallTime.get() >= 0.5 || ballsShot == 1) {
+                if(loadBallTime.get() >= ballFeast || ballsShot == 1) {
                     ballsShot++;
                     feedingTime.stop();
                     feedingTime.reset();
@@ -267,10 +267,10 @@ public class FourBallAuto extends CommandBase{
         if(counter == 5) {
             intake.suck(true);
             indexer.suckUp(true);
-            if(driveTrain.getLeftPos() > -(120 * inches)) {
+            if(driveTrain.getLeftPos() > -(inchesToAkshit * inches)) {
                 intake.down();
-                driveTrain.lDrive(0.3);
-                driveTrain.rDrive(0.3);
+                driveTrain.lDrive(driveSpeed);
+                driveTrain.rDrive(driveSpeed);
             }
             else {
                 driveTrain.stop();
@@ -281,7 +281,7 @@ public class FourBallAuto extends CommandBase{
         //waits for human player
         if(counter == 6) {
             justChillin.start();
-            if(justChillin.get() > 2) {
+            if(justChillin.get() > whatIsAkshitDoing) {
                 justChillin.stop();
                 driveTrain.setZero();
                 counter++;
@@ -290,7 +290,7 @@ public class FourBallAuto extends CommandBase{
 
         //drives back to hub
         if(counter == 7) {
-            if(driveTrain.getLeftPos() < (120 * inches)) {
+            if(driveTrain.getLeftPos() < (inchesToAkshit * inches)) {
                 intake.up();
                 intake.suck(false);
                 driveTrain.lDrive(-0.3);
@@ -316,7 +316,7 @@ public class FourBallAuto extends CommandBase{
 
         //target limelight
         if(counter == 9) {
-            if(aimTime.get() < 1) {
+            if(aimTime.get() < aimingTime) {
                 autoAim.calculate(limeLight.getRightXPercent());
                 driveTrain.rDrive(autoAim.getOutput());
                 driveTrain.lDrive(-autoAim.getOutput());
@@ -340,7 +340,7 @@ public class FourBallAuto extends CommandBase{
             }
             else {
                 loadBallTime.start();
-                if(loadBallTime.get() >= 0.5 || ballsShot == 1) {
+                if(loadBallTime.get() >= ballFeast || ballsShot == 1) {
                     ballsShot++;
                     feedingTime.stop();
                     feedingTime.reset();
