@@ -7,4 +7,12 @@ https://motors.vex.com/vexpro-motors/falcon#mcx3pnx
 
 
 Notes: 
-I'll write some stuff here later
+
+LimeLight notes:
+interface web addresses-type these into search bar of any browser
+
+10.21.69.11:5801
+10.21.69.13.5801
+
+For tuning, go to the 'threshold' tab and fine tune the top three sliders
+

@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.autoCommands.Autonomous;
 import frc.robot.autoCommands.AutonomousButDumb;
+import frc.robot.autoCommands.FourBallAuto;
 import frc.robot.commands.Death;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.RobotInit;
@@ -62,6 +63,7 @@ public class RobotContainer {
     m_death = new Death(driveTrain, shooter, intake, limeLight, indexer);
     autoChooser.setDefaultOption("Normal", "Normal");
     autoChooser.addOption("Dumb Wall Mode", "Dumb");
+    autoChooser.addOption("Four Ball Auto?", "Four");
     SmartDashboard.putData(autoChooser);
   }
 
@@ -72,11 +74,11 @@ public class RobotContainer {
 
   public void makeAuto() {
     if(autoChooser.getSelected().equals("Normal")) {
-      System.out.println("Dogs are maybe mammals");
       m_autoCommand = new Autonomous(driveTrain, shooter, navX, indexer, climber, intake, vision, ballManager, limeLight, beamBreak, shuffleboard);
     } else if(autoChooser.getSelected().equals("Dumb")) {
       m_autoCommand = new AutonomousButDumb(driveTrain, shooter, navX, indexer, climber, intake, vision, ballManager, limeLight, beamBreak, shuffleboard);
-      System.out.println("Dogs are mammals");
+    } else if(autoChooser.getSelected().equals("Four")) {
+      m_autoCommand = new FourBallAuto(driveTrain, shooter, navX, indexer, climber, intake, vision, ballManager, limeLight, beamBreak, shuffleboard);
     }
    
   }
