@@ -16,7 +16,7 @@ public class Shooter extends SubsystemBase {
     double intstagrill;
     double previousPower = 0.0;
     double previousError = 0.0;
-    PID rpmLoop = new PID(.0004, .0008, .000005);
+    PID rpmLoop = new PID(.0003, .0003, 0);
     
 
     public Shooter() {
@@ -59,6 +59,9 @@ public class Shooter extends SubsystemBase {
         if(rpm > 4500) {
             rpm = 4500;
         }
+        else if (rpm < -4500) {
+            rpm = -4500;
+        }
         CompressorTank.disable();
         rpmLoop.setSetpoint(rpm);
         rpmLoop.calculate(getRPM());
@@ -68,6 +71,7 @@ public class Shooter extends SubsystemBase {
     public void stopShooter() {
         //shooter.set(ControlMode.PercentOutput, 0);
         shooter.set(ControlMode.Disabled, 1);
+        setCoolerestRPM(0);
     }
 
     public boolean isShootingLeft() {

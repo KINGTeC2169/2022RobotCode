@@ -12,7 +12,7 @@ public class LimeLight extends SubsystemBase{
     public static final double fgInInchesPerSec = -386.2204724; // The acceleration due to gravity in in/sec
     public static final double rampAngle = 67.5; // in degrees     67.5
     public static final double flywheelRadius = .0508; // in meters
-    public static final double wheelMass = 1.22; // in kg
+    public static final double wheelMass = .835; // in kg
     public static final double wheelRadius = .0508; // Wheel radius in meters
     public static final double ballRadius = .16025; // in meters
     public static final double ballMass = .269; // in kg
@@ -76,11 +76,11 @@ public class LimeLight extends SubsystemBase{
     /**Returns rpm value based on distance to hub. Returns 0.0 if hub is not seen */
     public double rpm() {
         if(getLeftDistance() > 0 && getRightDistance() == 0) {
-            return getRPM(getLeftDistance()) - 300;
+            return getRPM(getLeftDistance());
             //return getRPM(getLeftDistance()) - rpmAdjust;
         }
         else if(getRightDistance() > 0 && getLeftDistance() == 0) {
-            return getRPM(getRightDistance()) - 300;
+            return getRPM(getRightDistance());
             //return getRPM(getRightDistance()) - rpmAdjust;
         }
         else

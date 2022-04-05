@@ -248,8 +248,8 @@ public class DriveCommand extends CommandBase {
         if(!isManualLimeLight) {
             
             //Shoots based on which trigger is pressed, one set of LEDs is set up
-            if(limeLight.rpm() != 0) {
-                desiredRPM = limeLight.rpm();
+            if(true) {//limeLight.rpm() != 0) {
+                desiredRPM = 3600;//limeLight.rpm();
                 lastKnownRPM = limeLight.rpm();
             }
             else {
@@ -263,19 +263,19 @@ public class DriveCommand extends CommandBase {
                     shooter.setCoolerestRPM(-1000);
                 else
                     shooter.setCoolerestRPM(-desiredRPM);
-                    System.out.println(desiredRPM);
+                    //System.out.println(desiredRPM);
             }
             else if(lTrigger > rTrigger) {
                 if(colorSensor.isEnemyColor() && ballManager.getSecondPositionBall())
                     shooter.setCoolerestRPM(1000);
                 else {
                     shooter.setCoolerestRPM(desiredRPM);
-                    System.out.println("Left");
+                    //System.out.println("Left");
                 }
 
             } else {
                 shooter.stopShooter();
-                System.out.println("Stopping");
+                //System.out.println("Stopping");
                 CompressorTank.enable();
             }
 
@@ -371,7 +371,7 @@ public class DriveCommand extends CommandBase {
                 */
 
             //Moves cylinder for indexing/shooting
-            if((Controls.getLeftControllerBumper() && !indexer.isSuckingUp()) || indexer.isShoveBallRunning()) {
+            if((Controls.getLeftControllerBumper() /*&& !indexer.isSuckingUp()*/) || indexer.isShoveBallRunning()) {
                 indexer.shoveBall();
                 ballManager.shootBall();
             }
