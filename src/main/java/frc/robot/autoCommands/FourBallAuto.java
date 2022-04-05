@@ -44,9 +44,7 @@ public class FourBallAuto extends CommandBase{
     //public static final int BLUE = 1;
     //public static final int RED = 2;
     public static final double inches = 427.4745225579834;
-    private static final double turnSpeed = 0.3;
-    private static final double turnAngle = 10000; //bigger = more turn, smaller = less turn, don't worry about units, encoder ticks don't relate to angles
-    private static final double defaultRPM = 3600;
+    
 
     PID autoAim = new PID(.05, 0.00005, .005);
 
@@ -58,6 +56,25 @@ public class FourBallAuto extends CommandBase{
     private Timer aimTime = new Timer();
     private Timer justChillin = new Timer();
     private int counter;
+
+    //**********************************************************************************************************************
+    //Movement speed of robot in high gear when driving forward
+    private final double driveSpeed = .3;
+    //how long to aim the limelight
+    private final double aimingTime = 1;
+    //speed when turning at any point in the auto
+    private static final double turnSpeed = 0.3;
+    //bigger = more turn, smaller = less turn, don't worry about units, encoder ticks don't relate to angles -- how far to turn - most likely wrong   
+    private static final double turnAngle = 10000;
+    //the rpm the shooter is constantly  
+    private static final double defaultRPM = 3600;
+    //the time the indexer takes to get the next ball to the feeder
+    private static final double ballFeast = 1;
+    //the inches the robot is away from human player
+    private static final double inchesToAkshit = (160 * inches);
+    //the amount of time it waits for human player to give it a ball
+    private static final double whatIsAkshitDoing = 2;
+    
 
     public FourBallAuto(DriveTrain driveTrain, Shooter shooter, NavX navx, Indexer indexer, 
     Climber climber, Intake intake, Vision vision, BallManager ballManager, LimeLight limeLight, BeamBreak beamBreak, ShuffleboardManager shuffleboard) {
