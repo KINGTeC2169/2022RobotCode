@@ -30,4 +30,7 @@ public class PID {
 		return output;
 	}
     
+	public void resetI() {
+		this.integral = 0;
+	}
 }

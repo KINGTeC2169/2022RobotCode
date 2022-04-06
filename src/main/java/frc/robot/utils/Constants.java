@@ -21,4 +21,7 @@ public final class Constants {
     //Shooter
     public static final double taliban = 1000;
     public static final double shoveBallTime = .5;
+
+    //DT Stuff
+    public static final double drivetrainCircumference = 25.9;
 }

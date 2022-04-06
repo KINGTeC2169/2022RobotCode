@@ -91,7 +91,6 @@ public class LimeLight extends SubsystemBase{
     public void changeRPM(double vroom) {
         rpmAdjust -= vroom;
     }
-
     public double getRPMAdjusted() {
         return rpmAdjust - 300;
     }
@@ -121,21 +120,9 @@ public class LimeLight extends SubsystemBase{
         // Combine insidePart and outsidePart to get rad/sec of flywheel
         double radPerSec = outsidePart * insidePart;
         // Return RPM
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-        return radPerSec / 2 / Math.PI * 60 - 450;
-=======
         return radPerSec / 2 / Math.PI * 60 - 350;
->>>>>>> parent of 58e9ef7 (bad)
         //double accelTime = getShotVelocity(distance) / (getShotVelocity(distance)*getShotVelocity(distance) / (2*3.14159265));
         //return 120/(accelTime * 4);
-=======
-        return radPerSec / 2 / Math.PI * 60;
->>>>>>> parent of 579edd7 (Functional 4 Ball Auto)
-=======
-        return radPerSec / 2 / Math.PI * 60;
->>>>>>> parent of 579edd7 (Functional 4 Ball Auto)
     }
     
 }
