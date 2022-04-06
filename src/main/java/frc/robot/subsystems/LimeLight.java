@@ -123,7 +123,11 @@ public class LimeLight extends SubsystemBase{
         // Return RPM
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         return radPerSec / 2 / Math.PI * 60 - 450;
+=======
+        return radPerSec / 2 / Math.PI * 60 - 350;
+>>>>>>> parent of 58e9ef7 (bad)
         //double accelTime = getShotVelocity(distance) / (getShotVelocity(distance)*getShotVelocity(distance) / (2*3.14159265));
         //return 120/(accelTime * 4);
 =======
