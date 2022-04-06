@@ -121,9 +121,13 @@ public class LimeLight extends SubsystemBase{
         // Combine insidePart and outsidePart to get rad/sec of flywheel
         double radPerSec = outsidePart * insidePart;
         // Return RPM
+<<<<<<< HEAD
         return radPerSec / 2 / Math.PI * 60 - 450;
         //double accelTime = getShotVelocity(distance) / (getShotVelocity(distance)*getShotVelocity(distance) / (2*3.14159265));
         //return 120/(accelTime * 4);
+=======
+        return radPerSec / 2 / Math.PI * 60;
+>>>>>>> parent of 579edd7 (Functional 4 Ball Auto)
     }
     
 }

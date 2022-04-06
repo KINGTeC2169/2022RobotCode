@@ -248,8 +248,8 @@ public class DriveCommand extends CommandBase {
         if(!isManualLimeLight) {
             
             //Shoots based on which trigger is pressed, one set of LEDs is set up
-            if(limeLight.rpm() != 0) {
-                desiredRPM = limeLight.rpm();
+            if(true) {//limeLight.rpm() != 0) {
+                desiredRPM = 3600;//limeLight.rpm();
                 lastKnownRPM = limeLight.rpm();
             }
             else {
@@ -351,7 +351,7 @@ public class DriveCommand extends CommandBase {
                     indexerTimeSave = timer.get();
                 }
                 //5.0 is amount of time indexer runs
-                if(timer.get() - indexerTimeSave < 1.5) {
+                if(timer.get() - indexerTimeSave < 2.5) {
                     indexer.suckUp(true);
                 } else {
                     //Added this to reset timer after indexer runs
@@ -371,7 +371,7 @@ public class DriveCommand extends CommandBase {
                 */
 
             //Moves cylinder for indexing/shooting
-            if((Controls.getLeftControllerBumper() && !indexer.isSuckingUp()) || indexer.isShoveBallRunning()) {
+            if((Controls.getLeftControllerBumper() /*&& !indexer.isSuckingUp()*/) || indexer.isShoveBallRunning()) {
                 indexer.shoveBall();
                 ballManager.shootBall();
             }

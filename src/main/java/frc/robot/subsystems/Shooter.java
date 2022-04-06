@@ -16,7 +16,7 @@ public class Shooter extends SubsystemBase {
     double intstagrill;
     double previousPower = 0.0;
     double previousError = 0.0;
-    PID rpmLoop = new PID(.00025, .00031, 0);
+    PID rpmLoop = new PID(.0003, .0003, 0);
     
 
     public Shooter() {
@@ -70,8 +70,8 @@ public class Shooter extends SubsystemBase {
     /**Turns off flywheel */
     public void stopShooter() {
         //shooter.set(ControlMode.PercentOutput, 0);
-        rpmLoop.resetI();
         shooter.set(ControlMode.Disabled, 1);
+        setCoolerestRPM(0);
     }
 
     public boolean isShootingLeft() {

@@ -21,7 +21,4 @@ public final class Constants {
     //Shooter
     public static final double taliban = 1000;
     public static final double shoveBallTime = .5;
-
-    //Drivetrain
-    public static final double drivetrainCircumference = 25.9 * Math.PI; // Distance traveled spinning in a circle in inches
 }
