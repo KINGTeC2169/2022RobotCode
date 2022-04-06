@@ -64,7 +64,11 @@ public class FourBallAuto extends CommandBase{
     private final double zoomSpeed = .6;
     //how long to aim the limelight
 <<<<<<< HEAD
+<<<<<<< HEAD
     private final double aimingTime = .75;
+=======
+    private final double aimingTime = 1;
+>>>>>>> parent of 579edd7 (Functional 4 Ball Auto)
 =======
     private final double aimingTime = 1;
 >>>>>>> parent of 579edd7 (Functional 4 Ball Auto)
@@ -80,7 +84,11 @@ public class FourBallAuto extends CommandBase{
     private static final double ballFeast = 1;
     //the inches the robot is away from human player
 <<<<<<< HEAD
+<<<<<<< HEAD
     private static final double inchesToAkshit = (92 /(6*Math.PI) * Constants.TalonSRXCPR);
+=======
+    private static final double inchesToAkshit = (160 * inches);
+>>>>>>> parent of 579edd7 (Functional 4 Ball Auto)
 =======
     private static final double inchesToAkshit = (160 * inches);
 >>>>>>> parent of 579edd7 (Functional 4 Ball Auto)
@@ -216,10 +224,13 @@ public class FourBallAuto extends CommandBase{
         if(counter == 1) {
             intake.up();
 <<<<<<< HEAD
+<<<<<<< HEAD
             if(limeLight.getRightDistance() < 20) {
                 driveTrain.rDrive(-zoomTurnSpeed);
                 driveTrain.lDrive(zoomTurnSpeed);
 =======
+=======
+>>>>>>> parent of 579edd7 (Functional 4 Ball Auto)
             if(limeLight.getRightDistance() == 0) {
                 driveTrain.rDrive(-turnSpeed);
                 driveTrain.lDrive(turnSpeed);
@@ -292,12 +303,16 @@ public class FourBallAuto extends CommandBase{
             intake.suck(true);
             indexer.suckUp(true);
 <<<<<<< HEAD
+<<<<<<< HEAD
             if(driveTrain.getLeftPos() > -inchesToAkshit * (3/4)) {
                 intake.down();
                 driveTrain.rDrive(zoomSpeed);
                 driveTrain.lDrive(zoomSpeed);
             }
             else if(driveTrain.getLeftPos() > -inchesToAkshit) {
+=======
+            if(driveTrain.getLeftPos() > -(inchesToAkshit * inches)) {
+>>>>>>> parent of 579edd7 (Functional 4 Ball Auto)
 =======
             if(driveTrain.getLeftPos() > -(inchesToAkshit * inches)) {
 >>>>>>> parent of 579edd7 (Functional 4 Ball Auto)
@@ -324,6 +339,7 @@ public class FourBallAuto extends CommandBase{
         //drives back to hub
         if(counter == 7) {
 <<<<<<< HEAD
+<<<<<<< HEAD
             if(driveTrain.getLeftPos() < inchesToAkshit * 3/4) {
                 intake.up();
                 driveTrain.lDrive(-zoomSpeed);
@@ -334,6 +350,8 @@ public class FourBallAuto extends CommandBase{
                 driveTrain.lDrive(-driveSpeed);
                 driveTrain.rDrive(-driveSpeed);
 =======
+=======
+>>>>>>> parent of 579edd7 (Functional 4 Ball Auto)
             if(driveTrain.getLeftPos() < (inchesToAkshit * inches)) {
                 intake.up();
                 intake.suck(false);
@@ -362,6 +380,7 @@ public class FourBallAuto extends CommandBase{
 
         //target limelight
 <<<<<<< HEAD
+<<<<<<< HEAD
         if(counter == 8) {
             aimTime.reset();
             if(limeLight.getRightDistance() < 20) {
@@ -374,6 +393,8 @@ public class FourBallAuto extends CommandBase{
             }
         }
 
+=======
+>>>>>>> parent of 579edd7 (Functional 4 Ball Auto)
 =======
 >>>>>>> parent of 579edd7 (Functional 4 Ball Auto)
         if(counter == 9) {
