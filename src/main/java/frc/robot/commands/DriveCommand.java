@@ -248,8 +248,8 @@ public class DriveCommand extends CommandBase {
         if(!isManualLimeLight) {
             
             //Shoots based on which trigger is pressed, one set of LEDs is set up
-            if(true) {//limeLight.rpm() != 0) {
-                desiredRPM = 3600;//limeLight.rpm();
+            if(limeLight.rpm() != 0) {
+                desiredRPM = limeLight.rpm();
                 lastKnownRPM = limeLight.rpm();
             }
             else {
