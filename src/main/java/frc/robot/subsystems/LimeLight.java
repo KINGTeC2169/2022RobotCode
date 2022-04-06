@@ -120,7 +120,7 @@ public class LimeLight extends SubsystemBase{
         // Combine insidePart and outsidePart to get rad/sec of flywheel
         double radPerSec = outsidePart * insidePart;
         // Return RPM
-        return radPerSec / 2 / Math.PI * 60 - 400;
+        return radPerSec / 2 / Math.PI * 60 - 550; /*was at 400*/
         //double accelTime = getShotVelocity(distance) / (getShotVelocity(distance)*getShotVelocity(distance) / (2*3.14159265));
         //return 120/(accelTime * 4);
     }

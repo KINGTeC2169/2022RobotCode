@@ -11,7 +11,7 @@ public final class Constants {
     
     //Speeds for constant motors
     public static final double intakeSpeed = .5;
-    public static final double indexSpeed = .5;
+    public static final double indexSpeed = .75;
 
     //Falcon 500 free Current = 1.5A
     //Falcon 500 stall Current = 257A

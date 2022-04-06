@@ -16,7 +16,7 @@ public class Shooter extends SubsystemBase {
     double intstagrill;
     double previousPower = 0.0;
     double previousError = 0.0;
-    PID rpmLoop = new PID(.00025, .00031, 0);
+    PID rpmLoop = new PID(.00025, .0003, 0);
     
 
     public Shooter() {
