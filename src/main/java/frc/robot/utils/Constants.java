@@ -23,5 +23,5 @@ public final class Constants {
     public static final double shoveBallTime = .5;
 
     //DT Stuff
-    public static final double drivetrainCircumference = 25.9;
+    public static final double drivetrainCircumference = 25.9 * Math.PI;
 }
