@@ -29,5 +29,9 @@ public class PID {
 	public double getOutput() {
 		return output;
 	}
+
+	public void resetI() {
+		this.integral = 0;
+	}
     
 }
