@@ -21,7 +21,7 @@ public class Indexer extends SubsystemBase {
     /**Runs indexer forward based on input boolean*/
     public void suckUp(boolean stimulating) {
         if(stimulating) {
-            indexer.set(ControlMode.PercentOutput, -Constants.indexSpeed);
+            indexer.set(ControlMode.PercentOutput, Constants.indexSpeed);
             isSuckingUp = true;
         }
         else {
@@ -33,7 +33,7 @@ public class Indexer extends SubsystemBase {
     /**Runs indexer backwards based on input boolean */
     public void reverseSuckUp(boolean stimulating) {
         if(stimulating)
-            indexer.set(ControlMode.PercentOutput, Constants.indexSpeed);
+            indexer.set(ControlMode.PercentOutput, -Constants.indexSpeed);
         else
             indexer.set(ControlMode.PercentOutput, 0);
     }

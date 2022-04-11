@@ -186,11 +186,11 @@ public class Autonomous extends CommandBase {
             intake.suck(true);
             indexer.suckUp(true);
             if(!ballManager.getFirstPositionBall()) {
-                if(driveTrain.getLeftPos() > -(76 * inches)) {
-                    driveTrain.lDrive(.3);
+                if(driveTrain.getLeftPos() > -(80 * inches)) {
+                    driveTrain.lDrive(.5);
                 }
-                if(driveTrain.getRightPos() > -(76 * inches)) {
-                    driveTrain.rDrive(.3);
+                if(driveTrain.getRightPos() > -(80 * inches)) {
+                    driveTrain.rDrive(.5);
                 }
                 else {
                     driveTrain.stop();
@@ -212,11 +212,11 @@ public class Autonomous extends CommandBase {
             counter++;
         }
         if(counter == 2) {
-            if(driveTrain.getLeftPos() < (12 * inches)) {
+            if(driveTrain.getLeftPos() < (2 * inches)) {
                 indexer.suckUp(true);
                 driveTrain.lDrive(-.3);
             }
-            if(driveTrain.getRightPos() < (12 * inches)) {
+            if(driveTrain.getRightPos() < (2 * inches)) {
                 indexer.suckUp(true);
                 driveTrain.rDrive(-.3);
             }
@@ -239,8 +239,8 @@ public class Autonomous extends CommandBase {
         if(counter == 3) {
             intake.up();
             if(limeLight.getLeftDistance() + limeLight.getRightDistance() == 0 || (limeLight.getRightDistance() > 0 && limeLight.getLeftDistance() > 0)) {
-                driveTrain.rDrive(0.3);
-                driveTrain.lDrive(-0.3);
+                driveTrain.rDrive(-0.3);
+                driveTrain.lDrive(0.3);
                 shotTimer.stop();
                 //shotTimer.reset();
             }

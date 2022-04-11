@@ -72,7 +72,8 @@ public class Climber extends SubsystemBase {
     public boolean isBottom() {
         if(getCurrent() > 30) {
             System.out.println("Holy shit I'm climbing");
-            return climber.getSelectedSensorPosition() >= 0;
+            /* Adjusted limit to reduce chances of getting stuck first number is number of spool turns*/
+            return climber.getSelectedSensorPosition() >= .5 * .048485 * 2048;
         }
         else
             return climber.getSelectedSensorPosition() >= -25000;

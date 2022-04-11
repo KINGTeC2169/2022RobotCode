@@ -282,7 +282,12 @@ public class DriveCommand extends CommandBase {
         } else {
 
 
-            if(rTrigger > lTrigger) {
+            if(Controls.babyBackRibs() && lTrigger > rTrigger) {
+                //System.out.println("aaaAAAAA");
+                shooter.setCoolerestRPM(3950);
+            } else if (Controls.babyBackRibs() && rTrigger > lTrigger) {
+                shooter.setCoolerestRPM(-3750);
+            } else if(rTrigger > lTrigger) {
                 shooter.shoot(-rTrigger);
                 //shooter.setCoolerestRPM(-3600);
             } else if(rTrigger < lTrigger) {
@@ -290,12 +295,7 @@ public class DriveCommand extends CommandBase {
                 //shooter.setCoolerestRPM(3600);
             } else {
                 CompressorTank.enable();
-                if(Controls.babyBackRibs()) {
-                    System.out.println("aaaAAAAA");
-                    shooter.setCoolerestRPM(500);
-                }
-                else
-                    shooter.stopShooter();
+                shooter.stopShooter();
             }
     }
               
@@ -533,7 +533,9 @@ public class DriveCommand extends CommandBase {
         shuffleboard.boolInABox("Blue", colorSensor.isBlue());
         shuffleboard.boolInABox("Ratchet", climber.ratchetStatus());
         shuffleboard.number("Climber current", climber.getCurrent());
-        //shuffleboard.number("RPM adjustmeny", limeLight.getRPMAdjusted());
+        //shuffleboard.number("RPM adjustmeny", limeLight.getRPMAdjusted());\
+        shuffleboard.boolInABox("Sees R", limeLight.getRightXPercent() > 0);
+        shuffleboard.boolInABox("Sees L", limeLight.getLeftXPercent() > 0);
     }
 
     @Override

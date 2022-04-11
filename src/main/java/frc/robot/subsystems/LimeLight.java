@@ -54,7 +54,7 @@ public class LimeLight extends SubsystemBase{
     public double getLeftDistance() {
         if(getLeftYPercent() == 0)
             return 0.0;
-        return ((63.593059725) / Math.tan(((28 + getLeftYPercent()) * Math.PI)/180 )) + 24/* + 131.0*/;
+        return ((63.593059725) / Math.tan(((29 + getLeftYPercent()) * Math.PI)/180 )) + 24/* + 131.0*/;
     }
     
     /**Sets pipeline ID for right limelight */
@@ -80,6 +80,15 @@ public class LimeLight extends SubsystemBase{
             //return getRPM(getLeftDistance()) - rpmAdjust;
         }
         else if(getRightDistance() > 0 && getLeftDistance() == 0) {
+            return getRPM(getRightDistance());
+            //return getRPM(getRightDistance()) - rpmAdjust;
+        }
+        else
+            return 0;
+    }
+
+    public double rpmRight() {
+        if(getRightDistance() > 0 && getLeftDistance() == 0) {
             return getRPM(getRightDistance());
             //return getRPM(getRightDistance()) - rpmAdjust;
         }
@@ -120,7 +129,7 @@ public class LimeLight extends SubsystemBase{
         // Combine insidePart and outsidePart to get rad/sec of flywheel
         double radPerSec = outsidePart * insidePart;
         // Return RPM
-        return radPerSec / 2 / Math.PI * 60 - 550; /*was at 400*/
+        return radPerSec / 2 / Math.PI * 60 - 500; /*was at 400*/
         //double accelTime = getShotVelocity(distance) / (getShotVelocity(distance)*getShotVelocity(distance) / (2*3.14159265));
         //return 120/(accelTime * 4);
     }

@@ -77,7 +77,7 @@ public class FourBallAuto extends CommandBase{
     //the time the indexer takes to get the next ball to the feeder
     private static final double ballFeast = .8;
     //the inches the robot is away from human player
-    private static final double inchesToAkshit = (87 /(6*Math.PI) * Constants.TalonSRXCPR); //Dist 95
+    private static final double inchesToAkshit = (100 /(6*Math.PI) * Constants.TalonSRXCPR); //Dist 95
     //the amount of time it waits for human player to give it a ball
     private static final double whatIsAkshitDoing = 1.75;
     
@@ -171,7 +171,7 @@ public class FourBallAuto extends CommandBase{
 
 
         //Actual actions-----------------------------------------------------------------
-        System.out.println(counter);
+        //System.out.println(counter);
         //Drive
         if(counter == 0) {
             intake.suck(true);
