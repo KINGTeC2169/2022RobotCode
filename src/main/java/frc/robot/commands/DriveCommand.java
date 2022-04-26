@@ -63,8 +63,8 @@ public class DriveCommand extends CommandBase {
     ArrayList<Double> roborioSnack = new ArrayList<Double>();
     PID limeDrive = new PID(.05, 0.00005, .005);
 
-    PIDController leftDrive = new PIDController(.5, 0, 0);
-    PIDController rightDrive = new PIDController(.5, 0, 0);
+    PIDController leftDrive = new PIDController(1, 0, 0);
+    PIDController rightDrive = new PIDController(1, 0, 0);
  
     //Adds all subsystems to the driving command
     public DriveCommand(DriveTrain driveTrain, Arduino arduino, Shooter shooter, Intake intake, Indexer indexer, Climber climber, LimeLight limeLight, NavX navX, BallManager ballManager, BeamBreak beamBreak, ColorSensor colorSensor, ShuffleboardManager shuffleboard, JacobSensor jacobSensor) {
@@ -269,14 +269,14 @@ public class DriveCommand extends CommandBase {
 
             if(rTrigger > lTrigger) {
                 if(colorSensor.isEnemyColor() && ballManager.getSecondPositionBall())
-                    shooter.setCoolerestRPM(-1000);
+                    shooter.setCoolerestRPM(-1500);
                 else
                     shooter.setCoolerestRPM(-desiredRPM);
                     //System.out.println(desiredRPM);
             }
             else if(lTrigger > rTrigger) {
                 if(colorSensor.isEnemyColor() && ballManager.getSecondPositionBall())
-                    shooter.setCoolerestRPM(1000);
+                    shooter.setCoolerestRPM(1500);
                 else {
                     shooter.setCoolerestRPM(desiredRPM);
                     //System.out.println("Left");
