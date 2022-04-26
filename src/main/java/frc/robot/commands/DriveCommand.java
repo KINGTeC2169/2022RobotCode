@@ -360,9 +360,7 @@ public class DriveCommand extends CommandBase {
             }
             if(ballManager.getFirstPositionBall() && !ballManager.getSecondPositionBall()) {
                 indexer.suckUp(true);
-            } else {
-                indexer.suckUp(false);
-            }
+            } 
             
             /*
             if(Controls.getRightStickBottom() && (ballManager.getNumberOfBalls() == 2 || ballManager.getNumberOfBalls() == 0)) {
