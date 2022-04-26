@@ -1,5 +1,7 @@
 package frc.robot.commands;
 import java.util.*;
+
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Arduino;
@@ -53,10 +55,16 @@ public class DriveCommand extends CommandBase {
     private double lastKnownRPM;
     private boolean climbingTime;
     private boolean weGotA2319 = true;
+    private boolean shootingRange = false;
+    private double maxLeftVelo;
+    private double maxRightVelo;
     //I hate these scuffed boolean methods
 
     ArrayList<Double> roborioSnack = new ArrayList<Double>();
     PID limeDrive = new PID(.05, 0.00005, .005);
+
+    PIDController leftDrive = new PIDController(.5, 0, 0);
+    PIDController rightDrive = new PIDController(.5, 0, 0);
  
     //Adds all subsystems to the driving command
     public DriveCommand(DriveTrain driveTrain, Arduino arduino, Shooter shooter, Intake intake, Indexer indexer, Climber climber, LimeLight limeLight, NavX navX, BallManager ballManager, BeamBreak beamBreak, ColorSensor colorSensor, ShuffleboardManager shuffleboard, JacobSensor jacobSensor) {
@@ -216,8 +224,9 @@ public class DriveCommand extends CommandBase {
             driveTrain.rampOff();
         }
          //applies the powers to the motors
-         driveTrain.lDrive(leftPower);
-         driveTrain.rDrive(rightPower);
+         
+         driveTrain.lDrive(leftDrive.calculate(driveTrain.getLeftVelocity() / 5300, leftPower));
+         driveTrain.rDrive(rightDrive.calculate(driveTrain.getRightVelocity() / 5300, rightPower));
  
          if(Controls.getLeftStickTopPressed())
              driveTrain.shiftThatDog();
@@ -278,6 +287,11 @@ public class DriveCommand extends CommandBase {
                 //System.out.println("Stopping");
                 CompressorTank.enable();
             }
+            if(Math.abs(shooter.getRPM() - desiredRPM) < 20) {
+                shootingRange = true;
+            } else {
+                shootingRange = false;
+            }
 
         } else {
 
@@ -310,12 +324,16 @@ public class DriveCommand extends CommandBase {
         ----------------------------------------------------------------------------------------------------------------------
         ----------------------------------------------------------------------------------------------------------------------*/
         //BeamBreak- adds a ball to ballManager when it sees a new one
-        if(beamBreak.isBall() && !sameBall) {
-            ballManager.newBall();
-            sameBall = true;
-        } 
-        if(!beamBreak.isBall()) {
-            sameBall = false;
+        if(beamBreak.isBall()) {
+            ballManager.setFirstPositionBall(true);
+
+        } else {
+            ballManager.setFirstPositionBall(false);
+        }
+        if(colorSensor.isBall()) {
+            ballManager.setSecondPositionBall(true);
+        } else {
+            ballManager.setSecondPositionBall(false);
         }
         if(isManualBalls) {
             if(Controls.getRightControllerBumper()) {
@@ -334,31 +352,16 @@ public class DriveCommand extends CommandBase {
 
 
         } else {
-
              //Indexer
-             if(isIntaking && ballManager.getNumberOfBalls() == 0 || (ballManager.getSecondPositionBall() && !ballManager.getFirstPositionBall()) && isIntaking) {
+            if(isIntaking && ballManager.getNumberOfBalls() == 0 || (ballManager.getSecondPositionBall() && !ballManager.getFirstPositionBall()) && isIntaking) {
                 indexer.suckUp(true);
             } else {
-                /*
-                if(Controls.getRightStickBottom()) {
-                    indexer.reverseSuckUp(true);
-                }
-                else */
-                    indexer.suckUp(false);
+                indexer.suckUp(false);
             }
             if(ballManager.getFirstPositionBall() && !ballManager.getSecondPositionBall()) {
-                if(indexerTimeSave == 0.0) {
-                    indexerTimeSave = timer.get();
-                }
-                //5.0 is amount of time indexer runs
-                if(timer.get() - indexerTimeSave < 2.5) {
-                    indexer.suckUp(true);
-                } else {
-                    //Added this to reset timer after indexer runs
-                    indexer.suckUp(false);
-                    indexerTimeSave = 0.0;
-                    ballManager.cycleBall();
-                }  
+                indexer.suckUp(true);
+            } else {
+                indexer.suckUp(false);
             }
             
             /*
@@ -373,14 +376,9 @@ public class DriveCommand extends CommandBase {
             //Moves cylinder for indexing/shooting
             if((Controls.getLeftControllerBumper() /*&& !indexer.isSuckingUp()*/) || indexer.isShoveBallRunning()) {
                 indexer.shoveBall();
-                ballManager.shootBall();
             }
         }
     
-
-        
-        System.out.println(Runtime.getRuntime().freeMemory());
-        //System.out.println(Runtime.getRuntime().maxMemory());
 
         /*--------------------------------Intake------------------------------------------------
         ----------------------------------------------------------------------------------------------------------------------
@@ -536,6 +534,16 @@ public class DriveCommand extends CommandBase {
         //shuffleboard.number("RPM adjustmeny", limeLight.getRPMAdjusted());\
         shuffleboard.boolInABox("Sees R", limeLight.getRightXPercent() > 0);
         shuffleboard.boolInABox("Sees L", limeLight.getLeftXPercent() > 0);
+        shuffleboard.boolInABox("isBallInShooter", colorSensor.isBall());
+        shuffleboard.boolInABox("Is ready to shoot", shootingRange);
+        if(maxRightVelo < driveTrain.getRightVelocity()) {
+            maxRightVelo = driveTrain.getRightVelocity();
+        }
+        if(maxLeftVelo < driveTrain.getLeftVelocity()) {
+            maxLeftVelo = driveTrain.getLeftVelocity();
+        }
+        shuffleboard.number("Max Right Velo", maxRightVelo);
+        shuffleboard.number("Max Left Velo", maxLeftVelo);
     }
 
     @Override

@@ -83,6 +83,12 @@ public class DriveTrain extends SubsystemBase {
     public double getRPM() {
         return ((600 * rMaster.getSelectedSensorVelocity() / Constants.TalonFXCPR) + (600 * lMaster.getSelectedSensorVelocity() / Constants.TalonFXCPR)) / 2;
     }
+    public double getLeftVelocity() {
+        return lMaster.getSelectedSensorVelocity();
+    }
+    public double getRightVelocity() {
+        return rMaster.getSelectedSensorVelocity();
+    }
 
     /**Returns speed of robot in inches/second */
     public double getSpeed() {

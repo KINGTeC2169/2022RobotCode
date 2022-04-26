@@ -38,5 +38,8 @@ public class ColorSensor extends SubsystemBase {
         }
         
     }
+    public boolean isBall() {
+        return sensor.getProximity() >= 100;
+    }
     
 }
