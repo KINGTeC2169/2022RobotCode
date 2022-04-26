@@ -542,6 +542,8 @@ public class DriveCommand extends CommandBase {
         }
         shuffleboard.number("Max Right Velo", maxRightVelo);
         shuffleboard.number("Max Left Velo", maxLeftVelo);
+        shuffleboard.number("Left Velocity", LimeLight.getShotDuration(limeLight.getLeftDistance()));
+        shuffleboard.number("Right Velocity", LimeLight.getShotDuration(limeLight.getRightDistance()));
     }
 
     @Override
