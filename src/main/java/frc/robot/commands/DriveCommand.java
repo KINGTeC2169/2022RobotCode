@@ -225,8 +225,8 @@ public class DriveCommand extends CommandBase {
         }
          //applies the powers to the motors
          
-         driveTrain.lDrive(leftDrive.calculate(driveTrain.getLeftVelocity() / 5300, leftPower));
-         driveTrain.rDrive(rightDrive.calculate(driveTrain.getRightVelocity() / 5300, rightPower));
+         driveTrain.lDrive(leftPower);
+         driveTrain.rDrive(rightPower);
  
          if(Controls.getLeftStickTopPressed())
              driveTrain.shiftThatDog();

@@ -260,7 +260,7 @@ public class FourBallAuto extends CommandBase{
                 
             }
         }
-
+           
         //turns toward human player balls
         if(counter == 4) {
             indexer.suckUp(false);
