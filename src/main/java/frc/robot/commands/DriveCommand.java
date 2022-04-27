@@ -287,7 +287,7 @@ public class DriveCommand extends CommandBase {
                 //System.out.println("Stopping");
                 CompressorTank.enable();
             }
-            if(Math.abs(shooter.getRPM() - desiredRPM) < 20) {
+            if(Math.abs(Math.abs(shooter.getRPM()) - Math.abs(desiredRPM)) < 75) {
                 shootingRange = true;
             } else {
                 shootingRange = false;
