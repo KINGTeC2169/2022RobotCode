@@ -33,8 +33,8 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     
 
-    CameraServer.startAutomaticCapture(0);
-    CameraServer.startAutomaticCapture(1);
+    CameraServer.startAutomaticCapture(0).setFPS(30);
+    CameraServer.startAutomaticCapture(1).setFPS(30);
   }
 
   /**
