@@ -7,10 +7,12 @@ import frc.robot.utils.PID;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.music.Orchestra;
 import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
 
 public class Shooter extends SubsystemBase {
     TalonFX shooter = new TalonFX(ActuatorMap.shooter);
+    Orchestra music = new Orchestra();
 
     double currentPower;
     double intstagrill;
@@ -85,5 +87,10 @@ public class Shooter extends SubsystemBase {
     }
     public double getVoltage() {
         return shooter.getMotorOutputVoltage();
+    }
+    public void playMusic() {
+        music.loadMusic("file.chrp");
+        music.addInstrument(shooter);
+        music.play();
     }
 }
