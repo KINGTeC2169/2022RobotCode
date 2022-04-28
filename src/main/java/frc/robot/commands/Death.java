@@ -11,18 +11,15 @@ public class Death extends CommandBase{
     private DriveTrain driveTrain;
     private Shooter shooter;
     private Intake intake;
-    private LimeLight limeLight;
     private Indexer indexer;
 
-    public Death(DriveTrain driveTrain, Shooter shooter, Intake intake, LimeLight limeLight, Indexer indexer) {
+    public Death(DriveTrain driveTrain, Shooter shooter, Intake intake, Indexer indexer) {
         this.driveTrain = driveTrain;
         addRequirements(driveTrain);
         this.shooter = shooter;
         addRequirements(shooter);
         this.intake = intake;
         addRequirements(intake);
-        this.limeLight = limeLight;
-        addRequirements(limeLight);
         this.indexer = indexer;
         addRequirements(indexer);
     }

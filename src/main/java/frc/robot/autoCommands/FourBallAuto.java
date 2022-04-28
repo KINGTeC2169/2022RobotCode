@@ -16,8 +16,7 @@ import frc.robot.subsystems.Vision;
 import frc.robot.utils.Constants;
 import frc.robot.utils.PID;
 import frc.robot.utils.MathDoer;
-
-
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
 
 public class FourBallAuto extends CommandBase{
@@ -48,6 +47,7 @@ public class FourBallAuto extends CommandBase{
     
 
     PID autoAim = new PID(.05, 0.00005, .005);
+    PIDController turnAim = new PIDController(.5, 0, 0);
 
     
 
@@ -117,7 +117,8 @@ public class FourBallAuto extends CommandBase{
         autoAim.setSetpoint(0);
         driveTrain.rDrive(0);
         driveTrain.lDrive(0);
-        //System.out.println("running auto init bruv");
+        turnAim.setSetpoint(160);
+        turnAim.setTolerance(10);
     }
     @Override
     public void execute() {
@@ -138,6 +139,7 @@ public class FourBallAuto extends CommandBase{
         driveTrain.rampOff();
 
         if(zeroing) {
+            navx.reset();
             if(climber.getCurrent() < 8) {
             climber.retractArmSlow();
             }
@@ -263,6 +265,18 @@ public class FourBallAuto extends CommandBase{
            
         //turns toward human player balls
         if(counter == 4) {
+            indexer.suckUp(false);
+            driveTrain.lDrive(-turnAim.calculate(navx.getAngle()));
+            driveTrain.rDrive(turnAim.calculate(navx.getAngle()));
+            
+            if(turnAim.atSetpoint()) {
+                driveTrain.stop();
+                driveTrain.setZero();
+                counter++;
+            }
+        }
+        
+        if(counter == 600000) {
             indexer.suckUp(false);
             if(driveTrain.getLeftPos() < turnAngle) {
                 driveTrain.lDrive(-turnSpeed);

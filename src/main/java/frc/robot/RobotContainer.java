@@ -60,7 +60,7 @@ public class RobotContainer {
 
   public RobotContainer() {
     m_shuffleData = new ShuffleData(driveTrain, arduino, shooter, intake, indexer, climber, limeLight, navX, ballManager, beamBreak, colorSensor, shuffleboard, jacobSensor);
-    m_death = new Death(driveTrain, shooter, intake, limeLight, indexer);
+    m_death = new Death(driveTrain, shooter, intake, indexer);
     autoChooser.setDefaultOption("Normal", "Normal");
     autoChooser.addOption("Dumb Wall Mode", "Dumb");
     autoChooser.addOption("Four Ball Auto?", "Four");

@@ -20,6 +20,10 @@ public class NavX extends SubsystemBase {
     public Rotation2d getRotation() {
         return navx.getRotation2d();
     }
+
+    public void reset() {
+        navx.reset();
+    }
     
     public double getSpeed() {
         return Math.sqrt(Math.pow(navx.getVelocityX(), 2) + Math.pow(navx.getVelocityY(), 2));
