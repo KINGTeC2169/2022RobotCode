@@ -1,6 +1,10 @@
 package frc.robot;
 
+import org.opencv.video.Video;
+
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.VideoMode;
+import edu.wpi.first.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -34,7 +38,7 @@ public class Robot extends TimedRobot {
     
 
     CameraServer.startAutomaticCapture(0).setFPS(30);
-    CameraServer.startAutomaticCapture(1).setFPS(30);
+    CameraServer.startAutomaticCapture(1).setVideoMode(PixelFormat.kMJPEG, 640, 320, 30);
   }
 
   /**
