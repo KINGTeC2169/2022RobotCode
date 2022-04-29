@@ -101,6 +101,7 @@ public class DriveCommand extends CommandBase {
     @Override
     public void initialize() {
         ballManager.reset();
+        navX.reset();
     }
 
     @Override
@@ -529,7 +530,6 @@ public class DriveCommand extends CommandBase {
         shuffleboard.boolInABox("Red", colorSensor.isRed());
         shuffleboard.boolInABox("Blue", colorSensor.isBlue());
         shuffleboard.boolInABox("Ratchet", climber.ratchetStatus());
-        shuffleboard.number("Climber current", climber.getCurrent());
         //shuffleboard.number("RPM adjustmeny", limeLight.getRPMAdjusted());\
         shuffleboard.boolInABox("Sees R", limeLight.getRightXPercent() > 0);
         shuffleboard.boolInABox("Sees L", limeLight.getLeftXPercent() > 0);
@@ -541,10 +541,9 @@ public class DriveCommand extends CommandBase {
         if(maxLeftVelo < driveTrain.getLeftVelocity()) {
             maxLeftVelo = driveTrain.getLeftVelocity();
         }
-        shuffleboard.number("Max Right Velo", maxRightVelo);
-        shuffleboard.number("Max Left Velo", maxLeftVelo);
         shuffleboard.number("Left Velocity", LimeLight.getShotDuration(limeLight.getLeftDistance()));
         shuffleboard.number("Right Velocity", LimeLight.getShotDuration(limeLight.getRightDistance()));
+        shuffleboard.number("NavX", navX.getAngle());
     }
 
     @Override

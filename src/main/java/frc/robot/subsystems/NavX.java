@@ -15,7 +15,10 @@ public class NavX extends SubsystemBase {
 
 
     public double getAngle() {
-        return navx.getAngle();
+        return Math.IEEEremainder(navx.getAngle(), 360);
+        //return navx.getRoll();
+        //return navx.getPitch();
+        //return navx.getRawGyroX();
     }
     public Rotation2d getRotation() {
         return navx.getRotation2d();

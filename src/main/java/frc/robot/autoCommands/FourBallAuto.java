@@ -47,7 +47,6 @@ public class FourBallAuto extends CommandBase{
     
 
     PID autoAim = new PID(.05, 0.00005, .005);
-    PIDController turnAim = new PIDController(.5, 0, 0);
 
     
 
@@ -71,13 +70,13 @@ public class FourBallAuto extends CommandBase{
     //Zoom Turn Speed
     private static final double zoomTurn = .6;
     //bigger = more turn, smaller = less turn, don't worry about units, encoder ticks don't relate to angles -- how far to turn - most likely wrong   
-    private static final double turnAngle = MathDoer.turnTicks(64);;
+    private static final double turnAngle = MathDoer.turnTicks(64);
     //the rpm the shooter is constantly  
     private static final double defaultRPM = -3600;
     //the time the indexer takes to get the next ball to the feeder
     private static final double ballFeast = .8;
     //the inches the robot is away from human player
-    private static final double inchesToAkshit = (100 /(6*Math.PI) * Constants.TalonSRXCPR); //Dist 95
+    private static final double inchesToAkshit = (75 /(6*Math.PI) * Constants.TalonSRXCPR); // 100 Dist 95
     //the amount of time it waits for human player to give it a ball
     private static final double whatIsAkshitDoing = 1.75;
     
@@ -117,8 +116,6 @@ public class FourBallAuto extends CommandBase{
         autoAim.setSetpoint(0);
         driveTrain.rDrive(0);
         driveTrain.lDrive(0);
-        turnAim.setSetpoint(160);
-        turnAim.setTolerance(10);
     }
     @Override
     public void execute() {
@@ -196,7 +193,7 @@ public class FourBallAuto extends CommandBase{
                     driveTrain.setZero();
                     intake.suck(false);
                     ballManager.newBall();
-                    counter = 8;
+                    counter = 37;
                 }
 
             } else {
@@ -204,9 +201,10 @@ public class FourBallAuto extends CommandBase{
                 driveTrain.setZero();
                 intake.suck(false);
                 ballManager.newBall();
-                counter++;
+                counter = 37;
             }
         }
+
 
         //look for limelight
         if(counter == 1) {
@@ -219,6 +217,17 @@ public class FourBallAuto extends CommandBase{
                 aimTime.start();
                 counter++;
             }
+        }
+
+        if(counter == 37) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                
+                e.printStackTrace();
+            }
+            driveTrain.setZero();
+            counter = 1;
         }
 
         //target limelight
@@ -256,7 +265,7 @@ public class FourBallAuto extends CommandBase{
                     if (ballsShot == 2) {
                         counter = 4;
                         ballsShot = 0;
-                        driveTrain.setZero();
+                        //driveTrain.setZero();
                     }
                 }
                 
@@ -264,7 +273,8 @@ public class FourBallAuto extends CommandBase{
         }
            
         //turns toward human player balls
-        if(counter == 4) {
+        /*
+        if(counter == 575678558) {
             indexer.suckUp(false);
             driveTrain.lDrive(-turnAim.calculate(navx.getAngle()));
             driveTrain.rDrive(turnAim.calculate(navx.getAngle()));
@@ -274,14 +284,14 @@ public class FourBallAuto extends CommandBase{
                 driveTrain.setZero();
                 counter++;
             }
-        }
+        } */
         
-        if(counter == 600000) {
+        if(counter == 4) {
             indexer.suckUp(false);
-            if(driveTrain.getLeftPos() < turnAngle) {
+            if(driveTrain.getLeftPos() < -1000/*turnAngle*/) {
                 driveTrain.lDrive(-turnSpeed);
             }
-            if(driveTrain.getRightPos() > -turnAngle) {
+            if(driveTrain.getRightPos() > 1000/*-turnAngle*/) {
                 driveTrain.rDrive(turnSpeed);
             }
             else {
@@ -407,6 +417,7 @@ public class FourBallAuto extends CommandBase{
             indexer.down();
         }
 
+        shuffleboard.number("Counter", counter);
         /*
         shuffleboard.number("Vroom", driveTrain.rightPercent());
         shuffleboard.number("Left Vroom", driveTrain.leftPercent());

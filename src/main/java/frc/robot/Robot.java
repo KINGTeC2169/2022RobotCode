@@ -38,7 +38,8 @@ public class Robot extends TimedRobot {
     
 
     CameraServer.startAutomaticCapture(0).setFPS(30);
-    CameraServer.startAutomaticCapture(1).setVideoMode(PixelFormat.kMJPEG, 640, 320, 30);
+    //CameraServer.startAutomaticCapture(1).setVideoMode(PixelFormat.kMJPEG, 640, 320, 30);
+    CameraServer.startAutomaticCapture(1).setFPS(30);
   }
 
   /**
