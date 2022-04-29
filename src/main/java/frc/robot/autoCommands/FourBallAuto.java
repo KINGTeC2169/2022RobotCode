@@ -16,7 +16,6 @@ import frc.robot.subsystems.Vision;
 import frc.robot.utils.Constants;
 import frc.robot.utils.PID;
 import frc.robot.utils.MathDoer;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
 
 public class FourBallAuto extends CommandBase{

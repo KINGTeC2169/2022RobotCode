@@ -13,13 +13,10 @@ import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.ShuffleboardManager;
 import frc.robot.subsystems.Vision;
-import frc.robot.utils.Constants;
 import frc.robot.utils.PID;
 
-
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
+
 
 public class Autonomous extends CommandBase {
     

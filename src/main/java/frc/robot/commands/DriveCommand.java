@@ -1,7 +1,6 @@
 package frc.robot.commands;
 import java.util.*;
 
-import com.ctre.phoenix.music.Orchestra;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
@@ -27,7 +26,6 @@ import frc.robot.utils.PID;
 
 public class DriveCommand extends CommandBase {
     private Timer timer = new Timer();
-    private double indexerTimeSave;
     
     private DriveTrain driveTrain;
     private Arduino arduino;
@@ -50,7 +48,6 @@ public class DriveCommand extends CommandBase {
     private double rightTwist;
     private double quickStopAcummolatss;
     private boolean isIntaking;
-    private boolean sameBall;
     private boolean isManualLimeLight;
     private boolean isManualBalls;
     private double desiredRPM;
