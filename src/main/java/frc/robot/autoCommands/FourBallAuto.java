@@ -59,13 +59,13 @@ public class FourBallAuto extends CommandBase{
 
     //**********************************************************************************************************************
     //Movement speed of robot in high gear when driving forward
-    private final double driveSpeed = .3;
+    private final double driveSpeed = .4;
     //Zoom speed for driving
-    private final double zoomSpeed = .6;
+    private final double zoomSpeed = .7;
     //how long to aim the limelight
     private final double aimingTime = .65;
     //speed when turning at any point in the auto
-    private static final double turnSpeed = 0.3;
+    private static final double turnSpeed = 0.4;
     //Zoom Turn Speed
     private static final double zoomTurn = .6;
     //bigger = more turn, smaller = less turn, don't worry about units, encoder ticks don't relate to angles -- how far to turn - most likely wrong   
@@ -73,7 +73,7 @@ public class FourBallAuto extends CommandBase{
     //the rpm the shooter is constantly  
     private static final double defaultRPM = -3600;
     //the time the indexer takes to get the next ball to the feeder
-    private static final double ballFeast = .8;
+    private static final double ballFeast = .35;
     //the inches the robot is away from human player
     private static final double inchesToAkshit = (75 /(6*Math.PI) * Constants.TalonSRXCPR); // 100 Dist 95
     //the amount of time it waits for human player to give it a ball
@@ -287,10 +287,10 @@ public class FourBallAuto extends CommandBase{
         
         if(counter == 4) {
             indexer.suckUp(false);
-            if(driveTrain.getLeftPos() < -1000/*turnAngle*/) {
+            if(driveTrain.getLeftPos() < -2000/*turnAngle*/) {
                 driveTrain.lDrive(-turnSpeed);
             }
-            if(driveTrain.getRightPos() > 1000/*-turnAngle*/) {
+            if(driveTrain.getRightPos() > 2000/*-turnAngle*/) {
                 driveTrain.rDrive(turnSpeed);
             }
             else {
