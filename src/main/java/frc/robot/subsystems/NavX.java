@@ -51,6 +51,9 @@ public class NavX extends SubsystemBase {
     public float getDisplacmentZ() {
         return navx.getDisplacementZ();
     }
+    public float getCompass() {
+        return navx.getCompassHeading();
+    }
 
 
 }
